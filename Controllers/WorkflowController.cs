@@ -78,9 +78,13 @@ namespace Systemize.Controllers
 
 
             var workflowId = HttpContext.Request.Form["WorkflowId"];
-            var document_name = HttpContext.Request.Form["Name"];
+            var document_type = HttpContext.Request.Form["DocumentType"];
             var document_description = HttpContext.Request.Form["Description"];
 
+            if (String.IsNullOrEmpty(document_type))
+            {
+                document_type = "Other";
+            }
 
 
             IFormFileCollection files = HttpContext.Request.Form.Files;
@@ -95,8 +99,13 @@ namespace Systemize.Controllers
                             await formFile.CopyToAsync(memoryStream);
                             var document = new Document
                             {
-                                Title = document_name,
+
+
+
+
+                                Title = formFile.FileName,
                                 Description = document_description,
+                                DocumentType = document_type,
                                 Content = memoryStream.ToArray(),
                                 ContentType = formFile.ContentType
                             };
@@ -116,30 +125,6 @@ namespace Systemize.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files)
-        {
-            long size = files.Sum(f => f.Length);
-
-            foreach (var formFile in files)
-            {
-                if (formFile.Length > 0)
-                {
-                    var filePath = Path.GetTempFileName();
-
-                    using (var stream = System.IO.File.Create(filePath))
-                    {
-                        await formFile.CopyToAsync(stream);
-                    }
-                }
-            }
-
-            // Process uploaded files
-            // Don't rely on or trust the FileName property without validation.
-
-            return Ok(new { count = files.Count, size });
-        }
-
 
         // GET: Workflow/Create
         public IActionResult Create()
@@ -152,10 +137,11 @@ namespace Systemize.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,CurrentStageId")] Workflow workflow)
+        public async Task<IActionResult> Create([Bind("Name,Description")] Workflow workflow)
         {
             if (ModelState.IsValid)
             {
+                workflow.CreatedOn = DateTime.Now;
                 _context.Add(workflow);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

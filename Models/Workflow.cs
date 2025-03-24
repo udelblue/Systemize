@@ -12,6 +12,10 @@ namespace Systemize.Models
 
         public string? Description { get; set; }
 
+
+        public DateTime CreatedOn { get; set; }
+
+
         public string? CurrentlyAssigned { get; set; }
         public int? CurrentStageId { get; set; }
 

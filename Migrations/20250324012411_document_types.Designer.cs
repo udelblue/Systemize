@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Systemize.Data;
 
@@ -11,9 +12,11 @@ using Systemize.Data;
 namespace Systemize.Migrations
 {
     [DbContext(typeof(SystemizeContext))]
-    partial class SystemizeContextModelSnapshot : ModelSnapshot
+    [Migration("20250324012411_document_types")]
+    partial class document_types
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,7 +87,7 @@ namespace Systemize.Migrations
                     b.Property<int?>("StageId")
                         .HasColumnType("int");
 
-                    b.Property<int>("WorkflowId")
+                    b.Property<int?>("WorkflowId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -135,9 +138,6 @@ namespace Systemize.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<int?>("CurrentStageId")
                         .HasColumnType("int");
 
@@ -169,9 +169,7 @@ namespace Systemize.Migrations
                 {
                     b.HasOne("Systemize.Models.Workflow", null)
                         .WithMany("History")
-                        .HasForeignKey("WorkflowId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WorkflowId");
                 });
 
             modelBuilder.Entity("Systemize.Models.Stage", b =>
