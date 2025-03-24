@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Systemize.Models
 {
@@ -13,7 +14,8 @@ namespace Systemize.Models
         public byte[] Content { get; set; }
         public string ContentType { get; set; }
 
-
+        [ForeignKey("WorkflowId")]
+        public int WorkflowId { get; set; }
     }
 
 }
