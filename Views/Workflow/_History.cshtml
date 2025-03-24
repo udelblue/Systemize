@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Systemize.Models.History>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ExecutedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExecutedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Action)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExecutedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExecutedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Action)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+             
+            </td>
+        </tr>
+            }
+        
+
+        }
+    </tbody>
+</table>

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Systemize.Models.Document>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+       
+            <th>
+                @Html.DisplayNameFor(model => model.ContentType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+       
+            <td>
+                @Html.DisplayFor(modelItem => item.ContentType)
+            </td>
+            <td>
+                        <a asp-action="DocumentEdit" asp-route-id="@item.DocumentID">Edit</a> |
+                        <a asp-action="DocumentDetails" asp-route-id="@item.DocumentID">Details</a> |
+                        <a asp-action="DocumentDelete" asp-route-id="@item.DocumentID">Delete</a>
+            </td>
+        </tr>
+            }
+        
+        }
+    </tbody>
+</table>

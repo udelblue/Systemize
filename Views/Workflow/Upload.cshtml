@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Upload";
+}
+@{
+    var WorkflowId = ViewData["WorkflowId"];
+}
+<h4>Upload Document</h4>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form enctype="multipart/form-data" asp-action="Upload" method="post">
+            <div class="form-group">
+                <label for="WorkflowId" class="control-label">WorkflowId</label>
+                <input id="WorkflowId" name="WorkflowId" class="form-control" value="@WorkflowId" />
+
+            </div>
+
+
+            <div class="form-group">
+                <label for="Name" class="control-label">Name</label>
+                <input id="Name" name="Name" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="Description" class="control-label">Description</label>
+                <input id="Description" name="Description" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="file" class="control-label">File</label>
+                <input type="file" name="file" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Upload" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

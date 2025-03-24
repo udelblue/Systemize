@@ -1,0 +1,63 @@
+﻿@model Systemize.Models.Workflow
+
+@{
+    ViewData["Title"] = "Details";
+}
+<div>
+    <h2> @Html.DisplayFor(model => model.Name)</h2>
+    <p>  @Html.DisplayFor(model => model.Description) </p>
+</div>
+
+
+<div>
+    <h5>Meta</h5>
+
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CurrentStageId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CurrentStageId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CurrentlyAssigned)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CurrentlyAssigned)
+        </dd>
+
+    </dl>
+</div>
+
+
+
+<hr class="hr hr-blurry" />
+<h5>Documents</h5>  
+<a href="../Upload/1">Upload Document</a>
+<partial name="_Documents" model="@Model.Documents" />  
+
+<hr class="hr hr-blurry" />
+<h5>Stages</h5>
+<partial name="_Stages" model="@Model.Stages" />
+
+<hr class="hr hr-blurry" />
+<h5>History</h5>  
+<partial name="_History" model="@Model.History" />
+
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
