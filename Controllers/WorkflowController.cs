@@ -45,84 +45,6 @@ namespace Systemize.Controllers
 
 
 
-        // GET: Workflow/Upload/id
-        [HttpGet]
-        public IActionResult Upload(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                ViewData["WorkflowId"] = id;
-            }
-
-            return View();
-        }
-
-
-        // Post: Workflow/Upload/id
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Upload(int? id, string? test)
-        {
-            var workflow = await _context.Workflows
-            .Include(w => w.Documents)
-            .FirstOrDefaultAsync(m => m.Id == id)
-            ;
-            if (workflow == null)
-            {
-                return NotFound();
-            }
-
-
-            var workflowId = HttpContext.Request.Form["WorkflowId"];
-            var document_type = HttpContext.Request.Form["DocumentType"];
-            var document_description = HttpContext.Request.Form["Description"];
-
-            if (String.IsNullOrEmpty(document_type))
-            {
-                document_type = "Other";
-            }
-
-
-            IFormFileCollection files = HttpContext.Request.Form.Files;
-            if (files.Count != 0)
-            {
-                foreach (var formFile in files)
-                {
-                    if (formFile.Length > 0)
-                    {
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            await formFile.CopyToAsync(memoryStream);
-                            var document = new Document
-                            {
-
-
-
-
-                                Title = formFile.FileName,
-                                Description = document_description,
-                                DocumentType = document_type,
-                                Content = memoryStream.ToArray(),
-                                ContentType = formFile.ContentType
-                            };
-
-                            workflow.Documents.Add(document);
-
-                        }
-                    }
-                }
-
-                await _context.SaveChangesAsync();
-            }
-
-
-
-            return RedirectToAction(nameof(Details), new { id = workflowId });
-        }
 
 
 
@@ -139,14 +61,12 @@ namespace Systemize.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Description")] Workflow workflow)
         {
-            if (ModelState.IsValid)
-            {
-                workflow.CreatedOn = DateTime.Now;
-                _context.Add(workflow);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(workflow);
+
+            workflow.CreatedOn = DateTime.Now;
+            _context.Add(workflow);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
         }
 
         // GET: Workflow/Edit/5
@@ -233,9 +153,119 @@ namespace Systemize.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        // DOCUMENTS 
+
+
+        // GET: Workflow/Upload/id
+        [HttpGet]
+        public IActionResult Upload(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                ViewData["WorkflowId"] = id;
+            }
+
+            return View();
+        }
+
+
+        // Post: Workflow/Upload/id
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Upload(int? id, string? test)
+        {
+            var workflow = await _context.Workflows
+            .Include(w => w.Documents)
+            .FirstOrDefaultAsync(m => m.Id == id)
+            ;
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+
+            var workflowId = HttpContext.Request.Form["WorkflowId"];
+            var document_type = HttpContext.Request.Form["DocumentType"];
+            var document_description = HttpContext.Request.Form["Description"];
+
+            if (String.IsNullOrEmpty(document_type))
+            {
+                document_type = "Other";
+            }
+
+
+            IFormFileCollection files = HttpContext.Request.Form.Files;
+            if (files.Count != 0)
+            {
+                foreach (var formFile in files)
+                {
+                    if (formFile.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await formFile.CopyToAsync(memoryStream);
+                            var document = new Document
+                            {
+                                Title = formFile.FileName,
+                                Description = document_description,
+                                DocumentType = document_type,
+                                Content = memoryStream.ToArray(),
+                                ContentType = formFile.ContentType
+                            };
+
+                            workflow.Documents.Add(document);
+
+                        }
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Details), new { id = workflowId });
+        }
+
+        // GET: Workflow/DocumentEdit/[id]?documentId=[document]
+        [HttpGet]
+        public async Task<IActionResult> DocumentEdit(int? id, int? document)
+        {
+            if (id == null || document == null)
+            {
+                return NotFound();
+            }
+
+            var workflow = await _context.Workflows
+                .Include(w => w.Documents)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            var local_document = workflow.Documents.FirstOrDefault(d => d.DocumentID == document);
+            if (local_document == null)
+            {
+                return NotFound();
+            }
+
+            return View(local_document);
+        }
+
+        // GET: Workflow/DocumentDelete/[id]?documentId=[documentId]
+
+
+
+
+        // util methods
         private bool WorkflowExists(int id)
         {
             return _context.Workflows.Any(e => e.Id == id);
         }
+
     }
 }
