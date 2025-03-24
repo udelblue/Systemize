@@ -14,6 +14,13 @@ namespace Systemize.Controllers
             _context = context;
         }
 
+
+
+
+
+
+
+
         // WORKFLOW
 
 
@@ -228,6 +235,8 @@ namespace Systemize.Controllers
         }
 
         // GET: Workflow/DocumentEdit/[id]?documentId=[document]
+        //[Route("Workflow/{id:int}/Document/Edit/{document:int}")]
+
         [HttpGet]
         public async Task<IActionResult> DocumentEdit(int? id, int? document)
         {
@@ -256,6 +265,62 @@ namespace Systemize.Controllers
 
         // GET: Workflow/DocumentDelete/[id]?documentId=[documentId]
 
+        public async Task<IActionResult> DocumentDelete(int? id, int? document)
+        {
+            if (id == null || document == null)
+            {
+                return NotFound();
+            }
+
+            var workflow = await _context.Workflows
+                .Include(w => w.Documents)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            var local_document = workflow.Documents.FirstOrDefault(d => d.DocumentID == document);
+            if (local_document == null)
+            {
+                return NotFound();
+            }
+
+            return View(local_document);
+
+        }
+
+
+        [HttpPost, ActionName("DocumentDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DocumentDeleteConfirmed(int? id, int? documentID)
+        {
+
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var workflow = await _context.Workflows
+                .Include(w => w.Documents)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            var local_document = workflow.Documents.FirstOrDefault(d => d.DocumentID == documentID);
+            if (local_document != null)
+            {
+                workflow.Documents.Remove(local_document);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
 
 

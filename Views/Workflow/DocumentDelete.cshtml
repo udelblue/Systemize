@@ -35,10 +35,12 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ContentType)
+           
         </dd>
     </dl>
     
     <form asp-action="DocumentDelete">
+        <input type="hidden" asp-for="WorkflowId" />
         <input type="hidden" asp-for="DocumentID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
