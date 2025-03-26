@@ -212,12 +212,15 @@ namespace Systemize.Controllers
 
 
         // GET: Workflow/Action/[id]?action=[action]
-        public async Task<IActionResult> Action(int? id, string? action)
+        public async Task<IActionResult> Action(int? id, string? act)
         {
             if (id == null)
             {
                 return NotFound();
             }
+
+            ViewBag.Act = act;
+            ViewBag.Id = id;
 
 
 
