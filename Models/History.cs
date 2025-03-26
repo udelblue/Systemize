@@ -8,7 +8,7 @@ namespace Systemize.Models
         [Key]
         public int Id { get; set; }
 
-        public string ExecutedBy { get; set; }
+        public string? ExecutedBy { get; set; }
         public DateTime ExecutedAt { get; set; }
 
         public int? StageId { get; set; }

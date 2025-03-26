@@ -14,7 +14,13 @@ namespace Systemize.Models
         [Required]
         public string StageType { get; set; }
 
-        public string Properties { get; set; }
+
+        public string? AssignedTo { get; set; }
+
+        // completed, skipped, current, 
+        public string? StageStatus { get; set; }
+
+        public string? Properties { get; set; }
 
 
         [ForeignKey("WorkflowId")]
