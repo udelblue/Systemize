@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "History";
+}
+
+
+
+<hr class="hr hr-blurry" />
+<h5>History</h5>
+<partial name="_History" model="@Model.History" />
+
+
+
+
+<div>
+    @{
+        var historyURL = "../Details/" + Model.Id.ToString();
+    }
+    <a href="@historyURL">Back</a>
+</div>

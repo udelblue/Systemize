@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Systemize.Data;
 using Systemize.Models;
+using Systemize.Models.ViewModel;
 
 namespace Systemize.Controllers
 {
@@ -41,7 +42,6 @@ namespace Systemize.Controllers
             //load workflow with eager loading
             var workflow = await _context.Workflows
                 .Include(w => w.Stages)
-                .Include(w => w.History)
                 .Include(w => w.Documents)
                 .FirstOrDefaultAsync(m => m.Id == id)
                 ;
@@ -52,6 +52,50 @@ namespace Systemize.Controllers
 
             return View(workflow);
         }
+
+
+        // GET: Workflow/Meta/5
+        public async Task<IActionResult> Meta(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            //load workflow with eager loading
+            var workflow = await _context.Workflows
+                .Include(w => w.Stages)
+                .FirstOrDefaultAsync(m => m.Id == id)
+                ;
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            return View(workflow);
+        }
+
+        // GET: Workflow/History/5
+        public async Task<IActionResult> History(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            //load workflow with eager loading
+            var workflow = await _context.Workflows
+                .Include(w => w.History)
+                .FirstOrDefaultAsync(m => m.Id == id)
+                ;
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            return View(workflow);
+        }
+
 
         // GET: Workflow/Create
         public IActionResult Create()
@@ -159,6 +203,23 @@ namespace Systemize.Controllers
         }
 
 
+        //ACTION
+
+        // Action method to return a partial view
+        public PartialViewResult GetPartialActionListView()
+        {
+            AvailableActions aa = new AvailableActions();
+            aa.Actions = new List<string> { "Approval", "Deny", "Reassign" };
+
+
+            return PartialView("_ActionListView", aa);
+        }
+
+
+
+
+
+
         // DOCUMENTS 
 
 
@@ -176,6 +237,7 @@ namespace Systemize.Controllers
             }
 
             return View();
+            //return PartialView()
         }
 
 
@@ -332,3 +394,6 @@ namespace Systemize.Controllers
 
     }
 }
+
+
+

@@ -9,55 +9,55 @@
 </div>
 
 
-<div>
-    <h5>Meta</h5>
+<div id="actionarea" ></div>
+<script type="text/javascript">
+    window.onload = function(){
 
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CurrentStageId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CurrentStageId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CurrentlyAssigned)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CurrentlyAssigned)
-        </dd>
+    const baseUrl = `${window.location.protocol}//${window.location.host}/`;
 
-    </dl>
-</div>
+    console.log("loading " + baseUrl );
+    $.ajax( baseUrl +"Workflow/GetPartialActionListView", function( data ) {
+    $( "#actionarea" ).html( data );
+    console.log( "Load was performed." );
+    });
+
+    }
+
+</script>
+
+
+
+
 
 
 
 <hr class="hr hr-blurry" />
 <h5>Documents</h5>  
-<a href="../Upload/1">Upload Document</a>
+@{
+    var uploadURL = "../Upload/" + Model.Id.ToString();
+}
+<a href="@uploadURL" >Upload Document</a>
 <partial name="_Documents" model="@Model.Documents" />  
 
-<hr class="hr hr-blurry" />
-<h5>Stages</h5>
-<partial name="_Stages" model="@Model.Stages" />
 
-<hr class="hr hr-blurry" />
-<h5>History</h5>  
-<partial name="_History" model="@Model.History" />
 
 
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @{
+        var metaURL = "../Meta/" + Model.Id.ToString();
+    }
+    <a href="@metaURL">View Metadata</a>
+</div>
+
+
+<div>
+@{
+    var historyURL = "../History/" + Model.Id.ToString();
+}
+<a href="@historyURL">View History</a>
+</div>
+
+<div>
+    <a asp-action="Index">Back to Workflow List</a>
 </div>
