@@ -1,12 +1,8 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@model Systemize.Models.ViewModel.AvailableActions
-
+﻿@model Systemize.Models.Workflow
 
 @{
 
-    List<string> actions = Model.Actions;
+    List<string> actions = new List<string> {"Approve", "Deny", "Reassign"};
 
 }
 <div>
@@ -14,14 +10,18 @@
 
 @if (actions != null)
 {
-        <h2>Available Actions</h2>
+       
+        
         <div>
 
             @foreach (var act in actions)
             {
-                <a href="#" class="btn btn-primary" role="button"> @act </a>  
 
-             }
+                var url = "../Action/" + Model.Id.ToString() + "?action=" + act  ;
+
+                <a href="@url" class="btn btn-primary btn-sm float-end mx-2 " role="button"> @act </a>
+
+            }
 
         </div>
 }

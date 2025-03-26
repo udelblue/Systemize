@@ -211,6 +211,19 @@ namespace Systemize.Controllers
 
 
 
+        // GET: Workflow/Action/[id]?action=[action]
+        public async Task<IActionResult> Action(int? id, string? action)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+
+
+            return RedirectToAction(nameof(Index));
+
+        }
 
 
 

@@ -4,37 +4,23 @@
     ViewData["Title"] = "Details";
 }
 <div>
-    <h2> @Html.DisplayFor(model => model.Name)</h2>
-    <p>  @Html.DisplayFor(model => model.Description) </p>
+    <h3 class="fw-normal"> @Html.DisplayFor(model => model.Name)</h3>
+    <p class="fw-light">  @Html.DisplayFor(model => model.Description) </p>
 </div>
 
+<div>
+    <partial name="_ActionListView" model="@Model" />
+</div>
 
-<div id="actionarea" ></div>
-<script type="text/javascript">
-    window.onload = function(){
-
-    const baseUrl = `${window.location.protocol}//${window.location.host}/`;
-
-    console.log("loading " + baseUrl );
-    $.ajax( baseUrl +"Workflow/GetPartialActionListView", function( data ) {
-    $( "#actionarea" ).html( data );
-    console.log( "Load was performed." );
-    });
-
+<div>
+    <hr class="hr hr-blurry" />
+    <h5>Documents</h5>  
+    @{
+        var uploadURL = "../Upload/" + Model.Id.ToString();
     }
-
-</script>
-
-
-
-<hr class="hr hr-blurry" />
-<h5>Documents</h5>  
-@{
-    var uploadURL = "../Upload/" + Model.Id.ToString();
-}
-<a href="@uploadURL" >Upload Document</a>
-<partial name="_Documents" model="@Model.Documents" />  
-
+    <a href="@uploadURL" >Upload Document</a>
+    <partial name="_Documents" model="@Model.Documents" />  
+</div>
 
 
 
@@ -43,7 +29,7 @@
     @{
         var metaURL = "../Meta/" + Model.Id.ToString();
     }
-    <a href="@metaURL">View Metadata</a>
+    <a href="@metaURL" class="float-end mx-2">View Metadata</a>
 </div>
 
 
@@ -51,7 +37,7 @@
 @{
     var historyURL = "../History/" + Model.Id.ToString();
 }
-<a href="@historyURL">View History</a>
+    <a href="@historyURL" class="float-end mx-2">View History</a>
 </div>
 
 <div>
