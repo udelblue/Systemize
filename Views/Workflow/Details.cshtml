@@ -8,7 +8,22 @@
 <div>
     <h3 class="fw-normal"> @Html.DisplayFor(model => model.Workflow.Name)</h3>
     <p class="fw-light">  @Html.DisplayFor(model => model.Workflow.Description) </p>
+    <div>
+    <p class="fw-light">Tags:
+    @if (Model.Workflow.Tags != null && Model.Workflow.Tags.Count > 0)
+    {
+      
+                @foreach (var tag in Model.Workflow.Tags)
+                {
+                <span class="badge bg-info-subtle text-info-emphasis rounded-pill">@tag.Name</span>
+                }
+           
+      
+    }
+    </p>
+    </div>
 </div>
+
 
 @if (ViewData["Action_Message"] != null && !String.IsNullOrEmpty(ViewData["Action_Message"].ToString()))
 {

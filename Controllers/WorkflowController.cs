@@ -58,6 +58,7 @@ namespace Systemize.Controllers
             var workflow = await _context.Workflows
                 .Include(w => w.Stages)
                 .Include(w => w.Documents)
+                .Include(w => w.Tags)
                 .Include(w => w.Links)
                 .FirstOrDefaultAsync(m => m.Id == id)
                 ;
