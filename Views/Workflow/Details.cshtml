@@ -4,9 +4,6 @@
     ViewData["Title"] = "Details";
 }
 
-  
-
-
 
 <div>
     <h3 class="fw-normal"> @Html.DisplayFor(model => model.Workflow.Name)</h3>
@@ -19,7 +16,6 @@
         @ViewData["Action_Message"].ToString()
     </div>
 }
-
 
 <div>
     <partial name="_ActionListView" model="@Model" />

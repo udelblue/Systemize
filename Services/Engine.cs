@@ -17,7 +17,9 @@ namespace Systemize.Services
         }
 
 
-        public Workflow Process()
+
+
+        public Workflow Process(string action, string executor)
         {
             int count = _workflow.Stages.Count();
 
@@ -31,7 +33,8 @@ namespace Systemize.Services
                 //assign to currently assign
                 _workflow.CurrentlyAssigned = _workflow.Stages[0].AssignedTo;
 
-
+                History starthistory = new History(executor, action, "Workflow Started");
+                _workflow.History.Add(starthistory);
                 _context.SaveChangesAsync();
 
             }
@@ -54,21 +57,35 @@ namespace Systemize.Services
                     //Last stage
                     _workflow.CurrentStageId = null;
                     _workflow.Status = "Completed";
+                    History completedhistory = new History(executor, action, "Workflow Completed");
+                    _workflow.History.Add(completedhistory);
                     _context.SaveChangesAsync();
+
 
                 }
                 else
                 {
 
 
+
+
+
                     var nextStage = _workflow.Stages[current_index + 1];
                     //assign to currently assign
                     _workflow.CurrentlyAssigned = nextStage.AssignedTo;
+                    History finishedthistory = new History(executor, action, "Stage Completed" + currentStage.Name);
+                    _workflow.History.Add(finishedthistory);
+
+
+
 
 
                     //mark next stage as current
                     _workflow.Stages[current_index + 1].StageStatus = "Current";
                     _workflow.CurrentStageId = nextStage.Id;
+                    History starthistory = new History(executor, action, "Stage Started" + nextStage.Name);
+                    _workflow.History.Add(starthistory);
+
                     _context.SaveChangesAsync();
                 }
             }
@@ -77,7 +94,13 @@ namespace Systemize.Services
             return _workflow;
 
 
+
+
+
         }
+
+
+
 
 
     }

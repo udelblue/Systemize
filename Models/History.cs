@@ -3,8 +3,37 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Systemize.Models
 {
+
+
+
+
     public class History
     {
+        public History()
+        {
+
+        }
+
+        public History(String executedBy, String action, string description)
+        {
+            ExecutedBy = executedBy;
+            ExecutedAt = DateTime.Now;
+            Action = action;
+            StageId = null;
+            Description = description;
+
+        }
+
+        public History(String executedBy, String action, int? stageid, string description)
+        {
+            ExecutedBy = executedBy;
+            ExecutedAt = DateTime.Now;
+            Action = action;
+            StageId = stageid;
+            Description = description;
+
+        }
+
         [Key]
         public int Id { get; set; }
 
