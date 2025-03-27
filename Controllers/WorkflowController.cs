@@ -33,12 +33,18 @@ namespace Systemize.Controllers
                 return NotFound();
             }
 
+            if (TempData["Action_Message"] != null)
+            {
+                ViewData["Action_Message"] = TempData["Action_Message"].ToString();
+            }
+
+
 
             WorkflowEntire workflowEntire = new WorkflowEntire();
 
             AvailableActions approval = new AvailableActions("Approval", "Approval of stage and moves to next stage.", "Approval", "btn-success");
             AvailableActions deny = new AvailableActions("Deny", "Denial of stage and stops from moving to next stage.", "Deny", "btn-danger");
-            AvailableActions reassign = new AvailableActions("reassign", "Reassign request for approval to another user.", "Reassign", "btn-info");
+            AvailableActions reassign = new AvailableActions("Reassign", "Reassign request for approval to another user.", "Reassign", "btn-info");
 
 
             List<AvailableActions> actions = new List<AvailableActions>();
@@ -215,37 +221,6 @@ namespace Systemize.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-        //ACTION
-
-        // Action method to return a partial view
-        public PartialViewResult GetPartialActionListView()
-        {
-            AvailableActions aa = new AvailableActions();
-            // aa.Actions = new List<string> { "Approval", "Deny", "Reassign" };
-
-
-            return PartialView("_ActionListView", aa);
-        }
-
-
-
-        // GET: Workflow/Action/[id]?action=[action]
-        public async Task<IActionResult> Action(int? id, string? act)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            ViewBag.Act = act;
-            ViewBag.Id = id;
-
-
-
-            return RedirectToAction(nameof(Index));
-
-        }
 
 
 
@@ -470,6 +445,50 @@ namespace Systemize.Controllers
         {
             return _context.Workflows.Any(e => e.Id == id);
         }
+
+
+
+
+
+        //ACTION
+
+
+
+
+
+        // GET: Workflow/Action/[id]?action=[action]
+        public async Task<IActionResult> Action(int? id, string? act)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.Act = act;
+            ViewBag.Id = id;
+
+            if (act.ToLower() == "approval")
+            {
+                Console.WriteLine("Approval");
+            }
+            else if (act.ToLower() == "deny")
+            {
+                Console.WriteLine("deny");
+
+
+            }
+            else if (act.ToLower() == "reassign")
+            {
+                Console.WriteLine("reassign");
+            }
+
+
+            TempData["Action_Message"] = "The " + act + " action has been completed.";
+            return RedirectToAction(nameof(Details), new { id = id });
+
+        }
+
+
 
     }
 }
