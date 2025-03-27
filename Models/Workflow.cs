@@ -26,7 +26,7 @@ namespace Systemize.Models
 
         public List<Link> Links { get; set; }
 
-
+        public List<WorkflowTag> Tags { get; set; }
         public virtual List<History> History { get; set; }
 
 
