@@ -22,7 +22,15 @@
     <partial name="_Documents" model="@Model.Workflow.Documents" />
 </div>
 
-
+<div>
+    <hr class="hr hr-blurry" />
+    <h5>Links</h5>
+    @{
+        var addlinkURL = "../addlink/" + Model.Workflow.Id.ToString();
+    }
+    <a href="@addlinkURL">Add Link</a>
+    <partial name="_Links" model="@Model.Workflow.Links" />
+</div>
 
 
 <div>

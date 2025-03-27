@@ -36,5 +36,6 @@ namespace Systemize.Data
 
 
         }
+        public DbSet<Systemize.Models.Link> Link { get; set; } = default!;
     }
 }
