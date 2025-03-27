@@ -30,5 +30,7 @@ namespace Systemize.Models
         public virtual List<History> History { get; set; }
 
 
+
+        public WorkflowSetting settings { get; set; }
     }
 }

@@ -14,6 +14,8 @@ namespace Systemize.Data
         public DbSet<Stage> Stages { get; set; }
         public DbSet<Workflow> Workflows { get; set; }
 
+        public DbSet<Link> Links { get; set; } = default!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -22,6 +24,7 @@ namespace Systemize.Data
             modelBuilder.Entity<History>().ToTable("History");
             modelBuilder.Entity<Stage>().ToTable("Stage");
             modelBuilder.Entity<Workflow>().ToTable("Workflow");
+            modelBuilder.Entity<WorkflowSetting>().ToTable("WorkflowSetting");
 
             modelBuilder.Entity<Workflow>()
                 .HasMany(w => w.Stages);
@@ -32,10 +35,10 @@ namespace Systemize.Data
             modelBuilder.Entity<Workflow>()
                 .HasMany(w => w.Links);
 
-
+            modelBuilder.Entity<Workflow>().HasOne(w => w.settings);
 
 
         }
-        public DbSet<Systemize.Models.Link> Link { get; set; } = default!;
+
     }
 }
