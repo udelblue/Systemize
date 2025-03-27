@@ -26,7 +26,7 @@
     <hr class="hr hr-blurry" />
     <h5>Links</h5>
     @{
-        var addlinkURL = "../addlink/" + Model.Workflow.Id.ToString();
+        var addlinkURL = "../LinkAdd/" + Model.Workflow.Id.ToString();
     }
     <a href="@addlinkURL">Add Link</a>
     <partial name="_Links" model="@Model.Workflow.Links" />
