@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Systemize.Data;
 
@@ -11,9 +12,11 @@ using Systemize.Data;
 namespace Systemize.Migrations
 {
     [DbContext(typeof(SystemizeContext))]
-    partial class SystemizeContextModelSnapshot : ModelSnapshot
+    [Migration("20250327133351_extendedrevised1")]
+    partial class extendedrevised1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,31 +94,6 @@ namespace Systemize.Migrations
                     b.HasIndex("WorkflowId");
 
                     b.ToTable("History", (string)null);
-                });
-
-            modelBuilder.Entity("Systemize.Models.Link", b =>
-                {
-                    b.Property<int>("LinkID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LinkID"));
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("URL")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("WorkflowId")
-                        .HasColumnType("int");
-
-                    b.HasKey("LinkID");
-
-                    b.HasIndex("WorkflowId");
-
-                    b.ToTable("Link", (string)null);
                 });
 
             modelBuilder.Entity("Systemize.Models.Stage", b =>
@@ -206,15 +184,6 @@ namespace Systemize.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Systemize.Models.Link", b =>
-                {
-                    b.HasOne("Systemize.Models.Workflow", null)
-                        .WithMany("Links")
-                        .HasForeignKey("WorkflowId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Systemize.Models.Stage", b =>
                 {
                     b.HasOne("Systemize.Models.Workflow", null)
@@ -229,8 +198,6 @@ namespace Systemize.Migrations
                     b.Navigation("Documents");
 
                     b.Navigation("History");
-
-                    b.Navigation("Links");
 
                     b.Navigation("Stages");
                 });

@@ -18,6 +18,7 @@ namespace Systemize.Data
         {
 
             modelBuilder.Entity<Document>().ToTable("Document");
+            modelBuilder.Entity<Link>().ToTable("Link");
             modelBuilder.Entity<History>().ToTable("History");
             modelBuilder.Entity<Stage>().ToTable("Stage");
             modelBuilder.Entity<Workflow>().ToTable("Workflow");
@@ -28,6 +29,11 @@ namespace Systemize.Data
                 .HasMany(s => s.History);
             modelBuilder.Entity<Workflow>()
                 .HasMany(w => w.Documents);
+            modelBuilder.Entity<Workflow>()
+                .HasMany(w => w.Links);
+
+
+
 
         }
     }

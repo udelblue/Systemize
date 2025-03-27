@@ -24,6 +24,9 @@ namespace Systemize.Models
 
         public List<Document> Documents { get; set; }
 
+        public List<Link> Links { get; set; }
+
+
         public virtual List<History> History { get; set; }
 
 
