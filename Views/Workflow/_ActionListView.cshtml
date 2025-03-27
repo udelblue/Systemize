@@ -1,25 +1,25 @@
-﻿@model Systemize.Models.Workflow
+﻿@model Systemize.Models.ViewModel.WorkflowEntire;
 
 @{
 
-    List<string> actions = new List<string> {"Approve", "Deny", "Reassign"};
+    
 
 }
 <div>
  
 
-@if (actions != null)
+@if (Model.Actions != null)
 {
        
         
         <div>
 
-            @foreach (var act in actions)
+            @foreach (var act in Model.Actions)
             {
 
-                var url = "../Action/" + Model.Id.ToString() + "?act=" + act  ;
+                var url = "../Action/" + Model.Workflow.Id.ToString() + "?act=" + act.ActionType  ;
 
-                <a href="@url" class="btn btn-primary btn-sm float-end mx-2 " role="button"> @act </a>
+                <a href="@url" class="btn @act.Button btn-sm float-end mx-2 " role="button"> @act.Name </a>
 
             }
 

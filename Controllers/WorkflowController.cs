@@ -33,6 +33,21 @@ namespace Systemize.Controllers
                 return NotFound();
             }
 
+
+            WorkflowEntire workflowEntire = new WorkflowEntire();
+
+            AvailableActions approval = new AvailableActions("Approval", "Approval of stage and moves to next stage.", "Approval", "btn-success");
+            AvailableActions deny = new AvailableActions("Deny", "Denial of stage and stops from moving to next stage.", "Deny", "btn-danger");
+            AvailableActions reassign = new AvailableActions("reassign", "Reassign request for approval to another user.", "Reassign", "btn-info");
+
+
+            List<AvailableActions> actions = new List<AvailableActions>();
+            actions.Add(approval);
+            actions.Add(deny);
+
+            workflowEntire.Actions = actions;
+
+
             //load workflow with eager loading
             var workflow = await _context.Workflows
                 .Include(w => w.Stages)
@@ -44,7 +59,10 @@ namespace Systemize.Controllers
                 return NotFound();
             }
 
-            return View(workflow);
+            workflowEntire.Workflow = workflow;
+
+
+            return View(workflowEntire);
         }
 
 
@@ -203,7 +221,7 @@ namespace Systemize.Controllers
         public PartialViewResult GetPartialActionListView()
         {
             AvailableActions aa = new AvailableActions();
-            aa.Actions = new List<string> { "Approval", "Deny", "Reassign" };
+            // aa.Actions = new List<string> { "Approval", "Deny", "Reassign" };
 
 
             return PartialView("_ActionListView", aa);

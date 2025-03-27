@@ -3,7 +3,6 @@
     public class WorkflowEntire
     {
 
-        public string? UserName { get; set; }
 
         public Workflow Workflow { get; set; }
 

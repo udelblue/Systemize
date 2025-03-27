@@ -1,11 +1,11 @@
-﻿@model Systemize.Models.Workflow
+﻿@model Systemize.Models.ViewModel.WorkflowEntire;
 
 @{
     ViewData["Title"] = "Details";
 }
 <div>
-    <h3 class="fw-normal"> @Html.DisplayFor(model => model.Name)</h3>
-    <p class="fw-light">  @Html.DisplayFor(model => model.Description) </p>
+    <h3 class="fw-normal"> @Html.DisplayFor(model => model.Workflow.Name)</h3>
+    <p class="fw-light">  @Html.DisplayFor(model => model.Workflow.Description) </p>
 </div>
 
 <div>
@@ -16,10 +16,10 @@
     <hr class="hr hr-blurry" />
     <h5>Documents</h5>  
     @{
-        var uploadURL = "../Upload/" + Model.Id.ToString();
+        var uploadURL = "../Upload/" + Model.Workflow.Id.ToString();
     }
     <a href="@uploadURL" >Upload Document</a>
-    <partial name="_Documents" model="@Model.Documents" />  
+    <partial name="_Documents" model="@Model.Workflow.Documents" />
 </div>
 
 
@@ -27,7 +27,7 @@
 
 <div>
     @{
-        var metaURL = "../Meta/" + Model.Id.ToString();
+        var metaURL = "../Meta/" + Model.Workflow.Id.ToString();
     }
     <a href="@metaURL" class="float-end mx-2">View Metadata</a>
 </div>
@@ -35,7 +35,7 @@
 
 <div>
 @{
-    var historyURL = "../History/" + Model.Id.ToString();
+        var historyURL = "../History/" + Model.Workflow.Id.ToString();
 }
     <a href="@historyURL" class="float-end mx-2">View History</a>
 </div>
