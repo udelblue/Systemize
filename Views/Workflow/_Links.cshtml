@@ -8,6 +8,9 @@
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.URL)
             </th>
             <th></th>
@@ -22,6 +25,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
             <td>
 
                         <a href="@item.URL" target="_blank"> @Html.DisplayFor(modelItem => item.URL) </a>
