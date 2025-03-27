@@ -24,7 +24,7 @@ namespace Systemize.Data
             modelBuilder.Entity<History>().ToTable("History");
             modelBuilder.Entity<Stage>().ToTable("Stage");
             modelBuilder.Entity<Workflow>().ToTable("Workflow");
-            modelBuilder.Entity<Workflow>().ToTable("Workflow_Tags");
+            modelBuilder.Entity<WorkflowTag>().ToTable("Workflow_Tags");
             //modelBuilder.Entity<WorkflowSetting>().ToTable("WF_Setting");
 
             modelBuilder.Entity<Workflow>()
