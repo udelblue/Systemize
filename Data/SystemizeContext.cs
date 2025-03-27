@@ -24,7 +24,7 @@ namespace Systemize.Data
             modelBuilder.Entity<History>().ToTable("History");
             modelBuilder.Entity<Stage>().ToTable("Stage");
             modelBuilder.Entity<Workflow>().ToTable("Workflow");
-            modelBuilder.Entity<WorkflowSetting>().ToTable("WorkflowSetting");
+            //modelBuilder.Entity<WorkflowSetting>().ToTable("WF_Setting");
 
             modelBuilder.Entity<Workflow>()
                 .HasMany(w => w.Stages);
@@ -35,7 +35,7 @@ namespace Systemize.Data
             modelBuilder.Entity<Workflow>()
                 .HasMany(w => w.Links);
 
-            modelBuilder.Entity<Workflow>().HasOne(w => w.settings);
+            //modelBuilder.Entity<Workflow>().HasOne(w => w.WorkflowSetting);
 
 
         }

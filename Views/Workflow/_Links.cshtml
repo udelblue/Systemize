@@ -23,7 +23,9 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.URL)
+
+                        <a href="@item.URL" target="_blank"> @Html.DisplayFor(modelItem => item.URL) </a>
+                
             </td>
             <td>
                 <a asp-action="LinkEdit" asp-route-id="@item.LinkID">Edit</a> |

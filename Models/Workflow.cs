@@ -31,6 +31,6 @@ namespace Systemize.Models
 
 
 
-        public WorkflowSetting settings { get; set; }
+
     }
 }

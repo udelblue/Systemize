@@ -183,27 +183,9 @@ namespace Systemize.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("settingsId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("settingsId");
 
                     b.ToTable("Workflow", (string)null);
-                });
-
-            modelBuilder.Entity("Systemize.Models.WorkflowSetting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WorkflowSetting", (string)null);
                 });
 
             modelBuilder.Entity("Systemize.Models.Document", b =>
@@ -240,17 +222,6 @@ namespace Systemize.Migrations
                         .HasForeignKey("WorkflowId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Systemize.Models.Workflow", b =>
-                {
-                    b.HasOne("Systemize.Models.WorkflowSetting", "settings")
-                        .WithMany()
-                        .HasForeignKey("settingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("settings");
                 });
 
             modelBuilder.Entity("Systemize.Models.Workflow", b =>

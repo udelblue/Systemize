@@ -52,6 +52,7 @@ namespace Systemize.Controllers
             var workflow = await _context.Workflows
                 .Include(w => w.Stages)
                 .Include(w => w.Documents)
+                .Include(w => w.Links)
                 .FirstOrDefaultAsync(m => m.Id == id)
                 ;
             if (workflow == null)
@@ -412,6 +413,56 @@ namespace Systemize.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+
+        // LINKS
+
+        // GET: Workflow/LinkAdd/id
+        [HttpGet]
+        public IActionResult LinkAdd(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                ViewData["WorkflowId"] = id;
+            }
+
+            return View();
+
+        }
+
+
+        // Post: Workflow/Upload/id
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LinkAdd(int? id, string? test)
+        {
+            var workflow = await _context.Workflows
+            .Include(w => w.Links)
+            .FirstOrDefaultAsync(m => m.Id == id)
+            ;
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+
+
+            var title = HttpContext.Request.Form["Title"];
+            var URL = HttpContext.Request.Form["URL"];
+
+            Link link = new Link() { Title = title, URL = URL };
+            workflow.Links.Add(link);
+
+
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id = id });
+        }
 
 
         // util methods
