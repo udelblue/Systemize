@@ -43,6 +43,11 @@
         <input type="hidden" asp-for="WorkflowId" />
         <input type="hidden" asp-for="DocumentID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <div>
+            @{
+                var wfURL = "../Details/" + Model.WorkflowId.ToString();
+            }
+            <a href="@wfURL">Back</a>
+        </div>
     </form>
 </div>
