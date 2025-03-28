@@ -18,7 +18,7 @@ namespace Systemize.Services.ActionStratagies
             int count = workflow.Stages.Count();
 
             // if current stage is null, then set it to the first stage
-            if (workflow.CurrentStageId == null & String.IsNullOrEmpty(workflow.Status))
+            if (workflow.CurrentStageId == null)
             {
                 workflow.CurrentStageId = workflow.Stages[0].Id;
                 workflow.Stages[0].StageStatus = "Current";
