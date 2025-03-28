@@ -118,7 +118,7 @@ namespace Systemize.Controllers
 
             WorkflowEntire workflowEntire = new WorkflowEntire();
             //workflow not started
-            if (workflow.CurrentStageId == null && workflow.Status == null && workflow.Stages != null && workflow.Stages.Count > 0)
+            if (workflow.Status != null && workflow.CurrentStageId == null && workflow.Stages != null && workflow.Stages.Count > 0)
             {
 
                 AvailableActions start = new AvailableActions("Start", "Start the workflow to begin at first stage.", "Start", "btn-success");
@@ -128,7 +128,7 @@ namespace Systemize.Controllers
                 workflowEntire.Actions = actions;
             }
             //workflow already started
-            else if (workflow.Status != null && workflow.Status.ToLower() != "completed")
+            else if (workflow.Status != null && workflow.Status.ToLower() != "completed" && workflow.Status.ToLower() != "draft")
             {
 
                 AvailableActions approval = new AvailableActions("Approval", "Approval of stage and moves to next stage.", "Approval", "btn-success");
