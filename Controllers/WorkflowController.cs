@@ -120,11 +120,12 @@ namespace Systemize.Controllers
             //workflow not started
             if (workflow.Status != null && workflow.Status.ToLower() != "completed" && workflow.CurrentStageId == null && workflow.Stages != null && workflow.Stages.Count > 0)
             {
-
+                AvailableActions cancel = new AvailableActions("Cancel", "Cancel workflow.", "Cancel", "btn-warning");
                 AvailableActions start = new AvailableActions("Start", "Start the workflow to begin at first stage.", "Start", "btn-success");
                 List<AvailableActions> actions = new List<AvailableActions>();
 
                 actions.Add(start);
+                actions.Add(cancel);
                 workflowEntire.Actions = actions;
             }
             //workflow already started

@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Details";
 
-    bool isReadonly = Model.Workflow.Status != null && Model.Workflow.Status.ToLower() == "completed" ? true : false;
+    bool isReadonly = Model.Workflow.Status != null && Model.Workflow.Status.ToLower() == "completed" | Model.Workflow.Status.ToLower() == "denied" | Model.Workflow.Status.ToLower() == "cancelled" ? true : false;
 }
 
 
