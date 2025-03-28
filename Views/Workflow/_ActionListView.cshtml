@@ -10,7 +10,9 @@
 
 @if (Model.Actions != null)
 {
-       
+      
+
+
         
         <div>
 
@@ -19,7 +21,9 @@
 
                 var url = "../Action/" + Model.Workflow.Id.ToString() + "?act=" + act.ActionType  ;
 
-                <a href="@url" class="btn @act.Button btn-sm float-end mx-2 " role="button"> @act.Name </a>
+                <a href="@url" class="btn @act.Button btn-sm float-end mx-2 " role="button" data-toggle="tooltip" data-placement="bottom" title="@act.Description"> @act.Name </a>
+
+              
 
             }
 
