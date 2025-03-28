@@ -96,11 +96,6 @@ namespace Systemize.Controllers
                 ViewData["Action_Message"] = TempData["Action_Message"].ToString();
             }
 
-
-
-
-
-
             //load workflow with eager loading
             var workflow = await _context.Workflows
                 .Include(w => w.Stages)
@@ -124,12 +119,13 @@ namespace Systemize.Controllers
                 AvailableActions start = new AvailableActions("Start", "Start the workflow to begin at first stage.", "Start", "btn-success");
                 List<AvailableActions> actions = new List<AvailableActions>();
 
-                actions.Add(start);
                 actions.Add(cancel);
+                actions.Add(start);
+
                 workflowEntire.Actions = actions;
             }
             //workflow already started
-            else if (workflow.Status != null && workflow.Status.ToLower() != "completed" && workflow.Status.ToLower() != "denied" && workflow.Status.ToLower() != "draft")
+            else if (workflow.Status != null && workflow.Status.ToLower() != "completed" && workflow.Status.ToLower() != "denied" && workflow.Status.ToLower() != "draft" && workflow.Status.ToLower() != "cancelled")
             {
 
                 AvailableActions approval = new AvailableActions("Approval", "Approval of stage and moves to next stage.", "Approval", "btn-success");

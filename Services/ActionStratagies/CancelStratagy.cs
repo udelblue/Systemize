@@ -21,17 +21,31 @@ namespace Systemize.Services.ActionStratagies
             int count = workflow.Stages.Count();
 
             // if current stage is null, then set it to the first stage
-            if (workflow.CurrentStageId == null & String.IsNullOrEmpty(workflow.Status))
+            if (workflow.CurrentStageId == null)
             {
-                workflow.CurrentStageId = workflow.Stages[0].Id;
-                workflow.Stages[0].StageStatus = "Cancelled";
-                workflow.Status = "Cancelled";
+                if (workflow.Stages.Count > 0)
+                {
+
+                    workflow.CurrentStageId = workflow.Stages[0].Id;
+                    workflow.Stages[0].StageStatus = "Cancelled";
+                    workflow.Status = "Cancelled";
 
 
-                History starthistory = new History(response.Executor, response.ActionType, "Workflow Cancelled");
-                workflow.History.Add(starthistory);
-                _context.Workflows.Update(workflow);
-                _context.SaveChanges();
+                    History starthistory = new History(response.Executor, response.ActionType, "Workflow Cancelled");
+                    workflow.History.Add(starthistory);
+                    _context.Stages.Update(workflow.Stages[0]);
+                    _context.Workflows.Update(workflow);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    workflow.Status = "Cancelled";
+                    History starthistory = new History(response.Executor, response.ActionType, "Workflow Cancelled");
+                    workflow.History.Add(starthistory);
+                    _context.Workflows.Update(workflow);
+                    _context.SaveChanges();
+                }
+
 
             }
             else
@@ -40,12 +54,15 @@ namespace Systemize.Services.ActionStratagies
                 var currentStage = workflow.Stages.Find(s => s.Id == workflow.CurrentStageId);
 
                 // mark current stage as completed
-                workflow.Stages[current_index].StageStatus = "Cancelled";
+                currentStage.StageStatus = "Cancelled";
+                _context.Stages.Update(currentStage);
+
 
                 workflow.Status = "Cancelled";
 
                 History starthistory = new History(response.Executor, response.ActionType, "Workflow Cancelled");
                 workflow.History.Add(starthistory);
+                _context.Stages.Update(currentStage);
                 _context.Workflows.Update(workflow);
                 _context.SaveChanges();
             }
