@@ -26,27 +26,16 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CurrentStageId)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CurrentlyAssigned)
-        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CurrentStageName)
+        </dd>
+      
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CurrentlyAssigned)
         </dd>
 
     </dl>
 </div>
-
-
-<hr class="hr hr-blurry" />
-<h5>Stages</h5>
-<partial name="_Stages" model="@Model.Stages" />
-
-
-
-
-
-
-
 
 
 

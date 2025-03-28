@@ -94,6 +94,13 @@
 
 
 <div>
+    @{
+        var stagesURL = "../Stages/" + Model.Workflow.Id.ToString();
+    }
+    <a href="@stagesURL " class="float-end mx-2">View Stages</a>
+</div>
+
+<div>
 @{
         var historyURL = "../History/" + Model.Workflow.Id.ToString();
 }

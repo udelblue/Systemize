@@ -118,7 +118,7 @@ namespace Systemize.Controllers
 
             WorkflowEntire workflowEntire = new WorkflowEntire();
             //workflow not started
-            if (workflow.Status != null && workflow.CurrentStageId == null && workflow.Stages != null && workflow.Stages.Count > 0)
+            if (workflow.Status != null && workflow.Status.ToLower() != "completed" && workflow.CurrentStageId == null && workflow.Stages != null && workflow.Stages.Count > 0)
             {
 
                 AvailableActions start = new AvailableActions("Start", "Start the workflow to begin at first stage.", "Start", "btn-success");
@@ -128,7 +128,7 @@ namespace Systemize.Controllers
                 workflowEntire.Actions = actions;
             }
             //workflow already started
-            else if (workflow.Status != null && workflow.Status.ToLower() != "completed" && workflow.Status.ToLower() != "draft")
+            else if (workflow.Status != null && workflow.Status.ToLower() != "completed" && workflow.Status.ToLower() != "denied" && workflow.Status.ToLower() != "draft")
             {
 
                 AvailableActions approval = new AvailableActions("Approval", "Approval of stage and moves to next stage.", "Approval", "btn-success");
@@ -161,6 +161,27 @@ namespace Systemize.Controllers
 
             //load workflow with eager loading
             var workflow = await _context.Workflows
+                .FirstOrDefaultAsync(m => m.Id == id)
+                ;
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            return View(workflow);
+        }
+
+
+        // GET: Workflow/stages/5
+        public async Task<IActionResult> Stages(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            //load workflow with eager loading
+            var workflow = await _context.Workflows
                 .Include(w => w.Stages)
                 .FirstOrDefaultAsync(m => m.Id == id)
                 ;
@@ -171,6 +192,8 @@ namespace Systemize.Controllers
 
             return View(workflow);
         }
+
+
 
         // GET: Workflow/History/5
         public async Task<IActionResult> History(int? id)

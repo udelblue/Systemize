@@ -1,0 +1,17 @@
+﻿@model Systemize.Models.Workflow
+
+@{
+	ViewData["Title"] = "Stages";
+}
+
+<hr class="hr hr-blurry" />
+<h5>Stages</h5>
+<partial name="_Stages" model="@Model.Stages" />
+
+
+<div>
+    @{
+        var historyURL = "../Details/" + Model.Id.ToString();
+    }
+    <a href="@historyURL">Back</a>
+</div>
