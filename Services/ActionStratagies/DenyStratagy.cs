@@ -31,7 +31,7 @@ namespace Systemize.Services.ActionStratagies
                 History starthistory = new History(response.Executor, response.ActionType, "Workflow Denied");
                 workflow.History.Add(starthistory);
                 _context.Workflows.Update(workflow);
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
 
             }
             else
@@ -47,7 +47,7 @@ namespace Systemize.Services.ActionStratagies
                 History starthistory = new History(response.Executor, response.ActionType, "Workflow Denied");
                 workflow.History.Add(starthistory);
                 _context.Workflows.Update(workflow);
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
             }
 
             return workflow;

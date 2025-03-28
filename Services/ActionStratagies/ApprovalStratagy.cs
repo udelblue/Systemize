@@ -33,7 +33,7 @@ namespace Systemize.Services.ActionStratagies
                 History starthistory = new History(response.Executor, response.ActionType, "Workflow Started");
                 workflow.History.Add(starthistory);
                 _context.Workflows.Update(workflow);
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
 
             }
             else
@@ -58,7 +58,7 @@ namespace Systemize.Services.ActionStratagies
                     History completedhistory = new History(response.Executor, response.ActionType, "Workflow Completed");
                     workflow.History.Add(completedhistory);
                     _context.Workflows.Update(workflow);
-                    _context.SaveChangesAsync();
+                    _context.SaveChanges();
 
 
                 }
@@ -66,8 +66,11 @@ namespace Systemize.Services.ActionStratagies
                 {
 
 
+                    workflow.Stages[current_index].StageStatus = "Completed";
+                    workflow.Stages[current_index + 1].StageStatus = "Current";
 
-
+                    _context.Stages.Update(workflow.Stages[current_index]);
+                    _context.Stages.Update(workflow.Stages[current_index + 1]);
 
                     var nextStage = workflow.Stages[current_index + 1];
                     //assign to currently assign
@@ -80,12 +83,12 @@ namespace Systemize.Services.ActionStratagies
 
 
                     //mark next stage as current
-                    workflow.Stages[current_index + 1].StageStatus = "Current";
                     workflow.CurrentStageId = nextStage.Id;
+                    //update history
                     History starthistory = new History(response.Executor, response.ActionType, "Stage Started" + nextStage.Name);
                     workflow.History.Add(starthistory);
                     _context.Workflows.Update(workflow);
-                    _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
             }
 

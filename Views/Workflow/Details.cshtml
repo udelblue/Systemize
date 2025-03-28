@@ -2,12 +2,16 @@
 
 @{
     ViewData["Title"] = "Details";
+
+    bool isReadonly = Model.Workflow.Status != null && Model.Workflow.Status.ToLower() == "completed" ? true : false;
 }
 
 
 <div>
     <h3 class="fw-normal"> @Html.DisplayFor(model => model.Workflow.Name)</h3>
     <p class="fw-light">  @Html.DisplayFor(model => model.Workflow.Description) </p>
+    <p class="fw-light">  Status: @Html.DisplayFor(model => model.Workflow.Status) </p>
+
     <div>
     <p class="fw-light">Tags:
     @if (Model.Workflow.Tags != null && Model.Workflow.Tags.Count > 0)
@@ -41,8 +45,14 @@
     <h5>Documents</h5>  
     @{
         var uploadURL = "../Upload/" + Model.Workflow.Id.ToString();
+        if(!isReadonly)
+        {
+            <a href="@uploadURL">Upload Document</a>
+        }
+
     }
-    <a href="@uploadURL" >Upload Document</a>
+    
+  
     <partial name="_Documents" model="@Model.Workflow.Documents" />
 </div>
 
@@ -51,10 +61,20 @@
     <h5>Links</h5>
     @{
         var addlinkURL = "../LinkAdd/" + Model.Workflow.Id.ToString();
+
+        if (!isReadonly)
+        {
+            <a href="@addlinkURL">Add Link</a>
+        }
     }
-    <a href="@addlinkURL">Add Link</a>
+  
     <partial name="_Links" model="@Model.Workflow.Links" />
 </div>
+
+<hr class="hr hr-blurry" />
+<h5>Stages</h5>
+<partial name="_Stages" model="@Model.Workflow.Stages" />
+
 
 
 <div>

@@ -32,8 +32,8 @@ namespace Systemize.Services
                     process = new StartStratagy(_context);
                     _workflow = process.Execute(_workflow, actionRespone);
                     break;
-                case "approve":
-                    Console.WriteLine("approve");
+                case "approval":
+                    Console.WriteLine("approval");
                     process = new ApprovalStratagy(_context);
                     _workflow = process.Execute(_workflow, actionRespone);
                     break;
@@ -45,7 +45,7 @@ namespace Systemize.Services
 
                 default:
                     Console.WriteLine("Invalid Action");
-                    throw new Exception("Invalid action requested from Engine. ");
+                    throw new Exception("Invalid action requested from Engine. " + "Action requested:" + actionRespone.ActionType);
                     break;
             }
 
