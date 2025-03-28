@@ -1,5 +1,7 @@
 ﻿using Systemize.Data;
 using Systemize.Models;
+using Systemize.Models.ViewModel;
+using Systemize.Services.ActionStratagies;
 
 namespace Systemize.Services
 {
@@ -19,77 +21,33 @@ namespace Systemize.Services
 
 
 
-        public Workflow Process(string action, string executor)
+        public Workflow Process(ActionResponse actionRespone)
         {
-            int count = _workflow.Stages.Count();
+            IActionProcess process = null;
 
-            // if current stage is null, then set it to the first stage
-            if (_workflow.CurrentStageId == null & String.IsNullOrEmpty(_workflow.Status))
+            switch (actionRespone.ActionType.ToLower())
             {
-                _workflow.CurrentStageId = _workflow.Stages[0].Id;
-                _workflow.Stages[0].StageStatus = "Current";
-                _workflow.Status = "In Progress";
+                case "start":
+                    Console.WriteLine("start");
+                    process = new StartStratagy(_context);
+                    _workflow = process.Execute(_workflow, actionRespone);
+                    break;
+                case "approve":
+                    Console.WriteLine("approve");
+                    process = new ApprovalStratagy(_context);
+                    _workflow = process.Execute(_workflow, actionRespone);
+                    break;
+                case "deny":
+                    Console.WriteLine("deny");
+                    process = new DenyStratagy(_context);
+                    _workflow = process.Execute(_workflow, actionRespone);
+                    break;
 
-                //assign to currently assign
-                _workflow.CurrentlyAssigned = _workflow.Stages[0].AssignedTo;
-
-                History starthistory = new History(executor, action, "Workflow Started");
-                _workflow.History.Add(starthistory);
-                _context.SaveChangesAsync();
-
+                default:
+                    Console.WriteLine("Invalid Action");
+                    throw new Exception("Invalid action requested from Engine. ");
+                    break;
             }
-            else
-            {
-                int current_index = _workflow.Stages.FindIndex(s => s.Id == _workflow.CurrentStageId);
-                var currentStage = _workflow.Stages.Find(s => s.Id == _workflow.CurrentStageId);
-
-                // mark current stage as completed
-                _workflow.Stages[current_index].StageStatus = "Completed";
-
-
-
-
-                // if current stage is the last stage, then return
-                if (current_index == count - 1)
-                {
-
-
-                    //Last stage
-                    _workflow.CurrentStageId = null;
-                    _workflow.Status = "Completed";
-                    History completedhistory = new History(executor, action, "Workflow Completed");
-                    _workflow.History.Add(completedhistory);
-                    _context.SaveChangesAsync();
-
-
-                }
-                else
-                {
-
-
-
-
-
-                    var nextStage = _workflow.Stages[current_index + 1];
-                    //assign to currently assign
-                    _workflow.CurrentlyAssigned = nextStage.AssignedTo;
-                    History finishedthistory = new History(executor, action, "Stage Completed" + currentStage.Name);
-                    _workflow.History.Add(finishedthistory);
-
-
-
-
-
-                    //mark next stage as current
-                    _workflow.Stages[current_index + 1].StageStatus = "Current";
-                    _workflow.CurrentStageId = nextStage.Id;
-                    History starthistory = new History(executor, action, "Stage Started" + nextStage.Name);
-                    _workflow.History.Add(starthistory);
-
-                    _context.SaveChangesAsync();
-                }
-            }
-
 
             return _workflow;
 

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Systemize.Data;
 using Systemize.Models;
 using Systemize.Models.ViewModel;
+using Systemize.Services;
 
 namespace Systemize.Controllers
 {
@@ -40,18 +41,7 @@ namespace Systemize.Controllers
 
 
 
-            WorkflowEntire workflowEntire = new WorkflowEntire();
 
-            AvailableActions approval = new AvailableActions("Approval", "Approval of stage and moves to next stage.", "Approval", "btn-success");
-            AvailableActions deny = new AvailableActions("Deny", "Denial of stage and stops from moving to next stage.", "Deny", "btn-danger");
-            AvailableActions reassign = new AvailableActions("Reassign", "Reassign request for approval to another user.", "Reassign", "btn-info");
-
-
-            List<AvailableActions> actions = new List<AvailableActions>();
-            actions.Add(approval);
-            actions.Add(deny);
-
-            workflowEntire.Actions = actions;
 
 
             //load workflow with eager loading
@@ -66,6 +56,35 @@ namespace Systemize.Controllers
             {
                 return NotFound();
             }
+
+
+
+            WorkflowEntire workflowEntire = new WorkflowEntire();
+            //workflow not started
+            if (workflow.CurrentStageId == null && workflow.Status == null)
+            {
+
+                AvailableActions start = new AvailableActions("Start", "Start the workflow to begin at first stage.", "Start", "btn-success");
+                List<AvailableActions> actions = new List<AvailableActions>();
+
+                actions.Add(start);
+                workflowEntire.Actions = actions;
+            }
+            //workflow already started
+            else
+            {
+                AvailableActions approval = new AvailableActions("Approval", "Approval of stage and moves to next stage.", "Approval", "btn-success");
+                AvailableActions deny = new AvailableActions("Deny", "Denial of stage and stops from moving to next stage.", "Deny", "btn-danger");
+                AvailableActions reassign = new AvailableActions("Reassign", "Reassign request for approval to another user.", "Reassign", "btn-info");
+
+
+                List<AvailableActions> actions = new List<AvailableActions>();
+
+                actions.Add(deny);
+                actions.Add(approval);
+                workflowEntire.Actions = actions;
+            }
+
 
             workflowEntire.Workflow = workflow;
 
@@ -130,6 +149,10 @@ namespace Systemize.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Description")] Workflow workflow)
         {
+            //TODO get creator and replace TBD
+            History starthistory = new History("TBD", "Created", "Workflow Created");
+            workflow.History.Add(starthistory);
+
 
             workflow.CreatedOn = DateTime.Now;
             _context.Add(workflow);
@@ -460,7 +483,15 @@ namespace Systemize.Controllers
         // GET: Workflow/Action/[id]?action=[action]
         public async Task<IActionResult> Action(int? id, string? act)
         {
-            if (id == null)
+            var workflow = await _context.Workflows
+          .Include(w => w.Stages)
+          .Include(w => w.Documents)
+          .Include(w => w.Tags)
+          .Include(w => w.History)
+          .Include(w => w.Links)
+          .FirstOrDefaultAsync(m => m.Id == id)
+          ;
+            if (workflow == null)
             {
                 return NotFound();
             }
@@ -468,21 +499,13 @@ namespace Systemize.Controllers
             ViewBag.Act = act;
             ViewBag.Id = id;
 
-            if (act.ToLower() == "approval")
-            {
-                Console.WriteLine("Approval");
-            }
-            else if (act.ToLower() == "deny")
-            {
-                Console.WriteLine("deny");
+            ActionResponse actionResponse = new ActionResponse();
+            actionResponse.ActionType = act;
+            actionResponse.Executor = "System";
 
-
-            }
-            else if (act.ToLower() == "reassign")
-            {
-                Console.WriteLine("reassign");
-            }
-
+            // engine picks stratagy
+            Engine engine = new Engine(_context, workflow);
+            workflow = engine.Process(actionResponse);
 
             TempData["Action_Message"] = "The " + act + " action has been completed.";
             return RedirectToAction(nameof(Details), new { id = id });
