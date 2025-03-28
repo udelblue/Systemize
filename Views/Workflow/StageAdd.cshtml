@@ -1,0 +1,55 @@
+﻿@model Systemize.Models.Stage
+
+@{
+    ViewData["Title"] = "Add a Stage";
+}
+
+<h1>Add a Stage</h1>
+
+<h4>Stage</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="StageAdd">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StageType" class="control-label"></label>
+                <input asp-for="StageType" class="form-control" />
+                <span asp-validation-for="StageType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AssignedTo" class="control-label"></label>
+                <input asp-for="AssignedTo" class="form-control" />
+                <span asp-validation-for="AssignedTo" class="text-danger"></span>
+            </div>
+        
+            <div class="form-group">
+                <label asp-for="Properties" class="control-label"></label>
+                <input asp-for="Properties" class="form-control" />
+                <span asp-validation-for="Properties" class="text-danger"></span>
+            </div>
+       
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

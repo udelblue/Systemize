@@ -15,6 +15,63 @@ namespace Systemize.Controllers
         {
             _context = context;
         }
+        // STAGE
+        // GET: Workflow/StageAdd/id
+        [HttpGet]
+        public IActionResult StageAdd(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                ViewData["WorkflowId"] = id;
+            }
+
+            return View();
+
+        }
+
+
+        // Post: Workflow/StageAdd/id
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> StageAdd(int? id, string? test)
+        {
+            var workflow = await _context.Workflows
+            .Include(w => w.Links)
+            .FirstOrDefaultAsync(m => m.Id == id)
+            ;
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+
+
+            var name = HttpContext.Request.Form["Name"];
+            var description = HttpContext.Request.Form["Description"];
+            var stagetype = HttpContext.Request.Form["StageType"];
+
+            Stage stage = new Stage()
+            {
+                Name = name,
+                Description = description,
+                StageType = stagetype,
+                Properties = "{}",
+                WorkflowId = workflow.Id
+
+            };
+
+            _context.Stages.Add(stage);
+
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id = id });
+        }
+
 
 
         // WORKFLOW
@@ -436,7 +493,7 @@ namespace Systemize.Controllers
         }
 
 
-        // Post: Workflow/Upload/id
+        // Post: Workflow/LinkAdd/id
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LinkAdd(int? id, string? test)

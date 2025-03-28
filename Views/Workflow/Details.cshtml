@@ -72,6 +72,15 @@
 
 <hr class="hr hr-blurry" />
 <h5>Stages</h5>
+@{
+    var addstageURL = "../StageAdd/" + Model.Workflow.Id.ToString();
+
+    if (!isReadonly)
+    {
+        <a href="@addstageURL">Add Stage</a>
+    }
+}
+
 <partial name="_Stages" model="@Model.Workflow.Stages" />
 
 
