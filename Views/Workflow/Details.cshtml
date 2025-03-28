@@ -16,13 +16,12 @@
     <p class="fw-light">Tags:
     @if (Model.Workflow.Tags != null && Model.Workflow.Tags.Count > 0)
     {
-      
-                @foreach (var tag in Model.Workflow.Tags)
-                {
-                <span class="badge bg-info-subtle text-info-emphasis rounded-pill">@tag.Name</span>
-                }
-           
-      
+
+        @foreach (var tag in Model.Workflow.Tags)
+        {
+        <span class="badge bg-info-subtle text-info-emphasis rounded-pill">@tag.Name</span>
+        }
+
     }
     </p>
     </div>
