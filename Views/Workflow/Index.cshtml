@@ -24,6 +24,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.CurrentStageId)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentStageName)
+            </th>
             <th></th>
             <th></th>
         </tr>
@@ -42,6 +45,9 @@
                 </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CurrentStageId)
+            </td>
+              <td>
+                @Html.DisplayFor(modelItem => item.CurrentStageName)
             </td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id">View</a>

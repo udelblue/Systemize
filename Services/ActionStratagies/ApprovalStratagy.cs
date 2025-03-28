@@ -24,6 +24,7 @@ namespace Systemize.Services.ActionStratagies
             if (workflow.CurrentStageId == null & String.IsNullOrEmpty(workflow.Status))
             {
                 workflow.CurrentStageId = workflow.Stages[0].Id;
+                workflow.CurrentStageName = workflow.Stages[0].Name;
                 workflow.Stages[0].StageStatus = "Current";
                 workflow.Status = "In Progress";
 
@@ -54,6 +55,7 @@ namespace Systemize.Services.ActionStratagies
 
                     //Last stage
                     workflow.CurrentStageId = null;
+                    workflow.CurrentStageName = "";
                     workflow.Status = "Completed";
                     History completedhistory = new History(response.Executor, response.ActionType, "Workflow Completed");
                     workflow.History.Add(completedhistory);
@@ -84,6 +86,7 @@ namespace Systemize.Services.ActionStratagies
 
                     //mark next stage as current
                     workflow.CurrentStageId = nextStage.Id;
+                    workflow.CurrentStageName = nextStage.Name;
                     //update history
                     History starthistory = new History(response.Executor, response.ActionType, "Stage Started" + nextStage.Name);
                     workflow.History.Add(starthistory);
