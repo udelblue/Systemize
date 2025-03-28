@@ -18,6 +18,7 @@
                 @Html.DisplayNameFor(model => model.DocumentType)
             </th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -39,10 +40,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DocumentType)
             </td>
+                    <td>
+                    <a asp-action="DocumentDownload" asp-route-id="@item.WorkflowId" asp-route-document="@item.DocumentID" target="_blank">Download</a> 
+                    </td>
             <td>
-
-
-
                         <a asp-action="DocumentEdit" asp-route-id="@item.WorkflowId" asp-route-document="@item.DocumentID">Edit</a> |
                         <a asp-action="DocumentDelete" asp-route-id="@item.WorkflowId" asp-route-document="@item.DocumentID">Delete</a>
             </td>

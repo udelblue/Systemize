@@ -461,6 +461,45 @@ namespace Systemize.Controllers
         }
 
 
+
+        public async Task<IActionResult> DocumentDownload(int? id, int? document)
+        {
+            if (id == null || document == null)
+            {
+                return NotFound();
+            }
+
+            var workflow = await _context.Workflows
+                .Include(w => w.Documents)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            var local_document = workflow.Documents.FirstOrDefault(d => d.DocumentID == document);
+            if (local_document == null)
+            {
+                return NotFound();
+            }
+
+
+            string fileType = local_document.ContentType;
+            string fileName = local_document.Title;
+            MemoryStream stream = new MemoryStream(local_document.Content);
+
+
+            stream.Position = 0;
+
+            return File(stream, fileType, fileName);
+
+
+        }
+
+
+
+
         [HttpPost, ActionName("DocumentDelete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DocumentDeleteConfirmed(int? id, int? documentID)
