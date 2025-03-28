@@ -151,11 +151,12 @@ namespace Systemize.Controllers
         public async Task<IActionResult> Create([Bind("Name,Description")] Workflow workflow)
         {
             //TODO get creator and replace TBD
-            History starthistory = new History("TBD", "Created", "Workflow Created");
-            workflow.History.Add(starthistory);
+            // History starthistory = new History("TBD", "Created", "Workflow Created");
+            // workflow.History.Add(starthistory);
 
 
             workflow.CreatedOn = DateTime.Now;
+            workflow.Status = "Draft";
             _context.Add(workflow);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -476,10 +477,6 @@ namespace Systemize.Controllers
 
 
         //ACTION
-
-
-
-
 
         // GET: Workflow/Action/[id]?action=[action]
         public async Task<IActionResult> Action(int? id, string? act)

@@ -25,7 +25,23 @@
         {
             foreach (var item in Model)
             {
-        <tr>
+				var highlight = "";
+
+                if (item.StageStatus != null && item.StageStatus.ToLower() == "completed")
+                {
+                    highlight = "table-secondary";
+                }
+                else if (item.StageStatus != null && item.StageStatus.ToLower() == "In Progress")
+                {
+                    highlight = "table-success";
+                }
+                else if (item.StageStatus != null && item.StageStatus.ToLower() == "")
+                {
+                    highlight = "table-light";
+                }
+
+
+        <tr class="@highlight">
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -42,6 +58,9 @@
              
             </td>
         </tr>
+
+
+
             }
 
 
