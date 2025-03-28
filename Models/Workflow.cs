@@ -18,6 +18,9 @@ namespace Systemize.Models
         public string? CurrentlyAssigned { get; set; }
         public int? CurrentStageId { get; set; }
 
+
+        public string? CurrentStageName { get; set; }
+
         public string? Status { get; set; }
 
         public List<Stage> Stages { get; set; }
