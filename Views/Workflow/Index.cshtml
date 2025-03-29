@@ -76,7 +76,18 @@
                     @Html.DisplayFor(modelItem => item.CurrentStageName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PercentageComplete)
+                    @if(item.PercentageComplete != null && item.PercentageComplete > 0)
+                    {
+
+                    
+                        var percentageComplete = item.PercentageComplete.ToString();
+                    
+
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: @percentageComplete%;" aria-valuenow="@percentageComplete" aria-valuemin="0" aria-valuemax="100">@percentageComplete%</div>
+                    </div>
+                    }
+
                 </td>
 
 
