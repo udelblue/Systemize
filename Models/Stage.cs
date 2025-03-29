@@ -35,7 +35,11 @@ namespace Systemize.Models
 
 
         [ForeignKey("WorkflowId")]
-        public int WorkflowId { get; set; }
+        public int? WorkflowId { get; set; }
+
+
+        [ForeignKey("WorkflowTemplateId")]
+        public int? WorkflowTemplateId { get; set; }
 
     }
 }
