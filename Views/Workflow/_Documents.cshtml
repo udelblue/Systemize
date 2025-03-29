@@ -26,6 +26,36 @@
         {
             foreach (var item in Model)
             {
+
+                if (item.ContentType == "application/pdf"){
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ContentType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DocumentType)
+                        </td>
+                        <td>
+                            <a asp-action="DocumentView" asp-route-id="@item.WorkflowId" asp-route-document="@item.DocumentID"> View </a> |
+                            <a asp-action="DocumentDownload" asp-route-id="@item.WorkflowId" asp-route-document="@item.DocumentID" target="_blank"> Download </a>
+                        </td>
+                        <td>
+                            <a asp-action="DocumentEdit" asp-route-id="@item.WorkflowId" asp-route-document="@item.DocumentID">Edit</a> |
+                            <a asp-action="DocumentDelete" asp-route-id="@item.WorkflowId" asp-route-document="@item.DocumentID">Delete</a>
+                        </td>
+                    </tr>
+
+                }
+                else{
+
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -48,6 +78,9 @@
                         <a asp-action="DocumentDelete" asp-route-id="@item.WorkflowId" asp-route-document="@item.DocumentID">Delete</a>
             </td>
         </tr>
+
+                }
+
             }
         
         }
