@@ -606,6 +606,36 @@ namespace Systemize.Controllers
         }
 
 
+
+
+
+        // Post: Workflow/TagAdd/id
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TagAdd(int? id)
+        {
+            var workflow = await _context.Workflows
+            .Include(w => w.Tags)
+            .FirstOrDefaultAsync(m => m.Id == id)
+            ;
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            var name = HttpContext.Request.Form["Name"];
+
+            WorkflowTag tag = new WorkflowTag() { Name = name };
+            workflow.Tags.Add(tag);
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id = id });
+        }
+
+
+
         // util methods
         private bool WorkflowExists(int id)
         {

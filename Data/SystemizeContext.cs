@@ -42,6 +42,7 @@ namespace Systemize.Data
 
 
         }
+        public DbSet<Systemize.Models.WorkflowTag> WorkflowTag { get; set; } = default!;
 
     }
 }
