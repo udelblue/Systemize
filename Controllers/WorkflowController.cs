@@ -473,9 +473,15 @@ namespace Systemize.Controllers
 
         public async Task<IActionResult> DocumentView(int? id, int? document)
         {
+            if (id == null || document == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.Id = id.ToString();
+            ViewBag.DocumentId = document.ToString();
 
             return View();
-
         }
 
 

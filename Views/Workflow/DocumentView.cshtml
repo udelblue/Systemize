@@ -1,5 +1,9 @@
 ﻿@{
     Layout = null;
+
+    var ID = ViewBag.Id;
+    var DocID = ViewBag.DocumentId;
+
 }
 
 <!DOCTYPE html>
@@ -20,7 +24,7 @@
     </style>
 </head>
 <body>
-    <input type="button" id="btnPreview" value="Preview PDF Document" onclick="LoadPdfFromUrl('@Url.Content("https://localhost:7243/Workflow/DocumentDownload/5?document=1")')" />
+    <input type="button" id="btnPreview" value="Preview PDF Document" onclick="LoadPdfFromUrl('@Url.Content("../DocumentDownload/" + @ID + "?document=" + @DocID)')" />
     <hr />
     <div id="pdf_container"></div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
