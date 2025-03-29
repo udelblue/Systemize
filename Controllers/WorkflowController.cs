@@ -468,6 +468,18 @@ namespace Systemize.Controllers
 
 
 
+
+        // GET: Workflow/DocumentView/[id]?documentId=[documentId]
+
+        public async Task<IActionResult> DocumentView(int? id, int? document)
+        {
+
+            return View();
+
+        }
+
+
+
         public async Task<IActionResult> DocumentDownload(int? id, int? document)
         {
             if (id == null || document == null)

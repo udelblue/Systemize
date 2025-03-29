@@ -41,7 +41,7 @@
                 @Html.DisplayFor(modelItem => item.DocumentType)
             </td>
                     <td>
-                    <a asp-action="DocumentDownload" asp-route-id="@item.WorkflowId" asp-route-document="@item.DocumentID" target="_blank">Download</a> 
+                        <a asp-action="DocumentDownload" asp-route-id="@item.WorkflowId" asp-route-document="@item.DocumentID" target="_blank"> Download </a>
                     </td>
             <td>
                         <a asp-action="DocumentEdit" asp-route-id="@item.WorkflowId" asp-route-document="@item.DocumentID">Edit</a> |
