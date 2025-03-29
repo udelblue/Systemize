@@ -16,8 +16,10 @@
 - Dashboard 
 	- Bar Graph
 	- Metrics
+	
 - WorkflowTemplate
 	- Create Template
+	
 - Tags
 	- Workflow Tags 
 	- Document Tags
