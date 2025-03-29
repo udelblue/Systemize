@@ -7,8 +7,12 @@
 <h1>Workflow Dashboard</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New from scratch</a>
 </p>
+
+<input class="form-control" id="inputSearch" type="text" placeholder="Search Table..">
+<br>
+
 <table class="table">
     <thead>
         <tr>
@@ -26,6 +30,10 @@
                 @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </th>
+
+            <th>
                 @Html.DisplayNameFor(model => model.CurrentStageId)
             </th>
             <th>
@@ -35,39 +43,57 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
+    <tbody id="myTable">
+        @foreach (var item in Model)
+        {
+            <tr>
 
                 <td>
-          
+
                     <a asp-action="Details" asp-route-id="@item.Id">@item.Id</a>
                 </td>
 
                 <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CurrentStageId)
-            </td>
-              <td>
-                @Html.DisplayFor(modelItem => item.CurrentStageName)
-            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentStageId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentStageName)
+                </td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id">View</a>
                 </td>
-            <td>
-                 
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+                <td>
+
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+      $("#inputSearch").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+</script>
