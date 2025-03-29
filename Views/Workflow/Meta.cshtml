@@ -26,12 +26,28 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CurrentStageId)
         </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CurrentStageName)
+        </dt>
+
+
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CurrentStageName)
         </dd>
-      
+
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CurrentlyAssigned)
+        </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CurrentlyAssigned)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PercentageComplete)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PercentageComplete)
         </dd>
 
     </dl>

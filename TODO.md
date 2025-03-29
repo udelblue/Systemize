@@ -24,7 +24,7 @@
 	- Workflow Tags 
 	- Document Tags
 
-
+- Percentage Complete
 
 
 

@@ -631,7 +631,7 @@ namespace Systemize.Controllers
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Details), new { id = id });
+            return Ok(workflow.Tags);
         }
 
 

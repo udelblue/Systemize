@@ -22,6 +22,7 @@ namespace Systemize.Services.ActionStratagies
             {
                 workflow.CurrentStageId = workflow.Stages[0].Id;
                 workflow.CurrentStageName = workflow.Stages[0].Name;
+                workflow.PercentageComplete = 0;
                 workflow.Stages[0].StageStatus = "Current";
                 workflow.Status = "In Progress";
 

@@ -39,6 +39,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.CurrentStageName)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PercentageComplete)
+            </th>
             <th></th>
             <th></th>
         </tr>
@@ -72,6 +75,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.CurrentStageName)
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PercentageComplete)
+                </td>
+
+
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id">View</a>
                 </td>
