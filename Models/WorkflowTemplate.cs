@@ -11,7 +11,7 @@ namespace Systemize.Models
 
         public string? Description { get; set; }
 
-        public List<Stage> Stages { get; set; }
+        public List<Stage>? Stages { get; set; }
 
     }
 }

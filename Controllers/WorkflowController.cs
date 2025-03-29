@@ -40,7 +40,7 @@ namespace Systemize.Controllers
         public async Task<IActionResult> StageAdd(int? id, string? test)
         {
             var workflow = await _context.Workflows
-            .Include(w => w.Links)
+            .Include(w => w.Stages)
             .FirstOrDefaultAsync(m => m.Id == id)
             ;
             if (workflow == null)

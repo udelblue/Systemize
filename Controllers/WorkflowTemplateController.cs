@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Systemize.Data;
 using Systemize.Models;
@@ -34,6 +29,7 @@ namespace Systemize.Controllers
             }
 
             var workflowTemplate = await _context.WorkflowTemplate
+                .Include(w => w.Stages)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (workflowTemplate == null)
             {
@@ -59,8 +55,11 @@ namespace Systemize.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(workflowTemplate);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _context.SaveChanges();
+                var tmpID = workflowTemplate.Id;
+                return RedirectToAction(nameof(StageAdd), new { id = tmpID });
+
+                // return RedirectToAction(nameof(Index));
             }
             return View(workflowTemplate);
         }
@@ -148,6 +147,69 @@ namespace Systemize.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+
+
+
+        // STAGE
+        // GET: Workflow/StageAdd/id
+        [HttpGet]
+        public IActionResult StageAdd(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                ViewData["WorkflowTemplateId"] = id;
+            }
+
+            return View();
+
+        }
+
+
+        // Post: Workflow/StageAdd/id
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> StageAdd(int? id, string? test)
+        {
+            var workflowtemplate = await _context.WorkflowTemplate
+            .Include(w => w.Stages)
+            .FirstOrDefaultAsync(m => m.Id == id)
+            ;
+            if (workflowtemplate == null)
+            {
+                return NotFound();
+            }
+
+
+
+            var name = HttpContext.Request.Form["Name"];
+            var description = HttpContext.Request.Form["Description"];
+            var stagetype = HttpContext.Request.Form["StageType"];
+
+            Stage stage = new Stage()
+            {
+                Name = name,
+                Description = description,
+                StageType = stagetype,
+                Properties = "{}",
+                WorkflowTemplateId = workflowtemplate.Id
+
+            };
+
+            _context.Stages.Add(stage);
+
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id = id });
+        }
+
+
+
 
         private bool WorkflowTemplateExists(int id)
         {
