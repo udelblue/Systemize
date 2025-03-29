@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Details";
 
-    bool isReadonly = Model.Workflow.Status != null && Model.Workflow.Status.ToLower() == "completed" | Model.Workflow.Status.ToLower() == "denied" | Model.Workflow.Status.ToLower() == "cancelled" ? true : false;
 }
 
 
@@ -44,7 +43,7 @@
     <h5>Documents</h5>  
     @{
         var uploadURL = "../Upload/" + Model.Workflow.Id.ToString();
-        if(!isReadonly)
+        if(!Model.isReadonly)
         {
             <a href="@uploadURL">Upload Document</a>
         }
@@ -61,7 +60,7 @@
     @{
         var addlinkURL = "../LinkAdd/" + Model.Workflow.Id.ToString();
 
-        if (!isReadonly)
+        if (!Model.isReadonly)
         {
             <a href="@addlinkURL">Add Link</a>
         }
@@ -75,7 +74,7 @@
 @{
     var addstageURL = "../StageAdd/" + Model.Workflow.Id.ToString();
 
-    if (!isReadonly)
+    if (!Model.isReadonly)
     {
         <a href="@addstageURL">Add Stage</a>
     }

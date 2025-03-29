@@ -112,6 +112,12 @@ namespace Systemize.Controllers
 
 
             WorkflowEntire workflowEntire = new WorkflowEntire();
+
+
+            workflowEntire.isReadonly = workflow.Status != null && workflow.Status.ToLower() == "completed" | workflow.Status.ToLower() == "denied" | workflow.Status.ToLower() == "cancelled" ? true : false;
+
+
+
             //workflow not started
             if (workflow.Status != null && workflow.Status.ToLower() != "completed" && workflow.CurrentStageId == null && workflow.Stages != null && workflow.Stages.Count > 0)
             {
