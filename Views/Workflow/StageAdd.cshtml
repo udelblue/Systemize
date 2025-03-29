@@ -48,9 +48,15 @@
 
 <div>
     @{
-        var wfURL = "../Details/" + Model.WorkflowId.ToString();
+		if (ViewData["WorkflowId"] != null)
+		{
+			var wfURL = "../Details/" + ViewData["WorkflowId"].ToString();
+            <a href="@wfURL">Back</a>
+		}
+	
+      
     }
-    <a href="@wfURL">Back</a>
+   
 </div>
 
 @section Scripts {
