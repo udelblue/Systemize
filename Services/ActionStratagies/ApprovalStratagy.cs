@@ -28,12 +28,26 @@ namespace Systemize.Services.ActionStratagies
                 workflow.Stages[0].StageStatus = "Current";
                 workflow.Status = "In Progress";
 
-                //assign to currently assign
-                workflow.CurrentlyAssigned = workflow.Stages[0].AssignedTo;
 
                 History starthistory = new History(response.Executor, response.ActionType, "Workflow Started");
                 workflow.History.Add(starthistory);
-                _context.Workflows.Update(workflow);
+
+
+                //assign to currently assign
+                Stage firstStage = workflow.Stages[0];
+                workflow.CurrentlyAssigned = firstStage.AssignedTo;
+                workflow.CurrentStageName = firstStage.Name;
+
+                History firststagehistory = new History(response.Executor, response.ActionType, firstStage.Id, firstStage.Name + " Started");
+                workflow.History.Add(firststagehistory);
+
+
+
+                _context.Workflows.Update(workflow)
+
+
+
+                    ;
                 _context.SaveChanges();
 
             }
@@ -51,7 +65,6 @@ namespace Systemize.Services.ActionStratagies
                 // if current stage is the last stage, then return
                 if (current_index == count - 1)
                 {
-
 
                     //Last stage
                     workflow.CurrentStageId = null;
@@ -77,7 +90,7 @@ namespace Systemize.Services.ActionStratagies
                     var nextStage = workflow.Stages[current_index + 1];
                     //assign to currently assign
                     workflow.CurrentlyAssigned = nextStage.AssignedTo;
-                    History finishedthistory = new History(response.Executor, response.ActionType, "Stage Completed" + currentStage.Name);
+                    History finishedthistory = new History(response.Executor, response.ActionType, currentStage.Name + " Completed");
                     workflow.History.Add(finishedthistory);
 
 
@@ -88,7 +101,7 @@ namespace Systemize.Services.ActionStratagies
                     workflow.CurrentStageId = nextStage.Id;
                     workflow.CurrentStageName = nextStage.Name;
                     //update history
-                    History starthistory = new History(response.Executor, response.ActionType, "Stage Started" + nextStage.Name);
+                    History starthistory = new History(response.Executor, response.ActionType, nextStage.Name + " Started");
                     workflow.History.Add(starthistory);
                     _context.Workflows.Update(workflow);
                     _context.SaveChanges();

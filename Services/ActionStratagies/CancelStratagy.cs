@@ -53,6 +53,7 @@ namespace Systemize.Services.ActionStratagies
                 int current_index = workflow.Stages.FindIndex(s => s.Id == workflow.CurrentStageId);
                 var currentStage = workflow.Stages.Find(s => s.Id == workflow.CurrentStageId);
 
+
                 // mark current stage as completed
                 currentStage.StageStatus = "Cancelled";
                 _context.Stages.Update(currentStage);
