@@ -34,21 +34,18 @@ namespace Systemize.Controllers
         }
 
 
-        // Post: Workflow/StageAdd/id
+        // Replace the existing method with the following code
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> StageAdd(int? id, string? test)
         {
             var workflow = await _context.Workflows
-            .Include(w => w.Stages)
-            .FirstOrDefaultAsync(m => m.Id == id)
-            ;
+                .Include(w => w.Stages)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (workflow == null)
             {
                 return NotFound();
             }
-
-
 
             var name = HttpContext.Request.Form["Name"];
             var description = HttpContext.Request.Form["Description"];
@@ -61,13 +58,10 @@ namespace Systemize.Controllers
                 StageType = stagetype,
                 Properties = "{}",
                 WorkflowId = workflow.Id
-
             };
 
             _context.Stages.Add(stage);
-
-
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(); // This should now work with the correct using directive
 
             return RedirectToAction(nameof(Details), new { id = id });
         }

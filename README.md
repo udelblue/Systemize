@@ -13,3 +13,10 @@ dotnet ef migrations add InitialCreate
 dotnet ef database update
 
 ```
+
+or 
+
+```bash	
+Add-Migration InitialCreate
+Update-Database
+```

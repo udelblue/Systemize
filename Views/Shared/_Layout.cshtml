@@ -36,7 +36,39 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Workflow" asp-action="Index">Workflows</a>
                         </li>
+                  
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AdminDashboard">Admin</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UserDashboard">User</a>
+                                </li>
+                            }
+
+                            <li class="nav-item ms-lg-auto d-flex align-items-center">
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="m-0 p-0">
+                                    <button type="submit" class="btn btn-link nav-link text-dark p-0">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item ms-lg-auto">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Register</a>
+                            </li>
+                        }
                     </ul>
+
                 </div>
             </div>
         </nav>

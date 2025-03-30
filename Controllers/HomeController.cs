@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Systemize.Models;
@@ -28,5 +29,28 @@ namespace Systemize.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult AdminDashboard()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "User")]
+        public IActionResult UserDashboard()
+        {
+            return View();
+        }
+
+        public IActionResult Unauthorized()
+        {
+            return View();
+        }
+
+
+
+
     }
 }

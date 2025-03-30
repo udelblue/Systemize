@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Systemize.Models;
 
 namespace Systemize.Data
 {
-    public class SystemizeContext : DbContext
+    public class SystemizeContext : IdentityDbContext<IdentityUser>
     {
         public SystemizeContext(DbContextOptions<SystemizeContext> options) : base(options)
         {
@@ -14,10 +16,15 @@ namespace Systemize.Data
         public DbSet<Stage> Stages { get; set; }
         public DbSet<Workflow> Workflows { get; set; }
 
+        public DbSet<Systemize.Models.WorkflowTag> WorkflowTag { get; set; } = default!;
+        public DbSet<Systemize.Models.WorkflowTemplate> WorkflowTemplate { get; set; } = default!;
+
         public DbSet<Link> Links { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder); // Ensure Identity configurations are applied
+
 
             modelBuilder.Entity<Document>().ToTable("Document");
             modelBuilder.Entity<Link>().ToTable("Link");
@@ -49,8 +56,7 @@ namespace Systemize.Data
 
 
         }
-        public DbSet<Systemize.Models.WorkflowTag> WorkflowTag { get; set; } = default!;
-        public DbSet<Systemize.Models.WorkflowTemplate> WorkflowTemplate { get; set; } = default!;
+
 
     }
 }
