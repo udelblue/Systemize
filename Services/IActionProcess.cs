@@ -1,5 +1,5 @@
 ﻿using Systemize.Models;
-using Systemize.Models.ViewModel;
+using Systemize.Models.ViewModel.Workflow;
 
 
 namespace Systemize.Services

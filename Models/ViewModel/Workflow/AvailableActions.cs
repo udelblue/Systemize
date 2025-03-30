@@ -1,4 +1,4 @@
-﻿namespace Systemize.Models.ViewModel
+﻿namespace Systemize.Models.ViewModel.Workflow
 {
     public class AvailableActions
     {

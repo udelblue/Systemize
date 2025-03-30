@@ -1,6 +1,6 @@
 ﻿using Systemize.Data;
 using Systemize.Models;
-using Systemize.Models.ViewModel;
+using Systemize.Models.ViewModel.Workflow;
 using Systemize.Services.ActionStratagies;
 
 namespace Systemize.Services

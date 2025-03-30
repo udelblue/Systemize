@@ -1,10 +1,13 @@
-﻿namespace Systemize.Models.ViewModel
+﻿
+
+
+namespace Systemize.Models.ViewModel.Workflow
 {
     public class WorkflowEntire
     {
 
 
-        public Workflow Workflow { get; set; }
+        public Systemize.Models.Workflow Workflow { get; set; }
 
         public bool isReadonly { get; set; }
 

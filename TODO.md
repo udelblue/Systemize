@@ -26,8 +26,9 @@
 	- Document Tags
 
 -identy
-	- Add identity to workflow
-	- add authorizations to workflow
+	- ~~Add identity to workflow~~
+	- ~~add authorizations to workflow~~
+	- validate user email
 
 
 

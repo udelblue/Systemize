@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Systemize.Data;
 using Systemize.Models;
-using Systemize.Models.ViewModel;
+using Systemize.Models.ViewModel.Workflow;
 using Systemize.Services;
 
 namespace Systemize.Controllers
