@@ -34,6 +34,20 @@ namespace Systemize.Models
 
         }
 
+        public History(String executedBy, String action, int? stageid, string eventlevel, string eventname, string description)
+        {
+            ExecutedBy = executedBy;
+            ExecutedAt = DateTime.Now;
+            Action = action;
+            StageId = stageid;
+            Description = description;
+            EventLevel = eventlevel;
+            EventName = eventname;
+
+
+        }
+
+
         [Key]
         public int Id { get; set; }
 
@@ -41,6 +55,10 @@ namespace Systemize.Models
         public DateTime ExecutedAt { get; set; }
 
         public int? StageId { get; set; }
+
+        public string? EventLevel { get; set; }
+
+        public string? EventName { get; set; }
 
         public string Action { get; set; }
 

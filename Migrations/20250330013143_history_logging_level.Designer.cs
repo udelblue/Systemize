@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Systemize.Data;
 
@@ -11,9 +12,11 @@ using Systemize.Data;
 namespace Systemize.Migrations
 {
     [DbContext(typeof(SystemizeContext))]
-    partial class SystemizeContextModelSnapshot : ModelSnapshot
+    [Migration("20250330013143_history_logging_level")]
+    partial class history_logging_level
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,16 +77,13 @@ namespace Systemize.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EventLevel")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EventName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("ExecutedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ExecutedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Level")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("StageId")

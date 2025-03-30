@@ -11,6 +11,7 @@
 		- Cancel Task Action type
 	- Concencus Stage type
 	- Task Stage type
+	- AI decision Stage type
 
 
 - Dashboard 
