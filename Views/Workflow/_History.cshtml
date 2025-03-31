@@ -12,6 +12,27 @@
             <th>
                 @Html.DisplayNameFor(model => model.Action)
             </th>
+
+
+
+       
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.EventLevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventName)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.StageId)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.StageName)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
@@ -34,6 +55,23 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Action)
             </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EventLevel)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EventName)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StageId)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StageName)
+                    </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>

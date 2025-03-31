@@ -67,7 +67,7 @@ namespace Systemize.Models
         public string? EventName { get; set; }
 
         // action stratagy used
-        public string Action { get; set; }
+        public string? Action { get; set; }
 
 
         // general discription

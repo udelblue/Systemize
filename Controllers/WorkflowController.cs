@@ -379,8 +379,12 @@ namespace Systemize.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upload(int? id, string? test)
         {
+
+            var email = "system";
+
             var workflow = await _context.Workflows
             .Include(w => w.Documents)
+            .Include(w => w.History)
             .FirstOrDefaultAsync(m => m.Id == id)
             ;
             if (workflow == null)
@@ -419,7 +423,13 @@ namespace Systemize.Controllers
                             };
 
                             workflow.Documents.Add(document);
+                            var currentStageID = workflow.CurrentStageId ?? null;
+                            var currentStageName = workflow.CurrentStageName ?? null;
 
+
+
+                            History firststagehistory = new History(email, "", currentStageID, currentStageName, "Minor", "Document Uploaded", "File:" + formFile.FileName);
+                            workflow.History.Add(firststagehistory);
                         }
                     }
                 }
