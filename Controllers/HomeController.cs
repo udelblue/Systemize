@@ -41,6 +41,11 @@ namespace Systemize.Controllers
         [Authorize(Roles = "User")]
         public IActionResult UserDashboard()
         {
+
+
+            var email = this.User.Identity.Name;
+
+
             return View();
         }
 
