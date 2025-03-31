@@ -75,6 +75,11 @@ namespace Systemize.Services.ActionStratagies
                     workflow.Status = "Completed";
                     workflow.PercentageComplete = 100;
 
+
+
+                    History laststagehistory = new History(response.Executor, response.ActionType, workflow.Stages[current_index].Id, workflow.Stages[current_index].Name, "Major", "Stage Completed", "");
+                    workflow.History.Add(laststagehistory);
+
                     History completedhistory = new History(response.Executor, response.ActionType, null, null, "Major", "Workflow Completed", "");
                     workflow.History.Add(completedhistory);
                     _context.Workflows.Update(workflow);

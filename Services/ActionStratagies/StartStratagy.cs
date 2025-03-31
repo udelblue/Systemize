@@ -32,8 +32,14 @@ namespace Systemize.Services.ActionStratagies
                 //assign to currently assign
                 workflow.CurrentlyAssigned = firststage.AssignedTo;
 
-                History starthistory = new History(response.Executor, response.ActionType, firststage.Id, firststage.Name, "Major", "Workflow Started", "");
+                History starthistory = new History(response.Executor, response.ActionType, null, null, "Major", "Workflow Started", "");
                 workflow.History.Add(starthistory);
+
+
+
+                History stageHistory = new History(response.Executor, response.ActionType, firststage.Id, firststage.Name, "Major", "Stage Started", "");
+                workflow.History.Add(stageHistory);
+
                 _context.Workflows.Update(workflow);
                 _context.SaveChanges();
 
