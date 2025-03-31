@@ -253,7 +253,9 @@ namespace Systemize.Controllers
             {
                 return NotFound();
             }
-            return View(workflow);
+            WorkflowEdit we = new WorkflowEdit() { Id = workflow.Id, Name = workflow.Name, Description = workflow.Description };
+
+            return View(we);
         }
 
         // POST: Workflow/Edit/5
@@ -261,17 +263,33 @@ namespace Systemize.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,CurrentStageId")] Workflow workflow)
+        public async Task<IActionResult> Edit(int id, [Bind("Id, Name,Description")] WorkflowEdit workflowedit)
         {
-            if (id != workflow.Id)
-            {
-                return NotFound();
-            }
+            //workflowedit.Id = id;
+
+
+            var workflow = await _context.Workflows
+
+               .FirstOrDefaultAsync(m => m.Id == id);
 
             if (ModelState.IsValid)
             {
+
+
+
                 try
                 {
+
+
+
+                    if (workflow == null)
+                    {
+                        return NotFound();
+                    }
+                    workflow.Name = workflowedit.Name;
+                    workflow.Description = workflowedit.Description;
+
+
                     _context.Update(workflow);
                     await _context.SaveChangesAsync();
                 }

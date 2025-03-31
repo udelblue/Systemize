@@ -1,4 +1,4 @@
-﻿@model Systemize.Models.Workflow
+﻿@model Systemize.Models.ViewModel.Workflow.WorkflowEdit;
 
 @{
     ViewData["Title"] = "Edit";
@@ -23,11 +23,7 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CurrentStageId" class="control-label"></label>
-                <input asp-for="CurrentStageId" class="form-control" />
-                <span asp-validation-for="CurrentStageId" class="text-danger"></span>
-            </div>
+       
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

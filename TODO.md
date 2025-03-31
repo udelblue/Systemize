@@ -19,7 +19,7 @@
 	- Metrics
 	
 - WorkflowTemplate
-	- Create Template
+	- ~~Create Template~~
 	
 - Tags
 	- Workflow Tags 
