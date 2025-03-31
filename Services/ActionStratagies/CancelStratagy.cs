@@ -31,7 +31,7 @@ namespace Systemize.Services.ActionStratagies
                     workflow.Status = "Cancelled";
 
 
-                    History starthistory = new History(response.Executor, response.ActionType, "Workflow Cancelled");
+                    History starthistory = new History(response.Executor, response.ActionType, workflow.Stages[0].Id, workflow.Stages[0].Name, "Major", "Workflow Cancelled", "");
                     workflow.History.Add(starthistory);
                     _context.Stages.Update(workflow.Stages[0]);
                     _context.Workflows.Update(workflow);
@@ -40,7 +40,8 @@ namespace Systemize.Services.ActionStratagies
                 else
                 {
                     workflow.Status = "Cancelled";
-                    History starthistory = new History(response.Executor, response.ActionType, "Workflow Cancelled");
+
+                    History starthistory = new History(response.Executor, response.ActionType, null, null, "Major", "Workflow Cancelled", "");
                     workflow.History.Add(starthistory);
                     _context.Workflows.Update(workflow);
                     _context.SaveChanges();
@@ -61,7 +62,7 @@ namespace Systemize.Services.ActionStratagies
 
                 workflow.Status = "Cancelled";
 
-                History starthistory = new History(response.Executor, response.ActionType, "Workflow Cancelled");
+                History starthistory = new History(response.Executor, response.ActionType, currentStage.Id, currentStage.Name, "Major", "Workflow Cancelled", "");
                 workflow.History.Add(starthistory);
                 _context.Stages.Update(currentStage);
                 _context.Workflows.Update(workflow);

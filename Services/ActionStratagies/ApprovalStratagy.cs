@@ -29,7 +29,7 @@ namespace Systemize.Services.ActionStratagies
                 workflow.Status = "In Progress";
 
 
-                History starthistory = new History(response.Executor, response.ActionType, "Workflow Started");
+                History starthistory = new History(response.Executor, response.ActionType, null, null, "Major", "Workflow Started", "");
                 workflow.History.Add(starthistory);
 
 
@@ -38,7 +38,10 @@ namespace Systemize.Services.ActionStratagies
                 workflow.CurrentlyAssigned = firstStage.AssignedTo;
                 workflow.CurrentStageName = firstStage.Name;
 
-                History firststagehistory = new History(response.Executor, response.ActionType, firstStage.Id, firstStage.Name + " Started");
+
+
+
+                History firststagehistory = new History(response.Executor, response.ActionType, firstStage.Id, firstStage.Name, "Major", "Stage Started", "");
                 workflow.History.Add(firststagehistory);
 
 
@@ -71,7 +74,8 @@ namespace Systemize.Services.ActionStratagies
                     workflow.CurrentStageName = "";
                     workflow.Status = "Completed";
                     workflow.PercentageComplete = 100;
-                    History completedhistory = new History(response.Executor, response.ActionType, "Workflow Completed");
+
+                    History completedhistory = new History(response.Executor, response.ActionType, null, null, "Major", "Workflow Completed", "");
                     workflow.History.Add(completedhistory);
                     _context.Workflows.Update(workflow);
                     _context.SaveChanges();
@@ -93,7 +97,8 @@ namespace Systemize.Services.ActionStratagies
                     var nextStage = workflow.Stages[next_index];
                     //assign to currently assign
                     workflow.CurrentlyAssigned = nextStage.AssignedTo;
-                    History finishedthistory = new History(response.Executor, response.ActionType, currentStage.Name + " Completed");
+
+                    History finishedthistory = new History(response.Executor, response.ActionType, currentStage.Id, currentStage.Name, "Major", "Stage Completed", "");
                     workflow.History.Add(finishedthistory);
 
 
@@ -116,7 +121,7 @@ namespace Systemize.Services.ActionStratagies
 
 
                     //update history
-                    History starthistory = new History(response.Executor, response.ActionType, nextStage.Name + " Started");
+                    History starthistory = new History(response.Executor, response.ActionType, nextStage.Id, nextStage.Name, "Major", "Stage Started", "");
                     workflow.History.Add(starthistory);
                     _context.Workflows.Update(workflow);
                     _context.SaveChanges();

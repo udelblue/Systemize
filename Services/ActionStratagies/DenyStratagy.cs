@@ -28,7 +28,7 @@ namespace Systemize.Services.ActionStratagies
                 workflow.Status = "Denied";
 
 
-                History starthistory = new History(response.Executor, response.ActionType, "Workflow Denied");
+                History starthistory = new History(response.Executor, response.ActionType, workflow.Stages[0].Id, workflow.Stages[0].Name, "Major", "Workflow Denied", "");
                 workflow.History.Add(starthistory);
                 _context.Workflows.Update(workflow);
                 _context.SaveChanges();
@@ -39,12 +39,14 @@ namespace Systemize.Services.ActionStratagies
                 int current_index = workflow.Stages.FindIndex(s => s.Id == workflow.CurrentStageId);
                 var currentStage = workflow.Stages.Find(s => s.Id == workflow.CurrentStageId);
 
+
+
                 // mark current stage as completed
                 workflow.Stages[current_index].StageStatus = "Denied";
 
                 workflow.Status = "Denied";
 
-                History starthistory = new History(response.Executor, response.ActionType, "Workflow Denied");
+                History starthistory = new History(response.Executor, response.ActionType, currentStage.Id, currentStage.Name, "Major", "Workflow Denied", "");
                 workflow.History.Add(starthistory);
                 _context.Workflows.Update(workflow);
                 _context.SaveChanges();
