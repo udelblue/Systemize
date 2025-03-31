@@ -314,7 +314,15 @@ namespace Systemize.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var workflow = await _context.Workflows.FindAsync(id);
+            //load workflow with eager loading
+            var workflow = await _context.Workflows
+                .Include(w => w.Stages)
+                .Include(w => w.Documents)
+                .Include(w => w.Tags)
+                .Include(w => w.Links)
+                .Include(w => w.History)
+                .FirstOrDefaultAsync(m => m.Id == id)
+                ;
             if (workflow != null)
             {
                 _context.Workflows.Remove(workflow);

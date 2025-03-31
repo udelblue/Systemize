@@ -16,11 +16,6 @@ namespace Systemize.Models
 
 
 
-        public WorkflowTemplate Clone()
-        {
-            return (WorkflowTemplate)this.MemberwiseClone();
-        }
-
 
 
     }

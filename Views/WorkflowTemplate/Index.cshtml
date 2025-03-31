@@ -19,6 +19,7 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -36,6 +37,10 @@
                 <a asp-action="Duplicate" asp-route-id="@item.Id">Duplicate</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
+                <td>
+                    <a asp-action="CreateWorkflowFromTemplate" asp-route-id="@item.Id">CreateWorkflow From Template</a>
+                </td>
+
         </tr>
 }
     </tbody>
