@@ -3,7 +3,7 @@
     public class DashboardEntire
     {
 
-        List<DashboardHistoryRow> DashboardHistory { get; set; }
+        List<DashboardHistoryRowGraph> DashboardHistory { get; set; }
 
         List<History> History { get; set; }
 

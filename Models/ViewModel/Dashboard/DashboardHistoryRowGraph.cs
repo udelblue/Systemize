@@ -1,6 +1,6 @@
 ﻿namespace Systemize.Models.ViewModel.Dashboard
 {
-    public class DashboardHistoryRow
+    public class DashboardHistoryRowGraph
     {
 
         public int StageID { get; set; }

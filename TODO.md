@@ -17,6 +17,7 @@
 - Dashboard 
 	- Bar Graph
 	- Metrics
+	- Timeline
 	
 - WorkflowTemplate
 	- ~~Create Template~~
