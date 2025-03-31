@@ -13,5 +13,15 @@ namespace Systemize.Models
 
         public List<Stage>? Stages { get; set; }
 
+
+
+
+        public WorkflowTemplate Clone()
+        {
+            return (WorkflowTemplate)this.MemberwiseClone();
+        }
+
+
+
     }
 }

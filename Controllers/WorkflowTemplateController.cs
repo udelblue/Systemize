@@ -150,6 +150,44 @@ namespace Systemize.Controllers
 
 
 
+        // GET: WorkflowTemplate/Duplicate/5
+        public async Task<IActionResult> Duplicate(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var workflowTemplate = await _context.WorkflowTemplate
+                .Include(w => w.Stages)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (workflowTemplate == null)
+            {
+                return NotFound();
+            }
+
+            // Deep clone the workflowTemplate
+            var newWorkflowTemplate = new WorkflowTemplate
+            {
+                Name = workflowTemplate.Name + " - Copy",
+                Description = workflowTemplate.Description,
+                Stages = workflowTemplate.Stages?.Select(s => new Stage
+                {
+                    Name = s.Name,
+                    Description = s.Description,
+                    StageType = s.StageType,
+                    Properties = s.Properties
+                }).ToList()
+            };
+
+            _context.WorkflowTemplate.Add(newWorkflowTemplate);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id = newWorkflowTemplate.Id });
+        }
+
+
+
 
         // STAGE
         // GET: Workflow/StageAdd/id
