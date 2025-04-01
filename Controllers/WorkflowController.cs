@@ -465,6 +465,10 @@ namespace Systemize.Controllers
             return View(local_document);
         }
 
+
+
+
+
         // GET: Workflow/DocumentDelete/[id]?documentId=[documentId]
 
         public async Task<IActionResult> DocumentDelete(int? id, int? document)
