@@ -462,11 +462,81 @@ namespace Systemize.Controllers
                 return NotFound();
             }
 
-            return View(local_document);
+            DocumentEdit de = new DocumentEdit()
+            {
+                Title = local_document.Title,
+                ContentType = local_document.ContentType,
+                Description = local_document.Description,
+                DocumentType = local_document.ContentType,
+                DocumentID = local_document.DocumentID
+            };
+
+
+
+
+            ViewData["WorkflowId"] = id;
+
+            return View(de);
         }
 
 
+        // POST: Workflow/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DocumentEdit(int id, [Bind("DocumentID,Title,Description,DocumentType,ContentType")] DocumentEdit document)
+        {
+            var email = "System";
 
+
+            var workflow = await _context.Workflows
+               .Include(w => w.Documents)
+               .Include(w => w.History)
+               .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (ModelState.IsValid)
+            {
+
+                try
+                {
+                    if (workflow == null)
+                    {
+                        return NotFound();
+                    }
+                    Document local_doc = workflow.Documents.FirstOrDefault(w => w.DocumentID == document.DocumentID);
+                    local_doc.Title = document.Title;
+                    local_doc.Description = document.Description;
+                    local_doc.ContentType = document.ContentType;
+                    local_doc.DocumentType = document.DocumentType;
+
+
+                    History firststagehistory = new History(email, "", workflow.CurrentStageId, workflow.CurrentStageName, "Minor", "Document Edit", "");
+                    workflow.History.Add(firststagehistory);
+
+
+
+                    _context.Update(workflow);
+                    await _context.SaveChangesAsync();
+
+
+
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!WorkflowExists(workflow.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(workflow);
+        }
 
 
         // GET: Workflow/DocumentDelete/[id]?documentId=[documentId]
@@ -810,12 +880,6 @@ namespace Systemize.Controllers
             }
             return View(workflow);
         }
-
-
-
-
-
-
 
 
         // Post: Workflow/TagAdd/id
