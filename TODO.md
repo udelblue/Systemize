@@ -12,7 +12,10 @@
 	- Concencus Stage type
 	- Task Stage type
 	- AI decision Stage type
+	- AI Agent collaboration Stage type
 
+- Notifications
+	- Email service
 
 - Dashboard 
 	- Bar Graph

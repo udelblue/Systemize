@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Systemize.Data;
+using Systemize.Models.Notifications;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,16 @@ builder.Services.ConfigureApplicationCookie(options =>
         }
     };
 });
+
+
+
+var emailConfig = builder.Configuration
+        .GetSection("EmailConfiguration")
+        .Get<EmailConfiguration>();
+builder.Services.AddSingleton(emailConfig);
+
+
+
 
 builder.Services.AddControllersWithViews();
 
