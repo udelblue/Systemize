@@ -3,6 +3,7 @@
 - Notification
 	- Subscribe to notification per workflow
 	- Add list of workflows you are getting notificatons
+	- Email service
 
 -Action Types
 	- Task Action types
@@ -13,9 +14,6 @@
 	- Task Stage type
 	- AI decision Stage type
 	- AI Agent collaboration Stage type
-
-- Notifications
-	- Email service
 
 - Dashboard 
 	- Bar Graph
