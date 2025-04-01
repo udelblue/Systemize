@@ -380,7 +380,7 @@ namespace Systemize.Controllers
         public async Task<IActionResult> Upload(int? id, string? test)
         {
 
-            var email = "system";
+            var email = "System";
 
             var workflow = await _context.Workflows
             .Include(w => w.Documents)
@@ -425,9 +425,6 @@ namespace Systemize.Controllers
                             workflow.Documents.Add(document);
                             var currentStageID = workflow.CurrentStageId ?? null;
                             var currentStageName = workflow.CurrentStageName ?? null;
-
-
-
                             History firststagehistory = new History(email, "", currentStageID, currentStageName, "Minor", "Document Uploaded", "File:" + formFile.FileName);
                             workflow.History.Add(firststagehistory);
                         }
@@ -558,7 +555,7 @@ namespace Systemize.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DocumentDeleteConfirmed(int? id, int? documentID)
         {
-
+            var email = "System";
 
             if (id == null)
             {
@@ -567,6 +564,7 @@ namespace Systemize.Controllers
 
             var workflow = await _context.Workflows
                 .Include(w => w.Documents)
+                .Include(w => w.History)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (workflow == null)
@@ -577,7 +575,12 @@ namespace Systemize.Controllers
             var local_document = workflow.Documents.FirstOrDefault(d => d.DocumentID == documentID);
             if (local_document != null)
             {
+                string filename = local_document.Title;
                 workflow.Documents.Remove(local_document);
+                var currentStageID = workflow.CurrentStageId ?? null;
+                var currentStageName = workflow.CurrentStageName ?? null;
+                History firststagehistory = new History(email, "", currentStageID, currentStageName, "Minor", "Document Removed", "File:" + filename);
+                workflow.History.Add(firststagehistory);
             }
 
             await _context.SaveChangesAsync();
@@ -611,8 +614,11 @@ namespace Systemize.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LinkAdd(int? id, string? test)
         {
+
+            var email = "System";
             var workflow = await _context.Workflows
             .Include(w => w.Links)
+            .Include(w => w.History)
             .FirstOrDefaultAsync(m => m.Id == id)
             ;
             if (workflow == null)
@@ -624,12 +630,13 @@ namespace Systemize.Controllers
 
             var title = HttpContext.Request.Form["Title"];
             var URL = HttpContext.Request.Form["URL"];
-
             Link link = new Link() { Title = title, URL = URL };
             workflow.Links.Add(link);
+            var currentStageID = workflow.CurrentStageId ?? null;
+            var currentStageName = workflow.CurrentStageName ?? null;
 
-
-
+            History firststagehistory = new History(email, "", currentStageID, currentStageName, "Minor", "Link Added", "URL:" + link.URL);
+            workflow.History.Add(firststagehistory);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Details), new { id = id });
@@ -640,6 +647,10 @@ namespace Systemize.Controllers
 
         public async Task<IActionResult> LinkDelete(int? id, int? link)
         {
+
+
+
+
             if (id == null || link == null)
             {
                 return NotFound();
@@ -670,7 +681,7 @@ namespace Systemize.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LinkDeleteConfirmed(int? id, int? linkID)
         {
-
+            var email = "System";
 
             if (id == null)
             {
@@ -679,6 +690,7 @@ namespace Systemize.Controllers
 
             var workflow = await _context.Workflows
                 .Include(w => w.Links)
+                .Include(w => w.History)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (workflow == null)
@@ -690,6 +702,10 @@ namespace Systemize.Controllers
             if (local_document != null)
             {
                 workflow.Links.Remove(local_document);
+                var currentStageID = workflow.CurrentStageId ?? null;
+                var currentStageName = workflow.CurrentStageName ?? null;
+                History firststagehistory = new History(email, "", currentStageID, currentStageName, "Minor", "Link Removed", "URL:" + link.URL);
+                workflow.History.Add(firststagehistory);
             }
 
             await _context.SaveChangesAsync();
