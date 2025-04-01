@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "LinkAdd";
+    var WorkflowID = ViewData["WorkflowId"].ToString();
 }
 
 <h1>LinkAdd</h1>
@@ -22,7 +23,7 @@
                 <input asp-for="URL" class="form-control" />
                 <span asp-validation-for="URL" class="text-danger"></span>
             </div>
-       
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -32,7 +33,7 @@
 
 <div>
     @{
-        var wfURL = "../Details/" + Model.WorkflowId.ToString();
+        var wfURL = "../Details/" + WorkflowID;
     }
     <a href="@wfURL">Back</a>
 </div>

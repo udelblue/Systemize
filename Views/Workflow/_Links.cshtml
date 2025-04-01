@@ -33,9 +33,11 @@
                         <a href="@item.URL" target="_blank"> @Html.DisplayFor(modelItem => item.URL) </a>
                 
             </td>
+
+                    
             <td>
-                <a asp-action="LinkEdit" asp-route-id="@item.LinkID">Edit</a> |
-                <a asp-action="LinkDelete" asp-route-id="@item.LinkID">Delete</a>
+                        <a asp-action="LinkEdit" asp-route-id="@item.WorkflowId" asp-route-link="@item.LinkID">Edit</a> |
+                        <a asp-action="LinkDelete" asp-route-id="@item.WorkflowId" asp-route-link="@item.LinkID">Delete</a>
             </td>
         </tr>
 }       

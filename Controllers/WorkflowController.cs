@@ -636,8 +636,96 @@ namespace Systemize.Controllers
         }
 
 
+        // GET: Workflow/LinkDelete/[id]?linktId=[LinkId]
+
+        public async Task<IActionResult> LinkDelete(int? id, int? link)
+        {
+            if (id == null || link == null)
+            {
+                return NotFound();
+            }
+
+            var workflow = await _context.Workflows
+                .Include(w => w.Links)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            var local_link = workflow.Links.FirstOrDefault(d => d.LinkID == link);
+            if (local_link == null)
+            {
+                return NotFound();
+            }
+
+            return View(local_link);
+
+        }
 
 
+
+        [HttpPost, ActionName("LinkDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LinkDeleteConfirmed(int? id, int? linkID)
+        {
+
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var workflow = await _context.Workflows
+                .Include(w => w.Links)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            var local_document = workflow.Links.FirstOrDefault(d => d.LinkID == linkID);
+            if (local_document != null)
+            {
+                workflow.Links.Remove(local_document);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+
+        // GET: Workflow/LinkEdit/[id]?linkId=[link]
+
+        [HttpGet]
+        public async Task<IActionResult> LinkEdit(int? id, int? link)
+        {
+            if (id == null || link == null)
+            {
+                return NotFound();
+            }
+
+            var workflow = await _context.Workflows
+                .Include(w => w.Links)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            var local_link = workflow.Links.FirstOrDefault(d => d.LinkID == link);
+            if (local_link == null)
+            {
+                return NotFound();
+            }
+
+            return View(local_link);
+        }
 
         // Post: Workflow/TagAdd/id
 
