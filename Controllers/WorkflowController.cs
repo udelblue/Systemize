@@ -705,10 +705,11 @@ namespace Systemize.Controllers
             var local_document = workflow.Links.FirstOrDefault(d => d.LinkID == linkID);
             if (local_document != null)
             {
+                var url = local_document.URL;
                 workflow.Links.Remove(local_document);
                 var currentStageID = workflow.CurrentStageId ?? null;
                 var currentStageName = workflow.CurrentStageName ?? null;
-                History firststagehistory = new History(email, "", currentStageID, currentStageName, "Minor", "Link Removed", "URL:" + link.URL);
+                History firststagehistory = new History(email, "", currentStageID, currentStageName, "Minor", "Link Removed", "URL:" + url);
                 workflow.History.Add(firststagehistory);
             }
 
