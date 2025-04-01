@@ -705,11 +705,11 @@ namespace Systemize.Controllers
             var local_document = workflow.Links.FirstOrDefault(d => d.LinkID == linkID);
             if (local_document != null)
             {
-                var url = local_document.URL;
+                var json = local_document.ToJson();
                 workflow.Links.Remove(local_document);
                 var currentStageID = workflow.CurrentStageId ?? null;
                 var currentStageName = workflow.CurrentStageName ?? null;
-                History firststagehistory = new History(email, "", currentStageID, currentStageName, "Minor", "Link Removed", "URL:" + url);
+                History firststagehistory = new History(email, "", currentStageID, currentStageName, "Minor", "Link Removed", "JSON:" + json);
                 workflow.History.Add(firststagehistory);
             }
 
@@ -731,8 +731,9 @@ namespace Systemize.Controllers
             }
 
             var workflow = await _context.Workflows
-                .Include(w => w.Links)
-                .FirstOrDefaultAsync(m => m.Id == id);
+              .Include(w => w.Links)
+              .Include(w => w.History)
+              .FirstOrDefaultAsync(m => m.Id == id);
 
             if (workflow == null)
             {
@@ -747,6 +748,75 @@ namespace Systemize.Controllers
 
             return View(local_link);
         }
+
+
+
+
+
+
+
+
+
+        // POST: Workflow/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LinkEdit(int id, [Bind("LinkID, Title,Description, URL")] Link link)
+        {
+            var email = "System";
+
+
+            var workflow = await _context.Workflows
+               .Include(w => w.Links)
+               .Include(w => w.History)
+               .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (ModelState.IsValid)
+            {
+
+                try
+                {
+                    if (workflow == null)
+                    {
+                        return NotFound();
+                    }
+                    Link local_link = workflow.Links.FirstOrDefault(w => w.LinkID == link.LinkID);
+                    local_link.Title = link.Title;
+                    local_link.Description = link.Description;
+                    local_link.URL = link.URL;
+
+
+                    History firststagehistory = new History(email, "", workflow.CurrentStageId, workflow.CurrentStageName, "Minor", "Link Updated", "JSON:" + link.ToJson());
+                    workflow.History.Add(firststagehistory);
+
+
+
+                    _context.Update(workflow);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!WorkflowExists(workflow.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(workflow);
+        }
+
+
+
+
+
+
+
 
         // Post: Workflow/TagAdd/id
 
