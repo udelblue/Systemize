@@ -908,6 +908,16 @@ namespace Systemize.Controllers
         }
 
 
+        // Post: Workflow/TagAdd/id
+        [HttpPost]
+        public async Task<IActionResult> TagAddAjax(int id, string name)
+        {
+
+            //Write your Insert code here;
+            return this.Ok("Form Data received!");
+        }
+
+
 
         // util methods
         private bool WorkflowExists(int id)

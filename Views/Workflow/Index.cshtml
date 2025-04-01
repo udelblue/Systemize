@@ -5,11 +5,14 @@
 }
 
 <h1>Workflow Dashboard</h1>
-
-<p>
-    <a asp-action="Create">Create New from scratch</a>
-</p>
-
+<div>
+    <p style="display: inline-block; margin-right: 10px;">
+        <a asp-action="Create">Create New from scratch</a>
+    </p>
+    <p style="display: inline-block;">
+        <a asp-controller="WorkflowTemplate" asp-action="index">Create from a Template</a>
+    </p>
+</div>
 <input class="form-control" id="inputSearch" type="text" placeholder="Search Table..">
 <br>
 
