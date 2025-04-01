@@ -16,6 +16,9 @@ namespace Systemize.Models
         public byte[] Content { get; set; }
         public string ContentType { get; set; }
 
+        public List<DocumentTag>? Tags { get; set; }
+
+
         [ForeignKey("WorkflowId")]
         public int WorkflowId { get; set; }
     }
