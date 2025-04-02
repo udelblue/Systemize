@@ -22,6 +22,13 @@
 	
 - WorkflowTemplate
 	- ~~Create Template~~
+	- export template as json
+	- upload json to template
+	- API to create and start workflow
+
+- Workflow
+	- Build form
+	- Display form 
 	
 - Tags
 	- Workflow Tags 
