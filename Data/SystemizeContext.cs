@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using Systemize.Models;
 
 namespace Systemize.Data
@@ -30,12 +31,22 @@ namespace Systemize.Data
             modelBuilder.Entity<Link>().ToTable("Link");
             modelBuilder.Entity<History>().ToTable("History");
             modelBuilder.Entity<Stage>().ToTable("Stage");
+
+
+
             modelBuilder.Entity<Workflow>().ToTable("Workflow");
             modelBuilder.Entity<WorkflowTag>().ToTable("Workflow_Tags");
             modelBuilder.Entity<WorkflowTemplate>().ToTable("Workflow_Template");
 
 
             //modelBuilder.Entity<WorkflowSetting>().ToTable("WF_Setting");
+
+            //form info as json
+            modelBuilder.Entity<Workflow>()
+                .OwnsOne(f => f.WorkflowForm)
+                .ToJson();
+
+
 
             modelBuilder.Entity<Workflow>()
                 .HasMany(w => w.Stages);

@@ -127,6 +127,13 @@
 
 
 
+
+
+
+
+
+
+
 <!-- meta link -->
 <div>
     @{
@@ -150,6 +157,21 @@
 }
     <a href="@historyURL" class="float-end mx-2">View History</a>
 </div>
+
+
+
+<!-- formbuilder link -->
+<div>
+    <a asp-action="formbuilder" asp-route-id="@Model.Workflow.Id" class="float-end mx-2">Form Builder</a>
+</div>
+
+
+<!-- formrender link -->
+<div>
+    <a asp-action="formrender" asp-route-id="@Model.Workflow.Id" class="float-end mx-2">Form Render</a>
+</div>
+
+
 
 <!-- back to workflows -->
 <div>

@@ -24,6 +24,11 @@ namespace Systemize.Models
 
         public string? Status { get; set; }
 
+
+
+        public WorkflowForm? WorkflowForm { get; set; }
+
+
         public List<Stage> Stages { get; set; }
 
         public List<Document> Documents { get; set; }

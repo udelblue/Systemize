@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Models\ViewModel\Form\" />
     <Folder Include="Models\ViewModel\Template\" />
     <Folder Include="wwwroot\lib\formbuilder\" />
   </ItemGroup>
