@@ -33,17 +33,17 @@
                 @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedOn)
+                Created on
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.CurrentStageId)
+                Currently assigned to
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CurrentStageName)
+                Current stage name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PercentageComplete)
+                Percentage complete
             </th>
             <th></th>
             <th></th>
@@ -73,7 +73,7 @@
                 </td>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.CurrentStageId)
+                    @Html.DisplayFor(modelItem => item.CurrentlyAssigned)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CurrentStageName)

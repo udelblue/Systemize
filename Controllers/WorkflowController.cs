@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 using Systemize.Data;
 using Systemize.Models;
 using Systemize.Models.ViewModel.Workflow;
@@ -883,7 +884,6 @@ namespace Systemize.Controllers
 
 
         // Post: Workflow/TagAdd/id
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TagAdd(int? id)
@@ -898,13 +898,19 @@ namespace Systemize.Controllers
             }
 
             var name = HttpContext.Request.Form["Name"];
+            if (!String.IsNullOrEmpty(name))
+            {
 
-            WorkflowTag tag = new WorkflowTag() { Name = name };
-            workflow.Tags.Add(tag);
+                WorkflowTag tag = new WorkflowTag() { Name = name };
+                workflow.Tags.Add(tag);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
 
-            return Ok(workflow.Tags);
+            var serializedTags = JsonSerializer.Serialize(workflow.Tags);
+
+
+            return Ok(serializedTags);
         }
 
 
@@ -912,9 +918,23 @@ namespace Systemize.Controllers
         [HttpPost]
         public async Task<IActionResult> TagAddAjax(int id, string name)
         {
+            var workflow = await _context.Workflows
+            .Include(w => w.Tags)
+            .FirstOrDefaultAsync(m => m.Id == id)
+            ;
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+            if (!workflow.Tags.Any(tag => tag.Name == name))
+            {
+                WorkflowTag tag = new WorkflowTag() { Name = name };
+                workflow.Tags.Add(tag);
+                await _context.SaveChangesAsync();
+            }
 
-            //Write your Insert code here;
-            return this.Ok("Form Data received!");
+            var serializedTags = JsonSerializer.Serialize(workflow.Tags);
+            return Ok(serializedTags);
         }
 
 

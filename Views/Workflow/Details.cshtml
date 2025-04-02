@@ -11,45 +11,72 @@
     <p class="fw-light">  @Html.DisplayFor(model => model.Workflow.Description) </p>
     <p class="fw-light">  Status: @Html.DisplayFor(model => model.Workflow.Status) </p>
 
+
+    <!-- tags -->
     <div>
-        <p class="fw-light" style="display: inline-block; margin-right: 10px;">
+        <p class="fw-light" style="display: inline-block; ">
             Tags:
-    @if (Model.Workflow.Tags != null && Model.Workflow.Tags.Count > 0)
-    {
+            <span id="allTags" style="display: inline-block; margin-right: 10px;">
+            @if (Model.Workflow.Tags != null && Model.Workflow.Tags.Count > 0)
+            {
+                @foreach (var tag in Model.Workflow.Tags)
+                {
+                    <span class="badge bg-info-subtle text-info-emphasis rounded-pill" >@tag.Name</span>
+                }
+            }
+                </span>
+        </p>
 
-        @foreach (var tag in Model.Workflow.Tags)
-        {
-        <span class="badge bg-info-subtle text-info-emphasis rounded-pill">@tag.Name</span>
-        }
+        <!-- add workflow tag -->
+        <form id="tagForm" style="width: 200px;  display: inline-block; margin-right: 10px;">
+            <input type="text" name="name" class="form-control" placeholder="Enter tag name" />
+        </form>
 
-    }
-    </p>
-        <button id="add_workflow_tag" type="button" class="btn-sm btn-secondary" style="display: inline-block; margin-right: 10px;">
+        <script type="text/javascript">
+            function submitStudent() {
+                var data = $("#tagForm").serialize();
+                console.log(data);
+                alert(data);
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("TagAddAjax", "Workflow", new { id = Model.Workflow.Id })',
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: data,
+                    success: function (result) {
+                        alert('Successfully received Data ');
+                        console.log(result);
+                    },
+                    error: function () {
+                        alert('Failed to receive the Data');
+                        console.log('Failed ');
+                    }
+                })
+            }
+        </script>
+        <button id="add_workflow_tag" type="button" class="btn-sm btn-primary" onclick="submitStudent()" style=" display: inline-block; margin-right: 10px;">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"></path>
             </svg>
+            Add Tag
         </button>
-
-       
-
-
     </div>
     
 
 </div>
 
-
+<!-- response messages -->
 @if (ViewData["Action_Message"] != null && !String.IsNullOrEmpty(ViewData["Action_Message"].ToString()))
 {
     <div class="alert alert-success" role="alert">
         @ViewData["Action_Message"].ToString()
     </div>
 }
-
+<!-- action buttons -->
 <div>
     <partial name="_ActionListView" model="@Model" />
 </div>
 
+<!-- upload area -->
 <div>
     <hr class="hr hr-blurry" />
     <h5>Documents</h5>  
@@ -66,6 +93,7 @@
 <partial name="_Documents" model="@Model.Workflow.Documents" />
 </div>
 
+<!-- links -->
 <div>
     <hr class="hr hr-blurry" />
     <h5>Links</h5>
@@ -81,6 +109,9 @@
     <partial name="_Links" model="@Model.Workflow.Links" />
 </div>
 
+
+
+<!-- stages -->
 <hr class="hr hr-blurry" />
 <h5>Stages</h5>
 @{
@@ -96,6 +127,7 @@
 
 
 
+<!-- meta link -->
 <div>
     @{
         var metaURL = "../Meta/" + Model.Workflow.Id.ToString();
@@ -103,7 +135,7 @@
     <a href="@metaURL" class="float-end mx-2">View Metadata</a>
 </div>
 
-
+<!-- stages link -->
 <div>
     @{
         var stagesURL = "../Stages/" + Model.Workflow.Id.ToString();
@@ -111,6 +143,7 @@
     <a href="@stagesURL " class="float-end mx-2">View Stages</a>
 </div>
 
+<!-- history link -->
 <div>
 @{
         var historyURL = "../History/" + Model.Workflow.Id.ToString();
@@ -118,6 +151,7 @@
     <a href="@historyURL" class="float-end mx-2">View History</a>
 </div>
 
+<!-- back to workflows -->
 <div>
     <a asp-action="Index">Back to Workflow List</a>
 </div>
