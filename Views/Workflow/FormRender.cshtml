@@ -1,9 +1,10 @@
 ﻿@model Systemize.Models.Workflow
 
 @{
-	ViewData["Title"] = "Render";
+    ViewData["Title"] = "Render";
     bool readonlyform = false;
 
+    var formdata = Model.WorkflowForm.Data;
 
 }
 
@@ -38,7 +39,7 @@
           $(document.getElementById('fb-editor')).formRender({
       dataType: 'json',
       // onload data
-      formData: '[{"type":"header","subtype":"h1","label":"Header","access":false},{"type":"text","required":false,"label":"Text Field","className":"form-control","name":"text-1743617177311-0","access":false,"subtype":"text"},{"type":"textarea","required":false,"label":"Text Area","className":"form-control","name":"textarea-1743617178798-0", "value": "test" , "access":false,"subtype":"textarea"}]'
+      formData: @Model.WorkflowForm.Data;
     });
 
 
@@ -46,11 +47,27 @@
         getUserDataBtn.addEventListener(
       "click",
       () => {
-        window.alert(window.JSON.stringify($('fb-editor').formRender("userData")));
+
+          var data = window.JSON.stringify($('#fb-editor').formRender("userData"));
+
+          $.ajax({
+              type: "POST",
+              url: "/Workflow/FormData",
+              data: data,
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              success: function(response) {
+                  alert("Data saved successfully!");
+                  location.reload(); // Refresh the page
+              },
+              error: function(err) {
+                  alert("Error saving data: " + err.responseText);
+              }
+          });
+
       },
       false
     );
-
 
 
     })

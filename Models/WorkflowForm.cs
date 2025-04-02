@@ -3,8 +3,8 @@
     public class WorkflowForm
     {
 
-        String Schema { get; set; } = "[]";
-        String Data { get; set; }
+
+        public String Data { get; set; } = "[]";
 
     }
 }

@@ -1,40 +1,66 @@
 ﻿@model Systemize.Models.Workflow
 
 @{
-    ViewData["Title"] = "Builder";
-}
+    ViewData["Title"] = "Builder"; 
 
+	
+  
+}
 
 <script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
 <script src="~/lib/formbuilder/form-builder.min.js" type="text/javascript"></script>
 
+<input id='myHiddenInput' hidden value=@Model.WorkflowForm.Data.ToString() />
 
 <div id="fb-editor"></div>
 <div class="render-wrap"></div>
 
 <script>
+    var formVal  = $("#myHiddenInput").val();
+    
+    
+
+
 
     var options = {
 
       // onsave data
       onSave: function(evt, formData) {
         
-          console.log("formbuilder saved");
-          console.log(formData);
-          window.sessionStorage.setItem('formData', JSON.stringify(formData));
-        },
+          var data = JSON.stringify(formData);
 
+          $.ajax({
+              type: "POST",
+              url: "/Workflow/FormData/" + @Model.Id.ToString(),
+              data: data,
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              success: function(response) {
+                  console.log("Form data saved successfully.");
+                  location.reload(); // Refresh the page
+              },
+              error: function(error) {
+                  console.error("Error saving form data:", error);
+              }
+          });
+
+          //console.log("formbuilder saved");
+          //window.sessionStorage.setItem('formData', JSON.stringify(formData));
+        },
 
       dataType: 'json',
                 //onload form
-      formData: '[{"type":"button","label":"Button","subtype":"button","className":"btn-default btn","name":"button-1743571180140-0","access":false,"style":"default"}]',
+      formData: formVal
     };
 
-
     jQuery(function($) {
+   
+        console.log(formVal);
+
         $(document.getElementById('fb-editor')).formBuilder(options);
     });
 </script>
+
 
 
 

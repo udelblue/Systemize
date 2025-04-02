@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
 using Systemize.Data;
 using Systemize.Models;
 using Systemize.Models.ViewModel.Workflow;
@@ -29,16 +28,25 @@ namespace Systemize.Controllers
 
             //load workflow with eager loading
             var workflow = await _context.Workflows
-                .Include(w => w.Stages)
-                .Include(w => w.Documents)
-                .Include(w => w.Tags)
-                .Include(w => w.Links)
-                .FirstOrDefaultAsync(m => m.Id == id)
-                ;
+                 .Include(w => w.WorkflowForm)
+                 .FirstOrDefaultAsync(m => m.Id == id)
+                 ;
             if (workflow == null)
             {
                 return NotFound();
             }
+            if (workflow.WorkflowForm == null)
+            {
+                workflow.WorkflowForm = new WorkflowForm();
+            }
+            else
+            {
+
+                workflow.WorkflowForm.Data.Replace("\\u0022", "\"");
+            }
+
+
+
 
             return View(workflow);
         }
@@ -54,10 +62,7 @@ namespace Systemize.Controllers
 
             //load workflow with eager loading
             var workflow = await _context.Workflows
-                .Include(w => w.Stages)
-                .Include(w => w.Documents)
-                .Include(w => w.Tags)
-                .Include(w => w.Links)
+                .Include(w => w.WorkflowForm)
                 .FirstOrDefaultAsync(m => m.Id == id)
                 ;
             if (workflow == null)
@@ -65,8 +70,50 @@ namespace Systemize.Controllers
                 return NotFound();
             }
 
+            if (workflow.WorkflowForm == null)
+            {
+                workflow.WorkflowForm = new WorkflowForm();
+            }
+
             return View(workflow);
         }
+
+
+
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> FormData(int id, [FromBody] string data)
+        {
+
+            //load workflow with eager loading
+            var workflow = await _context.Workflows
+                .Include(w => w.WorkflowForm)
+                .FirstOrDefaultAsync(m => m.Id == id)
+                ;
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            if (!String.IsNullOrEmpty(data))
+            {
+                Console.Write(data);
+                if (workflow.WorkflowForm == null)
+                {
+                    workflow.WorkflowForm = new WorkflowForm();
+                }
+                workflow.WorkflowForm.Data = data;
+                await _context.SaveChangesAsync();
+
+            }
+
+
+            return Ok("Data Received");
+        }
+
+
 
 
         // STAGE
@@ -160,11 +207,7 @@ namespace Systemize.Controllers
 
 
             WorkflowEntire workflowEntire = new WorkflowEntire();
-
-
             workflowEntire.isReadonly = workflow.Status != null && workflow.Status.ToLower() == "completed" | workflow.Status.ToLower() == "denied" | workflow.Status.ToLower() == "cancelled" ? true : false;
-
-
 
             //workflow not started
             if (workflow.Status != null && workflow.Status.ToLower() != "completed" && workflow.CurrentStageId == null && workflow.Stages != null && workflow.Stages.Count > 0)
@@ -960,7 +1003,7 @@ namespace Systemize.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            var serializedTags = JsonSerializer.Serialize(workflow.Tags);
+            var serializedTags = System.Text.Json.JsonSerializer.Serialize(workflow.Tags);
 
 
             return Ok(serializedTags);
@@ -986,7 +1029,7 @@ namespace Systemize.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            var serializedTags = JsonSerializer.Serialize(workflow.Tags);
+            var serializedTags = System.Text.Json.JsonSerializer.Serialize(workflow.Tags);
             return Ok(serializedTags);
         }
 
