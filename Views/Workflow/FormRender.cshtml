@@ -2,6 +2,9 @@
 
 @{
 	ViewData["Title"] = "Render";
+    bool readonlyform = false;
+
+
 }
 
 
@@ -12,11 +15,20 @@
 
 <div id="fb-editor"></div>
 
-<div id="fb-save-area">
-    <button id="fb-save" type="button" class="btn btn-primary">Save</button>
-</div>
-<script>
+@if (!readonlyform)
+{
+    <div id="fb-save-area">
+        <button id="fb-save" type="button" class="btn btn-primary">Save</button>
+    </div>
+}
 
+
+
+
+<script>
+   
+
+  
 
     const getUserDataBtn = document.getElementById("fb-save");
 
@@ -26,7 +38,7 @@
           $(document.getElementById('fb-editor')).formRender({
       dataType: 'json',
       // onload data
-      formData: '[{"type":"header","subtype":"h1","label":"Header","access":false},{"type":"text","required":false,"label":"Text Field","className":"form-control","name":"text-1743617177311-0","access":false,"subtype":"text"},{"type":"textarea","required":false,"label":"Text Area","className":"form-control","name":"textarea-1743617178798-0","access":false,"subtype":"textarea"}]'
+      formData: '[{"type":"header","subtype":"h1","label":"Header","access":false},{"type":"text","required":false,"label":"Text Field","className":"form-control","name":"text-1743617177311-0","access":false,"subtype":"text"},{"type":"textarea","required":false,"label":"Text Area","className":"form-control","name":"textarea-1743617178798-0", "value": "test" , "access":false,"subtype":"textarea"}]'
     });
 
 
@@ -42,6 +54,19 @@
 
 
     })
+
+
 </script>
 
 
+@if (readonlyform)
+{
+    <script>
+         jQuery(function($) {
+               $("#fb-editor :input").attr('readonly', 'readonly');
+               $("#fb-editor :input").attr("disabled", true);
+               $("#fb-editor :input").prop('readonly', 'readonly');
+               $("#fb-editor :input").prop("disabled", true);
+            })
+    </script>
+}
