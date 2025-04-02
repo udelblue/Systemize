@@ -6,20 +6,41 @@
 
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-<script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
-<script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
+<script src="~/lib/formbuilder/form-render.min.js" type="text/javascript"></script>
 
 
 <div id="fb-editor"></div>
+
+<div id="fb-save-area">
+    <button id="fb-save" type="button" class="btn btn-primary">Save</button>
+</div>
 <script>
+
+
+    const getUserDataBtn = document.getElementById("fb-save");
+
+
+
     jQuery(function($) {
           $(document.getElementById('fb-editor')).formRender({
       dataType: 'json',
-      formData: '[{"type":"button","label":"Button","subtype":"button","className":"btn-default btn","name":"button-1743571180140-0","access":false,"style":"default"}]'
+      // onload data
+      formData: '[{"type":"header","subtype":"h1","label":"Header","access":false},{"type":"text","required":false,"label":"Text Field","className":"form-control","name":"text-1743617177311-0","access":false,"subtype":"text"},{"type":"textarea","required":false,"label":"Text Area","className":"form-control","name":"textarea-1743617178798-0","access":false,"subtype":"textarea"}]'
     });
+
+
+    // save data
+        getUserDataBtn.addEventListener(
+      "click",
+      () => {
+        window.alert(window.JSON.stringify($('fb-editor').formRender("userData")));
+      },
+      false
+    );
+
+
+
     })
 </script>
 
