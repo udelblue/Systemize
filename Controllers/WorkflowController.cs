@@ -16,6 +16,59 @@ namespace Systemize.Controllers
         {
             _context = context;
         }
+
+
+        // GET: Workflow/FormBuilder/5
+        public async Task<IActionResult> FormBuilder(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+
+            //load workflow with eager loading
+            var workflow = await _context.Workflows
+                .Include(w => w.Stages)
+                .Include(w => w.Documents)
+                .Include(w => w.Tags)
+                .Include(w => w.Links)
+                .FirstOrDefaultAsync(m => m.Id == id)
+                ;
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            return View(workflow);
+        }
+
+        // GET: Workflow/FormRender/5
+        public async Task<IActionResult> FormRender(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+
+            //load workflow with eager loading
+            var workflow = await _context.Workflows
+                .Include(w => w.Stages)
+                .Include(w => w.Documents)
+                .Include(w => w.Tags)
+                .Include(w => w.Links)
+                .FirstOrDefaultAsync(m => m.Id == id)
+                ;
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            return View(workflow);
+        }
+
+
         // STAGE
         // GET: Workflow/StageAdd/id
         [HttpGet]

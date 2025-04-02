@@ -1,0 +1,26 @@
+﻿@model Systemize.Models.Workflow
+
+@{
+	ViewData["Title"] = "Render";
+}
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+<script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
+<script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
+
+
+<div id="fb-editor"></div>
+<script>
+    jQuery(function($) {
+          $(document.getElementById('fb-editor')).formRender({
+      dataType: 'json',
+      formData: '[{"type":"button","label":"Button","subtype":"button","className":"btn-default btn","name":"button-1743571180140-0","access":false,"style":"default"}]'
+    });
+    })
+</script>
+
+
