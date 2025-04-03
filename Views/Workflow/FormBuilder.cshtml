@@ -18,21 +18,17 @@
 <script>
     var formVal  = $("#myHiddenInput").val();
     
-    
-
-
-
     var options = {
 
       // onsave data
       onSave: function(evt, formData) {
         
-          var data = JSON.stringify(formData);
+          var local_data = JSON.stringify(formData);
 
           $.ajax({
               type: "POST",
               url: "/Workflow/FormData/" + @Model.Id.ToString(),
-              data: data,
+              data: local_data,
               contentType: "application/json; charset=utf-8",
               dataType: "json",
               success: function(response) {

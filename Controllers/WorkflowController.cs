@@ -41,8 +41,9 @@ namespace Systemize.Controllers
             }
             else
             {
-
-                workflow.WorkflowForm.Data.Replace("\\u0022", "\"");
+                String dirty = workflow.WorkflowForm.Data;
+                String clean = dirty.Replace("\\u0022", "\"");
+                workflow.WorkflowForm.Data = clean;
             }
 
 
@@ -105,7 +106,7 @@ namespace Systemize.Controllers
                     workflow.WorkflowForm = new WorkflowForm();
                 }
                 workflow.WorkflowForm.Data = data;
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
 
             }
 
