@@ -48,7 +48,11 @@ namespace Systemize.Services
                     process = new CancelStratagy(_context);
                     _workflow = process.Execute(_workflow, actionRespone);
                     break;
-
+                case "previous":
+                    Console.WriteLine("previous");
+                    process = new PreviousStratagy(_context);
+                    _workflow = process.Execute(_workflow, actionRespone);
+                    break;
                 default:
                     Console.WriteLine("Invalid Action");
                     throw new Exception("Invalid action requested from Engine. " + "Action requested:" + actionRespone.ActionType);
