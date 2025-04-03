@@ -16,6 +16,12 @@ namespace Systemize.Models
         public DateTime? CreatedOn { get; set; }
 
         public string? CurrentlyAssigned { get; set; }
+
+        public List<string>? CreatedBy { get; set; }
+
+        public List<string>? AssignedTo { get; set; }
+
+
         public int? CurrentStageId { get; set; }
 
         public string? CurrentStageName { get; set; }
@@ -39,7 +45,7 @@ namespace Systemize.Models
         public List<WorkflowTag> Tags { get; set; }
         public virtual List<History> History { get; set; }
 
-
+        public virtual List<WorkflowNote> Notes { get; set; }
 
 
     }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Systemize.Data;
 
@@ -11,9 +12,11 @@ using Systemize.Data;
 namespace Systemize.Migrations
 {
     [DbContext(typeof(SystemizeContext))]
-    partial class SystemizeContextModelSnapshot : ModelSnapshot
+    [Migration("20250403041351_workflow_assignedto")]
+    partial class workflow_assignedto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -403,9 +406,6 @@ namespace Systemize.Migrations
                     b.PrimitiveCollection<string>("AssignedTo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.PrimitiveCollection<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -437,42 +437,6 @@ namespace Systemize.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Workflow", (string)null);
-                });
-
-            modelBuilder.Entity("Systemize.Models.WorkflowNote", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("WorkflowId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WorkflowId");
-
-                    b.ToTable("Workflow_Notes", (string)null);
                 });
 
             modelBuilder.Entity("Systemize.Models.WorkflowTag", b =>
@@ -637,13 +601,6 @@ namespace Systemize.Migrations
                     b.Navigation("WorkflowForm");
                 });
 
-            modelBuilder.Entity("Systemize.Models.WorkflowNote", b =>
-                {
-                    b.HasOne("Systemize.Models.Workflow", null)
-                        .WithMany("Notes")
-                        .HasForeignKey("WorkflowId");
-                });
-
             modelBuilder.Entity("Systemize.Models.WorkflowTag", b =>
                 {
                     b.HasOne("Systemize.Models.Workflow", null)
@@ -663,8 +620,6 @@ namespace Systemize.Migrations
                     b.Navigation("History");
 
                     b.Navigation("Links");
-
-                    b.Navigation("Notes");
 
                     b.Navigation("Stages");
 

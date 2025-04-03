@@ -39,7 +39,9 @@
 	- ~~add authorizations to workflow~~
 	- validate user email
 
-
+- Note
+	- Add note to workflow
+	
 
 # Parking Lot items
 

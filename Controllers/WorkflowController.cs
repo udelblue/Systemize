@@ -324,7 +324,7 @@ namespace Systemize.Controllers
             // History starthistory = new History("TBD", "Created", "Workflow Created");
             // workflow.History.Add(starthistory);
 
-
+            workflow.AssignedTo = new List<string>() { "Tina Tester", "Tom Tester", "Terry Tester" };
             workflow.CreatedOn = DateTime.Now;
             workflow.Status = "Draft";
             _context.Add(workflow);

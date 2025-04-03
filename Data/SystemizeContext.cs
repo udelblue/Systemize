@@ -12,6 +12,9 @@ namespace Systemize.Data
         {
         }
 
+
+        public DbSet<WorkflowNote> Notes { get; set; }
+
         public DbSet<Document> Documents { get; set; }
         public DbSet<History> History { get; set; }
         public DbSet<Stage> Stages { get; set; }
@@ -37,7 +40,7 @@ namespace Systemize.Data
             modelBuilder.Entity<Workflow>().ToTable("Workflow");
             modelBuilder.Entity<WorkflowTag>().ToTable("Workflow_Tags");
             modelBuilder.Entity<WorkflowTemplate>().ToTable("Workflow_Template");
-
+            modelBuilder.Entity<WorkflowNote>().ToTable("Workflow_Notes");
 
             //modelBuilder.Entity<WorkflowSetting>().ToTable("WF_Setting");
 
@@ -60,6 +63,9 @@ namespace Systemize.Data
                 .HasMany(w => w.Links);
             modelBuilder.Entity<Document>()
                .HasMany(d => d.Tags);
+
+            modelBuilder.Entity<Workflow>()
+               .HasMany(d => d.Notes);
 
             modelBuilder.Entity<WorkflowTemplate>()
                 .HasMany(w => w.Stages);
