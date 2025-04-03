@@ -24,6 +24,9 @@ namespace Systemize.Models
 
         public string? Status { get; set; }
 
+        public string? FormData { get; set; } = "[]";
+
+
         public WorkflowForm? WorkflowForm { get; set; }
 
 

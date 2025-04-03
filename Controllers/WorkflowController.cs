@@ -5,6 +5,7 @@ using Systemize.Models;
 using Systemize.Models.ViewModel.Workflow;
 using Systemize.Services;
 
+
 namespace Systemize.Controllers
 {
     public class WorkflowController : Controller
@@ -35,16 +36,7 @@ namespace Systemize.Controllers
             {
                 return NotFound();
             }
-            if (workflow.WorkflowForm == null)
-            {
-                workflow.WorkflowForm = new WorkflowForm();
-            }
-            else
-            {
-                String dirty = workflow.WorkflowForm.Data;
-                String clean = dirty.Replace("\\u0022", "\"");
-                workflow.WorkflowForm.Data = clean;
-            }
+
 
 
 
@@ -105,7 +97,10 @@ namespace Systemize.Controllers
                 {
                     workflow.WorkflowForm = new WorkflowForm();
                 }
-                workflow.WorkflowForm.Data = data;
+
+
+                workflow.FormData = data;
+                _context.Workflows.Update(workflow);
                 _context.SaveChanges();
 
             }

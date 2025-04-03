@@ -4,7 +4,7 @@
     ViewData["Title"] = "Render";
     bool readonlyform = false;
 
-    var formdata = Model.WorkflowForm.Data;
+    var formdata = Model.FormData.ToString();
 
 }
 
@@ -39,7 +39,7 @@
           $(document.getElementById('fb-editor')).formRender({
       dataType: 'json',
       // onload data
-      formData: @Model.WorkflowForm.Data;
+      formData: @Model.FormData.ToString();
     });
 
 
