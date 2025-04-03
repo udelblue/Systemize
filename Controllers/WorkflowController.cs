@@ -765,7 +765,7 @@ namespace Systemize.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DocumentDeleteConfirmed(int? id, int? documentID)
         {
-            var email = "System";
+            var email = getCurrentUser();
 
             if (id == null)
             {
@@ -825,7 +825,7 @@ namespace Systemize.Controllers
         public async Task<IActionResult> LinkAdd(int? id, string? test)
         {
 
-            var email = "System";
+            var email = getCurrentUser();
             var workflow = await _context.Workflows
             .Include(w => w.Links)
             .Include(w => w.History)
@@ -891,7 +891,7 @@ namespace Systemize.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LinkDeleteConfirmed(int? id, int? linkID)
         {
-            var email = "System";
+            var email = getCurrentUser();
 
             if (id == null)
             {
@@ -956,13 +956,6 @@ namespace Systemize.Controllers
         }
 
 
-
-
-
-
-
-
-
         // POST: Workflow/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -970,7 +963,7 @@ namespace Systemize.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LinkEdit(int id, [Bind("LinkID, Title,Description, URL")] Link link)
         {
-            var email = "System";
+            var email = getCurrentUser();
 
 
             var workflow = await _context.Workflows
@@ -1080,7 +1073,23 @@ namespace Systemize.Controllers
             return _context.Workflows.Any(e => e.Id == id);
         }
 
+        private string getCurrentUser()
+        {
+            string email = "System";
 
+            if (this.User != null)
+            {
+                if (this.User.Identity != null)
+                {
+                    if (this.User.Identity.IsAuthenticated)
+                    {
+                        email = this.User.Identity.Name;
+                    }
+                }
+            }
+
+            return email;
+        }
 
 
 
