@@ -326,6 +326,29 @@ namespace Systemize.Controllers
             return View(workflow);
         }
 
+        // GET: Workflow/Notes/5
+        public async Task<IActionResult> Notes(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            //load workflow with eager loading
+            var workflow = await _context.Workflows
+                .Include(w => w.Notes)
+                .FirstOrDefaultAsync(m => m.Id == id)
+                ;
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            return View(workflow);
+        }
+
+
+
 
         // GET: Workflow/Create
         public IActionResult Create()
