@@ -221,25 +221,45 @@ namespace Systemize.Controllers
             else if (workflow.Status != null && workflow.Status.ToLower() != "completed" && workflow.Status.ToLower() != "denied" && workflow.Status.ToLower() != "draft" && workflow.Status.ToLower() != "cancelled")
             {
 
-                AvailableActions approval = new AvailableActions("Approval", "Approval of stage and moves to next stage.", "Approval", "btn-success");
-                AvailableActions deny = new AvailableActions("Deny", "Denial of stage and stops from moving to next stage.", "Deny", "btn-danger");
-                AvailableActions reassign = new AvailableActions("Reassign", "Reassign request for approval to another user.", "Reassign", "btn-info");
+                int current_index = workflow.Stages.FindIndex(s => s.Id == workflow.CurrentStageId);
+
+                //check if is not first stage
+                if (current_index != 0)
+                {
 
 
-                List<AvailableActions> actions = new List<AvailableActions>();
+                    AvailableActions approval = new AvailableActions("Approval", "Approval of stage and moves to next stage.", "Approval", "btn-success");
+                    AvailableActions deny = new AvailableActions("Deny", "Denial of stage and stops from moving to next stage.", "Deny", "btn-danger");
+                    AvailableActions reassign = new AvailableActions("Reassign", "Reassign request for approval to another user.", "Reassign", "btn-info");
+                    AvailableActions previous = new AvailableActions("Previous", "Push back to previous stage. This might be used if something was missing is needs updating.", "Previous", "btn-info");
 
-                actions.Add(deny);
-                actions.Add(approval);
-                workflowEntire.Actions = actions;
+
+                    List<AvailableActions> actions = new List<AvailableActions>();
+
+                    actions.Add(deny);
+                    actions.Add(previous);
+                    actions.Add(approval);
+                    workflowEntire.Actions = actions;
+                }
+                else
+                {
+                    // is first stage and previous is not allowed
+                    AvailableActions approval = new AvailableActions("Approval", "Approval of stage and moves to next stage.", "Approval", "btn-success");
+                    AvailableActions deny = new AvailableActions("Deny", "Denial of stage and stops from moving to next stage.", "Deny", "btn-danger");
+                    AvailableActions reassign = new AvailableActions("Reassign", "Reassign request for approval to another user.", "Reassign", "btn-info");
+                    List<AvailableActions> actions = new List<AvailableActions>();
+                    actions.Add(deny);
+                    actions.Add(approval);
+                    workflowEntire.Actions = actions;
+                }
+
+
+
             }
-
-
             workflowEntire.Workflow = workflow;
-
-
             return View(workflowEntire);
-        }
 
+        }
 
         // GET: Workflow/Meta/5
         public async Task<IActionResult> Meta(int? id)

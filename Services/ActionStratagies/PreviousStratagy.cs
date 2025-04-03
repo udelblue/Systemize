@@ -51,8 +51,6 @@ namespace Systemize.Services.ActionStratagies
                     //assign to currently assign
                     workflow.CurrentlyAssigned = previousStage.AssignedTo;
 
-
-
                     //mark next stage as current
                     workflow.CurrentStageId = previousStage.Id;
                     workflow.CurrentStageName = previousStage.Name;
@@ -62,7 +60,7 @@ namespace Systemize.Services.ActionStratagies
                     var percent = percentage * 100;
                     workflow.PercentageComplete = (int)percent;
 
-                    History previoushistory = new History(response.Executor, response.ActionType, previousStage.Id, previousStage.Name, "Major", "Pushed Back", "");
+                    History previoushistory = new History(response.Executor, response.ActionType, previousStage.Id, previousStage.Name, "Major", "Pushed to previous stage", "");
                     workflow.History.Add(previoushistory);
 
                     //update history
