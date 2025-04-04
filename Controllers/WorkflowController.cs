@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Systemize.Data;
 using Systemize.Models;
@@ -19,6 +20,7 @@ namespace Systemize.Controllers
 
 
         // GET: Workflow/FormBuilder/5
+        [Authorize]
         public async Task<IActionResult> FormBuilder(int? id)
         {
             if (id == null)
@@ -45,6 +47,7 @@ namespace Systemize.Controllers
         }
 
         // GET: Workflow/FormRender/5
+        [Authorize]
         public async Task<IActionResult> FormRender(int? id)
         {
             if (id == null)
@@ -73,6 +76,7 @@ namespace Systemize.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> FormBuilderSubmit(int id, [FromBody] string data)
         {
 
@@ -109,6 +113,7 @@ namespace Systemize.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> FormRenderSubmit(int id, [FromBody] string data)
         {
 
@@ -146,6 +151,7 @@ namespace Systemize.Controllers
         // STAGE
         // GET: Workflow/StageAdd/id
         [HttpGet]
+        [Authorize]
         public IActionResult StageAdd(int? id)
         {
             if (id == null)
@@ -165,6 +171,7 @@ namespace Systemize.Controllers
         // Replace the existing method with the following code
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> StageAdd(int? id, string? test)
         {
             var workflow = await _context.Workflows
@@ -200,12 +207,14 @@ namespace Systemize.Controllers
 
 
         // GET: Workflow
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Workflows.ToListAsync());
         }
 
         // GET: Workflow/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -292,6 +301,7 @@ namespace Systemize.Controllers
         }
 
         // GET: Workflow/Meta/5
+        [Authorize]
         public async Task<IActionResult> Meta(int? id)
         {
             if (id == null)
@@ -313,6 +323,7 @@ namespace Systemize.Controllers
 
 
         // GET: Workflow/stages/5
+        [Authorize]
         public async Task<IActionResult> Stages(int? id)
         {
             if (id == null)
@@ -336,6 +347,7 @@ namespace Systemize.Controllers
 
 
         // GET: Workflow/History/5
+        [Authorize]
         public async Task<IActionResult> History(int? id)
         {
             if (id == null)
@@ -357,6 +369,7 @@ namespace Systemize.Controllers
         }
 
         // GET: Workflow/Notes/5
+        [Authorize]
         public async Task<IActionResult> Notes(int? id)
         {
             if (id == null)
@@ -381,6 +394,7 @@ namespace Systemize.Controllers
 
 
         // GET: Workflow/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -407,6 +421,7 @@ namespace Systemize.Controllers
         }
 
         // GET: Workflow/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -429,6 +444,7 @@ namespace Systemize.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("Id, Name,Description")] WorkflowEdit workflowedit)
         {
             //workflowedit.Id = id;
@@ -476,6 +492,7 @@ namespace Systemize.Controllers
         }
 
         // GET: Workflow/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -496,6 +513,7 @@ namespace Systemize.Controllers
         // POST: Workflow/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             //load workflow with eager loading
@@ -524,6 +542,7 @@ namespace Systemize.Controllers
 
         // GET: Workflow/Upload/id
         [HttpGet]
+        [Authorize]
         public IActionResult Upload(int? id)
         {
             if (id == null)
@@ -543,6 +562,7 @@ namespace Systemize.Controllers
         // Post: Workflow/Upload/id
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Upload(int? id, string? test)
         {
 
@@ -606,6 +626,7 @@ namespace Systemize.Controllers
         //[Route("Workflow/{id:int}/Document/Edit/{document:int}")]
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> DocumentEdit(int? id, int? document)
         {
             if (id == null || document == null)
@@ -651,6 +672,7 @@ namespace Systemize.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DocumentEdit(int id, [Bind("DocumentID,Title,Description,DocumentType,ContentType")] DocumentEdit document)
         {
             var email = "System";
@@ -706,7 +728,7 @@ namespace Systemize.Controllers
 
 
         // GET: Workflow/DocumentDelete/[id]?documentId=[documentId]
-
+        [Authorize]
         public async Task<IActionResult> DocumentDelete(int? id, int? document)
         {
             if (id == null || document == null)
@@ -737,7 +759,7 @@ namespace Systemize.Controllers
 
 
         // GET: Workflow/DocumentView/[id]?documentId=[documentId]
-
+        [Authorize]
         public async Task<IActionResult> DocumentView(int? id, int? document)
         {
             if (id == null || document == null)
@@ -752,7 +774,7 @@ namespace Systemize.Controllers
         }
 
 
-
+        [Authorize]
         public async Task<IActionResult> DocumentDownload(int? id, int? document)
         {
             if (id == null || document == null)
@@ -793,6 +815,7 @@ namespace Systemize.Controllers
 
         [HttpPost, ActionName("DocumentDelete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DocumentDeleteConfirmed(int? id, int? documentID)
         {
             var email = getCurrentUser();
@@ -833,6 +856,7 @@ namespace Systemize.Controllers
 
         // GET: Workflow/LinkAdd/id
         [HttpGet]
+        [Authorize]
         public IActionResult LinkAdd(int? id)
         {
             if (id == null)
@@ -852,6 +876,7 @@ namespace Systemize.Controllers
         // Post: Workflow/LinkAdd/id
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> LinkAdd(int? id, string? test)
         {
 
@@ -884,7 +909,7 @@ namespace Systemize.Controllers
 
 
         // GET: Workflow/LinkDelete/[id]?linktId=[LinkId]
-
+        [Authorize]
         public async Task<IActionResult> LinkDelete(int? id, int? link)
         {
 
@@ -919,6 +944,7 @@ namespace Systemize.Controllers
 
         [HttpPost, ActionName("LinkDelete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> LinkDeleteConfirmed(int? id, int? linkID)
         {
             var email = getCurrentUser();
@@ -959,6 +985,7 @@ namespace Systemize.Controllers
         // GET: Workflow/LinkEdit/[id]?linkId=[link]
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> LinkEdit(int? id, int? link)
         {
             if (id == null || link == null)
@@ -991,6 +1018,7 @@ namespace Systemize.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> LinkEdit(int id, [Bind("LinkID, Title,Description, URL")] Link link)
         {
             var email = getCurrentUser();
@@ -1044,6 +1072,7 @@ namespace Systemize.Controllers
         // Post: Workflow/TagAdd/id
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> TagAdd(int? id)
         {
             var workflow = await _context.Workflows
@@ -1074,6 +1103,7 @@ namespace Systemize.Controllers
 
         // Post: Workflow/TagAdd/id
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> TagAddAjax(int id, string name)
         {
             var workflow = await _context.Workflows
