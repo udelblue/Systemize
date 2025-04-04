@@ -1,10 +1,11 @@
-﻿@model Systemize.Models.Workflow
+﻿@using System.Text.Json
+@model Systemize.Models.Workflow
 
 @{
     ViewData["Title"] = "Render";
     bool readonlyform = false;
 
-    var formdata = Model.FormData.ToString();
+   
 
 }
 
@@ -28,7 +29,7 @@
 
 <script>
    
-
+    var local_form = @Html.Raw(JsonSerializer.Serialize(Model.FormData));
   
 
     const getUserDataBtn = document.getElementById("fb-save");
@@ -39,7 +40,7 @@
           $(document.getElementById('fb-editor')).formRender({
       dataType: 'json',
       // onload data
-      formData: @Model.FormData.ToString();
+      formData: local_form
     });
 
 
@@ -53,7 +54,7 @@
           $.ajax({
               type: "POST",
               url: "/Workflow/FormData",
-              data: data,
+              data: local_form,
               contentType: "application/json; charset=utf-8",
               dataType: "json",
               success: function(response) {
