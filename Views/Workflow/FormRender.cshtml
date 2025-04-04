@@ -4,16 +4,10 @@
 @{
     ViewData["Title"] = "Render";
     bool readonlyform = false;
-
-   
-
 }
-
-
 
 <script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
 <script src="~/lib/formbuilder/form-render.min.js" type="text/javascript"></script>
-
 
 <div id="fb-editor"></div>
 
@@ -25,55 +19,36 @@
 }
 
 
-
-
 <script>
    
     var local_form = @Html.Raw(JsonSerializer.Serialize(Model.FormData));
-  
-
-    const getUserDataBtn = document.getElementById("fb-save");
-
-
-
+ 
     jQuery(function($) {
-          $(document.getElementById('fb-editor')).formRender({
-      dataType: 'json',
-      // onload data
-      formData: local_form
+        $(document.getElementById('fb-editor')).formRender({
+            dataType: 'json',
+            // onload data
+            formData: local_form
+        });
+
+        var id = @Model.Id.ToString()
+
+        $('#fb-save').on('click', function() {
+            var formData = $('#fb-editor').formRender('userData');
+            $.ajax({
+                type: 'POST',
+                url: "/Workflow/FormRenderSubmit/" + id,
+                data: JSON.stringify(formData),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function(response) {
+                    alert('Form data saved successfully!');
+                },
+                error: function(error) {
+                    alert('Error saving form data.');
+                }
+            });
+        });
     });
-
-
-    // save data
-        getUserDataBtn.addEventListener(
-      "click",
-      () => {
-
-          var data = window.JSON.stringify($('#fb-editor').formRender("userData"));
-
-          $.ajax({
-              type: "POST",
-              url: "/Workflow/FormData",
-              data: local_form,
-              contentType: "application/json; charset=utf-8",
-              dataType: "json",
-              success: function(response) {
-                  alert("Data saved successfully!");
-                  location.reload(); // Refresh the page
-              },
-              error: function(err) {
-                  alert("Error saving data: " + err.responseText);
-              }
-          });
-
-      },
-      false
-    );
-
-
-    })
-
-
 </script>
 
 

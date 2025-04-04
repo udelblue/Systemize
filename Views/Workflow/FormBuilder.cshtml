@@ -31,10 +31,9 @@
 
           $.ajax({
               type: "POST",
-              url: "/Workflow/FormData/" + @Model.Id.ToString(),
-              data: local_form,
+              url: "/Workflow/FormBuilderSubmit/" + @Model.Id.ToString(),
+              data: local_data ,
               contentType: "application/json; charset=utf-8",
-              dataType: "json",
               success: function(response) {
                   console.log("Form data saved successfully.");
                   location.reload(); // Refresh the page
@@ -44,18 +43,16 @@
               }
           });
 
-          //console.log("formbuilder saved");
-          //window.sessionStorage.setItem('formData', JSON.stringify(formData));
         },
 
       dataType: 'json',
-                //onload form
+                
       formData: local_form
     };
 
+
+    // onload
     jQuery(function($) {
-   
-        console.log(local_form);
 
         $(document.getElementById('fb-editor')).formBuilder(options);
     });

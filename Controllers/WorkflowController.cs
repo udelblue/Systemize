@@ -72,13 +72,10 @@ namespace Systemize.Controllers
         }
 
 
-
-
-
-
         [HttpPost]
-        public async Task<IActionResult> FormData(int id, [FromBody] string data)
+        public async Task<IActionResult> FormBuilderSubmit(int id, [FromBody] string data)
         {
+
 
             //load workflow with eager loading
             var workflow = await _context.Workflows
@@ -90,7 +87,7 @@ namespace Systemize.Controllers
                 return NotFound();
             }
 
-            if (!String.IsNullOrEmpty(data))
+            if (!System.String.IsNullOrEmpty(data))
             {
                 Console.Write(data);
                 if (workflow.WorkflowForm == null)
@@ -109,6 +106,40 @@ namespace Systemize.Controllers
             return Ok("Data Received");
         }
 
+
+
+        [HttpPost]
+        public async Task<IActionResult> FormRenderSubmit(int id, [FromBody] string data)
+        {
+
+            //load workflow with eager loading
+            var workflow = await _context.Workflows
+                .Include(w => w.WorkflowForm)
+                .FirstOrDefaultAsync(m => m.Id == id)
+                ;
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            if (!System.String.IsNullOrEmpty(data))
+            {
+                Console.Write(data);
+                if (workflow.WorkflowForm == null)
+                {
+                    workflow.WorkflowForm = new WorkflowForm();
+                }
+
+
+                workflow.FormData = data;
+                _context.Workflows.Update(workflow);
+                _context.SaveChanges();
+
+            }
+
+
+            return Ok("Data Received");
+        }
 
 
 
@@ -532,7 +563,7 @@ namespace Systemize.Controllers
             var document_type = HttpContext.Request.Form["DocumentType"];
             var document_description = HttpContext.Request.Form["Description"];
 
-            if (String.IsNullOrEmpty(document_type))
+            if (System.String.IsNullOrEmpty(document_type))
             {
                 document_type = "Other";
             }
@@ -1025,7 +1056,7 @@ namespace Systemize.Controllers
             }
 
             var name = HttpContext.Request.Form["Name"];
-            if (!String.IsNullOrEmpty(name))
+            if (!System.String.IsNullOrEmpty(name))
             {
 
                 WorkflowTag tag = new WorkflowTag() { Name = name };
