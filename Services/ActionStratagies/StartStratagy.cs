@@ -30,7 +30,8 @@ namespace Systemize.Services.ActionStratagies
                 workflow.Status = "In Progress";
 
                 //assign to currently assign
-                workflow.CurrentlyAssigned = firststage.AssignedTo;
+                workflow.AssignedTo.Add(firststage.AssignedTo);
+
 
                 History starthistory = new History(response.Executor, response.ActionType, null, null, "Major", "Workflow Started", "");
                 workflow.History.Add(starthistory);

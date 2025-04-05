@@ -73,7 +73,9 @@
                 </td>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.CurrentlyAssigned)
+                     @if(item.AssignedTo != null){
+                     @String.Join(", ", item.AssignedTo.Select(p => p));
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CurrentStageName)

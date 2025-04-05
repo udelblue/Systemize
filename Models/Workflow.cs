@@ -15,7 +15,8 @@ namespace Systemize.Models
 
         public DateTime? CreatedOn { get; set; }
 
-        public string? CurrentlyAssigned { get; set; }
+
+
 
         public List<string>? CreatedBy { get; set; }
 
