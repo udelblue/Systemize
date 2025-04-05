@@ -16,6 +16,11 @@ namespace Systemize.Controllers
 
         public IActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Redirect("/WorkkflowTemplate");
+            }
+
             return View();
         }
 
