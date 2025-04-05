@@ -21,6 +21,27 @@ namespace Systemize.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Metrics(int? id)
+        {
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+            //load workflow with eager loading
+            var workflow = await _context.Workflows
+                .Include(w => w.History)
+                .FirstOrDefaultAsync(m => m.Id == id)
+                ;
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            return View(workflow);
+        }
+
+
         public async Task<IActionResult> TimeLine(int? id)
         {
 
