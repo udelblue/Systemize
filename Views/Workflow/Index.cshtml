@@ -5,6 +5,16 @@
 }
 
 <h1>Workflows</h1>
+
+<!-- response messages -->
+@if (ViewData["Message"] != null && !String.IsNullOrEmpty(ViewData["Message"].ToString()))
+{
+    <div class="alert alert-success" role="alert">
+        @ViewData["Message"].ToString()
+    </div>
+}
+
+
 <div>
     <p style="display: inline-block; margin-right: 10px;">
         <a asp-action="Create">Create New from scratch</a>

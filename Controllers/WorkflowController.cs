@@ -207,6 +207,14 @@ namespace Systemize.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
+            if (TempData["Message"] != null)
+            {
+
+                ViewBag.Message = TempData["Message"];
+
+            }
+
+
             return View(await _context.Workflows.ToListAsync());
         }
 

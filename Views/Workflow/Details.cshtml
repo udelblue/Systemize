@@ -65,6 +65,15 @@
 </div>
 
 <!-- response messages -->
+@if (ViewData["Message"] != null && !String.IsNullOrEmpty(ViewData["Message"].ToString()))
+{
+    <div class="alert alert-success" role="alert">
+        @ViewData["Message"].ToString()
+    </div>
+}
+
+
+<!-- response messages -->
 @if (ViewData["Action_Message"] != null && !String.IsNullOrEmpty(ViewData["Action_Message"].ToString()))
 {
     <div class="alert alert-success" role="alert">

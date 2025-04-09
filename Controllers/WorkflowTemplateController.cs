@@ -17,10 +17,10 @@ namespace Systemize.Controllers
         // GET: WorkflowTemplate
         public async Task<IActionResult> Index()
         {
-            if (TempData["Action_Message"] != null)
+            if (TempData["Message"] != null)
             {
 
-                ViewBag.Action_Message = TempData["Action_Message"];
+                ViewBag.Message = TempData["Message"];
 
             }
 
@@ -219,7 +219,7 @@ namespace Systemize.Controllers
 
             if (workflowTemplate.Stages.Count == 0)
             {
-                TempData["Action_Message"] = "Workflow has zero stages. Workflow must have one or more stages.";
+                TempData["Message"] = "Workflow has zero stages. Workflow must have one or more stages.";
                 return RedirectToAction(nameof(Index));
 
             }
