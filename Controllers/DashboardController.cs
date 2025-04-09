@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Systemize.Data;
+using Systemize.Models.ViewModel.Dashboard;
 
 namespace Systemize.Controllers
 {
@@ -38,7 +39,18 @@ namespace Systemize.Controllers
                 return NotFound();
             }
 
-            return View(workflow);
+            MetricsRow rw1 = new MetricsRow() { StageName = "Test Stage 1", StageValue = 12 };
+            MetricsRow rw2 = new MetricsRow() { StageName = "Test Stage 2", StageValue = 22 };
+
+            MetricsEntire metricsEntire = new MetricsEntire();
+            List<MetricsRow> metrics = new List<MetricsRow>();
+            metrics.Add(rw1);
+            metrics.Add(rw2);
+
+            metricsEntire.Rows = metrics;
+            metricsEntire.workflowName = workflow.Name;
+
+            return View(metricsEntire);
         }
 
 
