@@ -9,6 +9,15 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<!-- response messages -->
+@if (ViewData["Action_Message"] != null && !String.IsNullOrEmpty(ViewData["Action_Message"].ToString()))
+{
+    <div class="alert alert-success" role="alert">
+        @ViewData["Action_Message"].ToString()
+    </div>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -18,6 +27,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
+            <th></th>
             <th></th>
             <th></th>
         </tr>
@@ -38,9 +48,17 @@
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
                 <td>
-                    <a asp-action="CreateWorkflowFromTemplate" asp-route-id="@item.Id">CreateWorkflow From Template</a>
+                    <a asp-action="CreateWorkflowFromTemplate" asp-route-id="@item.Id">Create Workflow From Template</a>
                 </td>
+                <td>
 
+					
+                        <a asp-action="CreateWorkflowFromTemplateAndStart" asp-route-id="@item.Id">Create Workflow From Template</a>
+					
+				
+                   
+                    
+                </td>
         </tr>
 }
     </tbody>

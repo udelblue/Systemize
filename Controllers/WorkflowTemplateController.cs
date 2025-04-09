@@ -17,7 +17,15 @@ namespace Systemize.Controllers
         // GET: WorkflowTemplate
         public async Task<IActionResult> Index()
         {
-            return View(await _context.WorkflowTemplate.ToListAsync());
+            if (TempData["Action_Message"] != null)
+            {
+
+                ViewBag.Action_Message = TempData["Action_Message"];
+
+            }
+
+
+            return View(await _context.WorkflowTemplate.Include(w => w.Stages).ToListAsync());
         }
 
         // GET: WorkflowTemplate/Details/5
@@ -191,6 +199,60 @@ namespace Systemize.Controllers
             return RedirectToAction("Index", "Workflow");
             //return RedirectToAction(nameof(Details), new { id = newWorkflow.Id });
         }
+
+        // GET: WorkflowTemplate/CreateWorkflowFromTemplate/5
+        public async Task<IActionResult> CreateWorkflowFromTemplateAndStart(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var workflowTemplate = await _context.WorkflowTemplate
+                .Include(w => w.Stages)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (workflowTemplate == null)
+            {
+                return NotFound();
+            }
+
+
+            if (workflowTemplate.Stages.Count == 0)
+            {
+                TempData["Action_Message"] = "Workflow has zero stages. Workflow must have one or more stages.";
+                return RedirectToAction(nameof(Index));
+
+            }
+
+
+            // Deep clone the workflowTemplate
+            var newWorkflow = new Workflow
+            {
+                Name = workflowTemplate.Name + "",
+                Description = workflowTemplate.Description,
+                Stages = workflowTemplate.Stages?.Select(s => new Stage
+                {
+                    Name = s.Name,
+                    Description = s.Description,
+                    StageType = s.StageType,
+                    Properties = s.Properties
+                }).ToList()
+            };
+
+            newWorkflow.CreatedOn = DateTime.Now;
+            newWorkflow.Status = "Draft";
+
+            _context.Workflows.Add(newWorkflow);
+            await _context.SaveChangesAsync();
+
+            var wid = newWorkflow.Id.ToString();
+            //redirect to start workflow
+            //Workflow / Action / [id] ? act = [action]
+            return Redirect("/Workflow/Action/" + wid + "?act=Start");
+
+
+        }
+
 
 
 

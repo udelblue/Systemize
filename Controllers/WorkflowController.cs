@@ -1153,9 +1153,12 @@ namespace Systemize.Controllers
 
         //ACTION
 
-        // GET: Workflow/Action/[id]?action=[action]
+        // GET: Workflow/Action/[id]?act=[action]
         public async Task<IActionResult> Action(int? id, string? act)
         {
+
+
+
             var workflow = await _context.Workflows
           .Include(w => w.Stages)
           .Include(w => w.Documents)
@@ -1174,7 +1177,7 @@ namespace Systemize.Controllers
 
             ActionResponse actionResponse = new ActionResponse();
             actionResponse.ActionType = act;
-            actionResponse.Executor = "System";
+            actionResponse.Executor = getCurrentUser();
 
             // engine picks stratagy
             Engine engine = new Engine(_context, workflow);
