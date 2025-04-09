@@ -18,7 +18,7 @@ namespace Systemize.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return Redirect("/WorkkflowTemplate");
+                return Redirect("/WorkflowTemplate");
             }
 
             return View();
