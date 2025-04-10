@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Systemize.Data;
+using Systemize.Models;
 using Systemize.Models.ViewModel.Dashboard;
+
 
 namespace Systemize.Controllers
 {
@@ -17,9 +19,29 @@ namespace Systemize.Controllers
         }
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+
+            DashboardEntire dashboardEntire = new DashboardEntire();
+            List<Workflow> myassigned = new List<Workflow>();
+
+            var wf1 = await _context.Workflows.FirstOrDefaultAsync(m => m.Id == 9);
+            myassigned.Add(wf1);
+            var wf2 = await _context.Workflows.FirstOrDefaultAsync(m => m.Id == 13);
+            myassigned.Add(wf2);
+
+
+            dashboardEntire.myAssigned = myassigned;
+
+
+
+            List<Workflow> mywatchlist = new List<Workflow>();
+            var wf = await _context.Workflows.FirstOrDefaultAsync(m => m.Id == 6);
+            mywatchlist.Add(wf);
+
+            dashboardEntire.myWatchList = mywatchlist;
+
+            return View(dashboardEntire);
         }
 
         public async Task<IActionResult> Metrics(int? id)
@@ -74,6 +96,25 @@ namespace Systemize.Controllers
             return View(workflow);
         }
 
+
+
+        private string getCurrentUser()
+        {
+            string email = "System";
+
+            if (this.User != null)
+            {
+                if (this.User.Identity != null)
+                {
+                    if (this.User.Identity.IsAuthenticated)
+                    {
+                        email = this.User.Identity.Name;
+                    }
+                }
+            }
+
+            return email;
+        }
 
     }
 }

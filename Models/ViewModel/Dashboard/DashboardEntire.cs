@@ -3,10 +3,8 @@
     public class DashboardEntire
     {
 
-        List<DashboardHistoryRowGraph> DashboardHistory { get; set; }
+        public List<Systemize.Models.Workflow> myAssigned { get; set; }
 
-        List<History> History { get; set; }
-
-
+        public List<Systemize.Models.Workflow> myWatchList { get; set; }
     }
 }

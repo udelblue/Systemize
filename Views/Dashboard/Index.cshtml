@@ -1,4 +1,7 @@
-﻿@{
+﻿@model Systemize.Models.ViewModel.Dashboard.DashboardEntire
+
+
+@{
     ViewData["Title"] = "Dashboard";
 }
 
@@ -8,50 +11,103 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-header" id="headingOne">
-            <h5 class="mb-0">
-                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    My assigned <span class="badge badge-pill badge-primary">2</span>
-                </button>
-            </h5>
-        </div>
 
-        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-            <div class="card-body">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Stage</th>
-                            <th scope="col">Percent Complete</th>
-                            <th scope="col">Metrics</th>
-                            <th scope="col">Timeline</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td><a href="/workflow/details/11"> Test Workflow </a></td>
-                            <td>Stage 1</td>
-                            <td>40%</td>
-                            <td><a href="/Dashboard/Metrics/11"> Metrics </a></td>
-                            <td><a href="/Dashboard/Timeline/11"> Timeline </a></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td><a href="/workflow/details/11"> Test Workflow </a></td>
-                            <td>Stage 1</td>
-                            <td>20%</td>
-                            <td><a href="/Dashboard/Metrics/11"> Metrics </a></td>
-                            <td><a href="/Dashboard/Timeline/11"> Timeline </a></td>
-                        </tr>
-                    </tbody>
-                </table>
+@if (Model.myAssigned != null)
+{
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        My assigned <span class="badge badge-pill badge-primary">@Model.myAssigned.Count()</span>
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Stage</th>
+                                <th scope="col">Percent Complete</th>
+                                <th scope="col">Metrics</th>
+                                <th scope="col">Timeline</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                            @foreach (var item in Model.myAssigned)
+                                            {
+                                                                    <tr>
+                                                                        <th scope="row">@item.Id</th>
+                                                                        <td><a href="/workflow/details/@item.Id"> @item.Name </a></td>
+                                                                        <td>@item.CurrentStageName</td>
+                                                                        <td>@item.PercentageComplete %</td>
+                                    <td><a href="/Dashboard/Metrics/@item.Id"> Metrics </a></td>
+                                    <td><a href="/Dashboard/Timeline/@item.Id"> Timeline </a></td>
+                                                                    </tr>
+                                                                 
+                                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
+   
+}
+
+<hr />
+
+
+
+@if (Model.myWatchList != null)
+{
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        My watchlist <span class="badge badge-pill badge-primary">@Model.myWatchList.Count()</span>
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Stage</th>
+                                <th scope="col">Percent Complete</th>
+                                <th scope="col">Metrics</th>
+                                <th scope="col">Timeline</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.myWatchList)
+                            {
+                                <tr>
+                                    <th scope="row">@item.Id</th>
+                                    <td><a href="/workflow/details/@item.Id"> @item.Name </a></td>
+                                    <td>@item.CurrentStageName</td>
+                                    <td>@item.PercentageComplete %</td>
+                                    <td><a href="/Dashboard/Metrics/@item.Id"> Metrics </a></td>
+                                    <td><a href="/Dashboard/Timeline/@item.Id"> Timeline </a></td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
 
