@@ -19,6 +19,7 @@
 	- ~~Bar Graph~~
 	- Metrics
 	- ~~Timeline~~
+	- Watchlist/favorites
 	
 - WorkflowTemplate
 	- ~~Create Template~~
@@ -32,7 +33,7 @@
 	- Stage builder
 	
 - Tags
-	- Workflow Tags 
+	- ~~Workflow Tags~~ 
 	- Document Tags
 
 -identy

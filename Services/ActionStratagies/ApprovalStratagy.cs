@@ -36,8 +36,13 @@ namespace Systemize.Services.ActionStratagies
                 //assign to currently assign
                 Stage firstStage = workflow.Stages[0];
 
-                workflow.AssignedTo.Add(firstStage.AssignedTo);
-                workflow.CurrentStageName = firstStage.Name;
+
+                if (firstStage.AssignedTo != null)
+                {
+                    workflow.AssignedTo.Add(firstStage.AssignedTo);
+                    workflow.CurrentStageName = firstStage.Name;
+                }
+
 
 
 
@@ -103,11 +108,15 @@ namespace Systemize.Services.ActionStratagies
                     var nextStage = workflow.Stages[next_index];
                     //assign to currently assign
 
-                    workflow.AssignedTo.Add(nextStage.AssignedTo);
-                    History finishedthistory = new History(response.Executor, response.ActionType, currentStage.Id, currentStage.Name, "Major", "Stage Completed", "");
-                    workflow.History.Add(finishedthistory);
 
+                    if (nextStage.AssignedTo != null)
+                    {
 
+                        workflow.AssignedTo.Add(nextStage.AssignedTo);
+                        History finishedthistory = new History(response.Executor, response.ActionType, currentStage.Id, currentStage.Name, "Major", "Stage Completed", "");
+                        workflow.History.Add(finishedthistory);
+
+                    }
 
 
 

@@ -817,8 +817,6 @@ namespace Systemize.Controllers
         }
 
 
-
-
         [HttpPost, ActionName("DocumentDelete")]
         [ValidateAntiForgeryToken]
         [Authorize]
@@ -897,8 +895,6 @@ namespace Systemize.Controllers
                 return NotFound();
             }
 
-
-
             var title = HttpContext.Request.Form["Title"];
             var URL = HttpContext.Request.Form["URL"];
             Link link = new Link() { Title = title, URL = URL };
@@ -918,9 +914,6 @@ namespace Systemize.Controllers
         [Authorize]
         public async Task<IActionResult> LinkDelete(int? id, int? link)
         {
-
-
-
 
             if (id == null || link == null)
             {
@@ -1128,7 +1121,7 @@ namespace Systemize.Controllers
             }
 
             var serializedTags = System.Text.Json.JsonSerializer.Serialize(workflow.Tags);
-            return Ok(serializedTags);
+            return Json(serializedTags);
         }
 
 
