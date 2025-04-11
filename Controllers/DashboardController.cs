@@ -23,6 +23,9 @@ namespace Systemize.Controllers
         public async Task<IActionResult> Index()
         {
 
+            string currentUser = getCurrentUser();
+
+
             DashboardEntire dashboardEntire = new DashboardEntire();
             List<Workflow> myassigned = new List<Workflow>();
 

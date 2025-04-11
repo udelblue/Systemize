@@ -12,15 +12,12 @@ namespace Systemize.Models
 
         public string? Description { get; set; }
 
-
         public DateTime? CreatedOn { get; set; }
-
-
-
 
         public List<string>? CreatedBy { get; set; }
 
-        public List<string>? AssignedTo { get; set; }
+        public List<string> AssignedTo { get; set; } = new List<string>();
+
 
         [ConcurrencyCheck]
         public int? CurrentStageId { get; set; }
@@ -33,9 +30,7 @@ namespace Systemize.Models
 
         public string? FormData { get; set; } = "[]";
 
-
         public WorkflowForm? WorkflowForm { get; set; }
-
 
         public List<Stage> Stages { get; set; }
 

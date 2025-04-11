@@ -62,6 +62,7 @@ namespace Systemize.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 _context.Add(workflowTemplate);
                 _context.SaveChanges();
                 var tmpID = workflowTemplate.Id;
@@ -146,9 +147,14 @@ namespace Systemize.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var workflowTemplate = await _context.WorkflowTemplate.FindAsync(id);
+            var workflowTemplate = await _context.WorkflowTemplate
+                .Include(w => w.Stages)
+
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (workflowTemplate != null)
             {
+
+
                 _context.WorkflowTemplate.Remove(workflowTemplate);
             }
 
@@ -185,7 +191,9 @@ namespace Systemize.Controllers
                     Name = s.Name,
                     Description = s.Description,
                     StageType = s.StageType,
-                    Properties = s.Properties
+                    Properties = s.Properties,
+                    AssignedTo = s.AssignedTo,
+
                 }).ToList()
             };
 
@@ -235,7 +243,8 @@ namespace Systemize.Controllers
                     Name = s.Name,
                     Description = s.Description,
                     StageType = s.StageType,
-                    Properties = s.Properties
+                    Properties = s.Properties,
+                    AssignedTo = s.AssignedTo,
                 }).ToList()
             };
 

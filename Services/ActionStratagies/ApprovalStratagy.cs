@@ -23,40 +23,34 @@ namespace Systemize.Services.ActionStratagies
             // if current stage is null, then set it to the first stage
             if (workflow.CurrentStageId == null & String.IsNullOrEmpty(workflow.Status))
             {
-                workflow.CurrentStageId = workflow.Stages[0].Id;
-                workflow.CurrentStageName = workflow.Stages[0].Name;
+                Stage firstStage = workflow.Stages[0];
+                if (workflow.AssignedTo == null)
+                {
+                    workflow.AssignedTo = new List<String>();
+                }
+                else
+                {
+                    workflow.AssignedTo.Clear();
+                }
+                workflow.AssignedTo.AddRange(firstStage.AssignedTo);
+                workflow.CurrentStageId = firstStage.Id;
+                workflow.CurrentStageName = firstStage.Name;
                 workflow.Stages[0].StageStatus = "Current";
                 workflow.Status = "In Progress";
-
 
                 History starthistory = new History(response.Executor, response.ActionType, null, null, "Major", "Workflow Started", "");
                 workflow.History.Add(starthistory);
 
 
-                //assign to currently assign
-                Stage firstStage = workflow.Stages[0];
 
-
-                if (firstStage.AssignedTo != null)
-                {
-                    workflow.AssignedTo.Add(firstStage.AssignedTo);
-                    workflow.CurrentStageName = firstStage.Name;
-                }
-
-
-
+                workflow.CurrentStageName = firstStage.Name;
 
 
                 History firststagehistory = new History(response.Executor, response.ActionType, firstStage.Id, firstStage.Name, "Major", "Stage Started", "");
                 workflow.History.Add(firststagehistory);
 
+                _context.Workflows.Update(workflow);
 
-
-                _context.Workflows.Update(workflow)
-
-
-
-                    ;
                 _context.SaveChanges();
 
             }
@@ -68,9 +62,6 @@ namespace Systemize.Services.ActionStratagies
                 // mark current stage as completed
                 workflow.Stages[current_index].StageStatus = "Completed";
 
-
-
-
                 // if current stage is the last stage, then return
                 if (current_index == count - 1)
                 {
@@ -80,6 +71,7 @@ namespace Systemize.Services.ActionStratagies
                     workflow.CurrentStageName = "";
                     workflow.Status = "Completed";
                     workflow.PercentageComplete = 100;
+                    workflow.AssignedTo.Clear();
 
 
 
@@ -109,14 +101,16 @@ namespace Systemize.Services.ActionStratagies
                     //assign to currently assign
 
 
-                    if (nextStage.AssignedTo != null)
+
+                    if (workflow.AssignedTo != null)
                     {
-
-                        workflow.AssignedTo.Add(nextStage.AssignedTo);
-                        History finishedthistory = new History(response.Executor, response.ActionType, currentStage.Id, currentStage.Name, "Major", "Stage Completed", "");
-                        workflow.History.Add(finishedthistory);
-
+                        workflow.AssignedTo.Clear();
                     }
+                    workflow.AssignedTo.AddRange(nextStage.AssignedTo);
+                    History finishedthistory = new History(response.Executor, response.ActionType, currentStage.Id, currentStage.Name, "Major", "Stage Completed", "");
+                    workflow.History.Add(finishedthistory);
+
+
 
 
 

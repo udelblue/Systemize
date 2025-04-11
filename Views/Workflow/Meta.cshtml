@@ -77,7 +77,16 @@
             @Html.DisplayNameFor(model => model.AssignedTo)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AssignedTo)
+            @if (Model.AssignedTo != null)
+            {
+                @foreach (var assigned in Model.AssignedTo)
+                {
+                    <span class="pr-3 "> @assigned </span>
+
+                }
+            }
+
+
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PercentageComplete)

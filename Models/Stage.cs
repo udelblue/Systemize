@@ -20,8 +20,8 @@ namespace Systemize.Models
 
         public string? StageType { get; set; }
 
+        public List<string>? AssignedTo { get; set; }
 
-        public string? AssignedTo { get; set; }
 
         // completed, skipped, current, 
         public string? StageStatus { get; set; }

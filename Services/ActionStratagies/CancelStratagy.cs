@@ -25,7 +25,14 @@ namespace Systemize.Services.ActionStratagies
             {
                 if (workflow.Stages.Count > 0)
                 {
-
+                    if (workflow.AssignedTo == null)
+                    {
+                        workflow.AssignedTo = new List<String>();
+                    }
+                    else
+                    {
+                        workflow.AssignedTo.Clear();
+                    }
                     workflow.CurrentStageId = workflow.Stages[0].Id;
                     workflow.Stages[0].StageStatus = "Cancelled";
                     workflow.Status = "Cancelled";

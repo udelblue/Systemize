@@ -26,6 +26,17 @@ namespace Systemize.Services.ActionStratagies
                 workflow.CurrentStageId = firststage.Id;
                 workflow.CurrentStageName = firststage.Name;
                 workflow.PercentageComplete = 0;
+                if (workflow.AssignedTo == null)
+                {
+                    workflow.AssignedTo = new List<String>();
+                }
+                else
+                {
+                    workflow.AssignedTo.Clear();
+                }
+
+
+                workflow.AssignedTo.AddRange(firststage.AssignedTo);
                 workflow.Stages[0].StageStatus = "Current";
                 workflow.Status = "In Progress";
 

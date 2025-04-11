@@ -23,6 +23,15 @@ namespace Systemize.Services.ActionStratagies
             // if current stage is null, then set it to the first stage
             if (workflow.CurrentStageId == null & String.IsNullOrEmpty(workflow.Status))
             {
+
+                if (workflow.AssignedTo == null)
+                {
+                    workflow.AssignedTo = new List<String>();
+                }
+                else
+                {
+                    workflow.AssignedTo.Clear();
+                }
                 workflow.CurrentStageId = workflow.Stages[0].Id;
                 workflow.Stages[0].StageStatus = "Denied";
                 workflow.Status = "Denied";

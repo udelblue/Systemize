@@ -370,7 +370,7 @@ namespace Systemize.Controllers
             // workflow.History.Add(starthistory);
 
             workflow.CreatedBy.Add(getCurrentUser());
-            workflow.AssignedTo = new List<string>() { "Tina Tester", "Tom Tester", "Terry Tester" };
+            workflow.AssignedTo = new List<String>();
             workflow.CreatedOn = DateTime.Now;
             workflow.Status = "Draft";
             _context.Add(workflow);
@@ -1111,7 +1111,7 @@ namespace Systemize.Controllers
         public async Task<IActionResult> Action(int? id, string? act)
         {
 
-
+            String currentUser = getCurrentUser();
 
             var workflow = await _context.Workflows
           .Include(w => w.Stages)
@@ -1131,7 +1131,7 @@ namespace Systemize.Controllers
 
             ActionResponse actionResponse = new ActionResponse();
             actionResponse.ActionType = act;
-            actionResponse.Executor = getCurrentUser();
+            actionResponse.Executor = currentUser;
 
             // engine picks stratagy
             Engine engine = new Engine(_context, workflow);

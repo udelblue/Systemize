@@ -49,7 +49,15 @@ namespace Systemize.Services.ActionStratagies
 
                     var previousStage = workflow.Stages[previous_index];
                     //assign to currently assign
-                    workflow.AssignedTo.Add(previousStage.AssignedTo);
+                    if (workflow.AssignedTo == null)
+                    {
+                        workflow.AssignedTo = new List<String>();
+                    }
+                    else
+                    {
+                        workflow.AssignedTo.Clear();
+                    }
+                    workflow.AssignedTo.AddRange(previousStage.AssignedTo);
 
                     //mark next stage as current
                     workflow.CurrentStageId = previousStage.Id;
