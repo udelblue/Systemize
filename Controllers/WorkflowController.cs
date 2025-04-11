@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Systemize.Data;
 using Systemize.Models;
 using Systemize.Models.ViewModel.Workflow;
@@ -182,12 +183,21 @@ namespace Systemize.Controllers
             var name = HttpContext.Request.Form["Name"];
             var description = HttpContext.Request.Form["Description"];
             var stagetype = HttpContext.Request.Form["StageType"];
+            var assignedTo = HttpContext.Request.Form["AssignedTo"];
+
+            if (assignedTo.IsNullOrEmpty())
+            {
+                ViewBag["message"] = "AssignedTo can't be empty";
+                return View(nameof(StageAdd), new { id = id });
+            }
+
 
             Stage stage = new Stage()
             {
                 Name = name,
                 Description = description,
                 StageType = stagetype,
+                AssignedTo = assignedTo.ToString().Split(';').ToList(),
                 Properties = "{}",
                 WorkflowId = workflow.Id
             };

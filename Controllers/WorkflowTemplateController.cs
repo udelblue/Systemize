@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Systemize.Data;
 using Systemize.Models;
 
@@ -292,6 +293,7 @@ namespace Systemize.Controllers
                     Name = s.Name,
                     Description = s.Description,
                     StageType = s.StageType,
+                    AssignedTo = s.AssignedTo,
                     Properties = s.Properties
                 }).ToList()
             };
@@ -343,6 +345,15 @@ namespace Systemize.Controllers
             var name = HttpContext.Request.Form["Name"];
             var description = HttpContext.Request.Form["Description"];
             var stagetype = HttpContext.Request.Form["StageType"];
+            var assignedTo = HttpContext.Request.Form["AssignedTo"];
+
+            if (assignedTo.IsNullOrEmpty())
+            {
+                ViewBag["message"] = "AssignedTo can't be empty";
+                return View(nameof(StageAdd), new { id = id });
+            }
+
+
 
             Stage stage = new Stage()
             {
@@ -350,6 +361,7 @@ namespace Systemize.Controllers
                 Description = description,
                 StageType = stagetype,
                 Properties = "{}",
+                AssignedTo = assignedTo.ToString().Split(';').ToList(),
                 WorkflowTemplateId = workflowtemplate.Id
 
             };
