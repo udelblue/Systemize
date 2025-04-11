@@ -22,17 +22,15 @@ namespace Systemize.Controllers
 
         public async Task<IActionResult> Index()
         {
-
             string currentUser = getCurrentUser();
-
 
             DashboardEntire dashboardEntire = new DashboardEntire();
             List<Workflow> myassigned = new List<Workflow>();
 
-            var wf1 = await _context.Workflows.FirstOrDefaultAsync(m => m.Id == 10);
-            myassigned.Add(wf1);
-            var wf2 = await _context.Workflows.FirstOrDefaultAsync(m => m.Id == 1030);
-            myassigned.Add(wf2);
+            // Fetch workflows assigned to the current user
+            myassigned = await _context.Workflows
+                .Where(w => w.AssignedTo.Contains(currentUser))
+                .ToListAsync();
 
             dashboardEntire.myAssigned = myassigned;
 
