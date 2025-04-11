@@ -28,7 +28,7 @@ namespace Systemize.Controllers
 
             var wf1 = await _context.Workflows.FirstOrDefaultAsync(m => m.Id == 10);
             myassigned.Add(wf1);
-            var wf2 = await _context.Workflows.FirstOrDefaultAsync(m => m.Id == 11);
+            var wf2 = await _context.Workflows.FirstOrDefaultAsync(m => m.Id == 1030);
             myassigned.Add(wf2);
 
             dashboardEntire.myAssigned = myassigned;
