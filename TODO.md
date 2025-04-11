@@ -16,9 +16,9 @@
 	- AI Agent collaboration Stage type
 
 - Dashboard 
-	- Bar Graph
+	- ~~Bar Graph~~
 	- Metrics
-	- Timeline
+	- ~~Timeline~~
 	
 - WorkflowTemplate
 	- ~~Create Template~~
@@ -29,6 +29,7 @@
 - Workflow
 	- Build form
 	- Display form 
+	- Stage builder
 	
 - Tags
 	- Workflow Tags 

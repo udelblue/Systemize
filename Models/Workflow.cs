@@ -22,9 +22,9 @@ namespace Systemize.Models
 
         public List<string>? AssignedTo { get; set; }
 
-
+        [ConcurrencyCheck]
         public int? CurrentStageId { get; set; }
-
+        [ConcurrencyCheck]
         public string? CurrentStageName { get; set; }
 
         public int? PercentageComplete { get; set; }
