@@ -52,6 +52,7 @@ namespace Systemize.Controllers
             //load workflow with eager loading
             var workflow = await _context.Workflows
                 .Include(s => s.Stages)
+                .Include(h => h.History)
                 .FirstOrDefaultAsync(m => m.Id == id)
                 ;
             if (workflow == null)
@@ -62,18 +63,23 @@ namespace Systemize.Controllers
             MetricsEntire metricsEntire = new MetricsEntire();
             List<MetricsRow> metrics = new List<MetricsRow>();
 
-            Random random = new Random();
             if (workflow.Stages != null && !workflow.Stages.IsNullOrEmpty())
             {
                 foreach (var stage in workflow.Stages)
                 {
 
-                    var randval = random.Next(0, 101);
-                    MetricsRow rw1 = new MetricsRow() { StageName = stage.Name, StageValue = randval };
+                    var startHistory = workflow.History.FirstOrDefault(h => h.StageId == stage.Id && h.EventName == "Stage Started");
+                    var finishHistory = workflow.History.FirstOrDefault(h => h.StageId == stage.Id && h.EventName == "Stage Completed");
+                    int stageval = 0;
+                    if (startHistory != null && finishHistory != null)
+                    {
+                        stageval = (int)(finishHistory.ExecutedAt - startHistory.ExecutedAt).TotalHours;
+                    }
+
+                    MetricsRow rw1 = new MetricsRow() { StageName = stage.Name, StageValue = stageval };
                     metrics.Add(rw1);
                 }
             }
-
 
             metricsEntire.Rows = metrics;
             metricsEntire.workflowName = workflow.Name;
