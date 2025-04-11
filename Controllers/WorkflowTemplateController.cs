@@ -297,7 +297,7 @@ namespace Systemize.Controllers
 
 
         // STAGE
-        // GET: Workflow/StageAdd/id
+        // GET: WorkflowTemplate/StageAdd/id
         [HttpGet]
         public IActionResult StageAdd(int? id)
         {
@@ -315,7 +315,7 @@ namespace Systemize.Controllers
         }
 
 
-        // Post: Workflow/StageAdd/id
+        // Post: WorkflowTemplate/StageAdd/id
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> StageAdd(int? id, string? test)
@@ -354,7 +354,14 @@ namespace Systemize.Controllers
         }
 
 
+        // STAGE
+        // GET: WorkflowTemplate/StageBuilder/id
+        [HttpGet]
+        public IActionResult StageBuilder(int? id)
+        {
+            return View();
 
+        }
 
         private bool WorkflowTemplateExists(int id)
         {

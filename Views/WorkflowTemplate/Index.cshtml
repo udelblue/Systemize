@@ -6,10 +6,15 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 
+<div>
+    <p style="display: inline-block; margin-right: 10px;">
+        <a asp-action="Create">Create New</a>
+    </p>
+    <p style="display: inline-block;">
+        <a asp-action="StageBuilder">Builder</a>
+    </p>
+</div>
 <!-- response messages -->
 @if (ViewData["Message"] != null && !String.IsNullOrEmpty(ViewData["Message"].ToString()))
 {
