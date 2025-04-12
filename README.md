@@ -1,7 +1,7 @@
 ﻿# Systemize
  <div>
  <p align="center">
-	Systemize is a document workflow system. This allows users to create templated workflows to provide a linar approval system for digitized documents. Some of the features are a history and timeline of all events. Metrics on time spent at each stage of the approval procees. Basic authenication, and more. 
+	Systemize is a document workflow system. This allows users to create templated workflows to provide a linear approval system for digitized documents. Some of the features are a history and timeline of all events. Metrics on time spent at each stage of the approval process. Basic authenication, and more. 
  </p>
  </div>
  <div>
@@ -17,7 +17,10 @@
 
  </div>
 
-## Run the following command to create a new migration and update the database
+## Run
+To run the project please follow the following commands below. 
+
+### Run the following command to create a new migration and update the database
 
 - delete the files in migrations folder
 - to run update connection string in appsettings.json
