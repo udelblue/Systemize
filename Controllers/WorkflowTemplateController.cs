@@ -168,6 +168,9 @@ namespace Systemize.Controllers
         // GET: WorkflowTemplate/CreateWorkflowFromTemplate/5
         public async Task<IActionResult> CreateWorkflowFromTemplate(int? id)
         {
+            var currentUser = getCurrentUser();
+
+
             if (id == null)
             {
                 return NotFound();
@@ -197,6 +200,7 @@ namespace Systemize.Controllers
                 }).ToList()
             };
 
+            newWorkflow.CreatedBy.Add(currentUser);
             newWorkflow.CreatedOn = DateTime.Now;
             newWorkflow.Status = "Draft";
 
@@ -211,6 +215,9 @@ namespace Systemize.Controllers
         // GET: WorkflowTemplate/CreateWorkflowFromTemplate/5
         public async Task<IActionResult> CreateWorkflowFromTemplateAndStart(int? id)
         {
+            var currentUser = getCurrentUser();
+
+
             if (id == null)
             {
                 return NotFound();
@@ -248,6 +255,7 @@ namespace Systemize.Controllers
                 }).ToList()
             };
 
+            newWorkflow.CreatedBy.Add(currentUser);
             newWorkflow.CreatedOn = DateTime.Now;
             newWorkflow.Status = "Draft";
 
@@ -394,6 +402,27 @@ namespace Systemize.Controllers
         private bool WorkflowTemplateExists(int id)
         {
             return _context.WorkflowTemplate.Any(e => e.Id == id);
+        }
+
+
+
+
+        private string getCurrentUser()
+        {
+            string email = "System";
+
+            if (this.User != null)
+            {
+                if (this.User.Identity != null)
+                {
+                    if (this.User.Identity.IsAuthenticated)
+                    {
+                        email = this.User.Identity.Name;
+                    }
+                }
+            }
+
+            return email;
         }
     }
 }

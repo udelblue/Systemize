@@ -24,6 +24,8 @@ namespace Systemize.Data
         public DbSet<WorkflowTemplate> WorkflowTemplate { get; set; } = default!;
         public DbSet<Link> Links { get; set; } = default!;
 
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder); // Ensure Identity configurations are applied
@@ -43,6 +45,9 @@ namespace Systemize.Data
             modelBuilder.Entity<WorkflowNote>().ToTable("Workflow_Notes");
 
             //modelBuilder.Entity<WorkflowSetting>().ToTable("WF_Setting");
+
+
+
 
             //form info as json
             modelBuilder.Entity<Workflow>()

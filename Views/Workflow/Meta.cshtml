@@ -68,7 +68,19 @@
             @Html.DisplayFor(model => model.CurrentStageName)
         </dd>
 
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.CreatedBy != null)
+            {
+                @foreach (var createdBy in Model.CreatedBy)
+                {
+                    <span class="pr-3 "> @createdBy </span>
 
+                }
+            }
+        </dd>
 
 
 

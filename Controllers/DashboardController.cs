@@ -25,6 +25,8 @@ namespace Systemize.Controllers
             string currentUser = getCurrentUser();
 
             DashboardEntire dashboardEntire = new DashboardEntire();
+
+            //my assigned
             List<Workflow> myassigned = new List<Workflow>();
 
             // Fetch workflows assigned to the current user
@@ -34,6 +36,20 @@ namespace Systemize.Controllers
 
             dashboardEntire.myAssigned = myassigned;
 
+
+            //my drafts
+            List<Workflow> mydrafts = new List<Workflow>();
+
+            // Fetch workflows assigned to the current user
+            mydrafts = await _context.Workflows
+                .Where(w => w.CreatedBy.Contains(currentUser) & w.Status == "Draft")
+                .ToListAsync();
+
+            dashboardEntire.myDrafts = mydrafts;
+
+
+
+            //watchlist
             List<Workflow> mywatchlist = new List<Workflow>();
             var wf3 = await _context.Workflows.FirstOrDefaultAsync(m => m.Id == 1011);
             mywatchlist.Add(wf3);

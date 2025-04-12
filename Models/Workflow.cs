@@ -14,7 +14,7 @@ namespace Systemize.Models
 
         public DateTime? CreatedOn { get; set; }
 
-        public List<string>? CreatedBy { get; set; }
+        public List<string>? CreatedBy { get; set; } = new List<string>();
 
         public List<string> AssignedTo { get; set; } = new List<string>();
 
