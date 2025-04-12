@@ -1,9 +1,21 @@
 ﻿# Systemize
+ <div>
+ <p align="center">
+	Systemize is a document workflow system. This allows users to create templated workflows to provide a linar approval system for digitized documents. Some of the features are a history and timeline of all events. Metrics on time spent at each stage of the approval procees. Basic authenication, and more. 
+ </p>
+ </div>
+ <div>
 
 
-![alt text](https://github.com/udelblue/Systemize/Screenshots/authentication.png "Authenication")
+![alt text](https://raw.githubusercontent.com/udelblue/Systemize/refs/heads/master/Screenshots/authentication.png "Authenication")
 
+![alt text](https://raw.githubusercontent.com/udelblue/Systemize/refs/heads/master/Screenshots/details.png "Details")
 
+![alt text](https://raw.githubusercontent.com/udelblue/Systemize/refs/heads/master/Screenshots/Metrics.png "Metrics")
+
+![alt text](https://raw.githubusercontent.com/udelblue/Systemize/refs/heads/master/Screenshots/Timeline.png "Timeline")
+
+ </div>
 
 ## Run the following command to create a new migration and update the database
 
