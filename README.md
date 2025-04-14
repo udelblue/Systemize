@@ -1,7 +1,7 @@
 ﻿# Systemize
  <div>
  <p align="center">
-	Systemize is a document workflow system. This allows users to create templated workflows to provide a linear approval system for digitized documents. Some of the features are a history and timeline of all events. Metrics on time spent at each stage of the approval process. Basic authenication, and more. 
+	Systemize is a document workflow system. This allows users to create templated workflows to provide a linear approval system for digitized documents. Some of the features are a history and timeline of all events. Metrics on time spent at each stage of the approval process. Basic authentication, and more. 
  </p>
  </div>
  <div>
