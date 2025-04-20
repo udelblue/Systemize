@@ -4,6 +4,10 @@
     ViewData["Title"] = "Details";
 }
 
+
+
+<content class="pb-10">
+
 <div>
     <h3 class="fw-normal"> @Html.DisplayFor(model => model.Workflow.Name)</h3>
     <p class="fw-light">  @Html.DisplayFor(model => model.Workflow.Description) </p>
@@ -134,41 +138,64 @@
 }
 <partial name="_Stages" model="@Model.Workflow.Stages" />
 
-<!-- meta link -->
-<div>
-    @{
-        var metaURL = "../Meta/" + Model.Workflow.Id.ToString();
-    }
-    <a href="@metaURL" class="float-end mx-2">View Metadata</a>
-</div>
 
-<!-- stages link -->
-<div>
-    @{
-        var stagesURL = "../Stages/" + Model.Workflow.Id.ToString();
-    }
-    <a href="@stagesURL " class="float-end mx-2">View Stages</a>
-</div>
 
-<!-- history link -->
-<div>
+<!-- chat interface -->
 @{
-        var historyURL = "../History/" + Model.Workflow.Id.ToString();
+
+    if (!Model.isReadonly)
+    {
+        <div>
+            <partial name="_Chat" />
+
+        </div>
+    }
+
 }
-    <a href="@historyURL" class="float-end mx-2">View History</a>
-</div>
 
-<!-- formbuilder link -->
-<div>
-    <a asp-action="formbuilder" asp-route-id="@Model.Workflow.Id" class="float-end mx-2">Form Builder</a>
-</div>
 
-<!-- formrender link -->
+
+
 <div>
-    <a asp-action="formrender" asp-route-id="@Model.Workflow.Id" class="float-end mx-2">Form Render</a>
+    <!-- meta link -->
+    <div>
+        @{
+            var metaURL = "../Meta/" + Model.Workflow.Id.ToString();
+        }
+        <a href="@metaURL" class="float-end mx-2">View Metadata</a>
+    </div>
+
+    <!-- stages link -->
+    <div>
+        @{
+            var stagesURL = "../Stages/" + Model.Workflow.Id.ToString();
+        }
+        <a href="@stagesURL " class="float-end mx-2">View Stages</a>
+    </div>
+
+    <!-- history link -->
+    <div>
+    @{
+            var historyURL = "../History/" + Model.Workflow.Id.ToString();
+    }
+        <a href="@historyURL" class="float-end mx-2">View History</a>
+    </div>
+
+    <!-- formbuilder link -->
+    <div>
+        <a asp-action="formbuilder" asp-route-id="@Model.Workflow.Id" class="float-end mx-2">Form Builder</a>
+    </div>
+
+    <!-- formrender link -->
+    <div>
+        <a asp-action="formrender" asp-route-id="@Model.Workflow.Id" class="float-end mx-2">Form Render</a>
+    </div>
+
 </div>
 
 <!-- back to workflows -->
 <div>
     <a asp-action="Index">Back to Workflow List</a>
 </div>
+
+</content>
