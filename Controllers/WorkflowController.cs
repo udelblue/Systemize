@@ -19,6 +19,44 @@ namespace Systemize.Controllers
         }
 
 
+
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ChatSubmit(int id, [FromBody] string chat)
+        {
+
+
+            //load workflow with eager loading
+            var workflow = await _context.Workflows
+                .Include(w => w.WorkflowForm)
+                .FirstOrDefaultAsync(m => m.Id == id)
+                ;
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            if (!System.String.IsNullOrEmpty(chat))
+            {
+                Console.Write(chat);
+                if (workflow.WorkflowForm == null)
+                {
+                    workflow.WorkflowForm = new WorkflowForm();
+                }
+
+                //TODO process chat
+
+
+            }
+
+
+            return Ok("Data Received");
+        }
+
+
+
+
         // GET: Workflow/FormBuilder/5
         [Authorize]
         public async Task<IActionResult> FormBuilder(int? id)
