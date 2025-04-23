@@ -6,196 +6,197 @@
 
 
 
-<content class="pb-10">
+<div class="mb-10">
 
-<div>
-    <h3 class="fw-normal"> @Html.DisplayFor(model => model.Workflow.Name)</h3>
-    <p class="fw-light">  @Html.DisplayFor(model => model.Workflow.Description) </p>
-    <p class="fw-light">  Status: @Html.DisplayFor(model => model.Workflow.Status) </p>
-
-    <!-- tags -->
     <div>
-        <p id="wftags" class="fw-light" style="display: inline-block; ">
-            Tags:
-            <span id="allTags" style="display: inline-block; margin-right: 10px;">
-            @if (Model.Workflow.Tags != null && Model.Workflow.Tags.Count > 0)
-            {
-                @foreach (var tag in Model.Workflow.Tags)
+        <h3 class="fw-normal"> @Html.DisplayFor(model => model.Workflow.Name)</h3>
+        <p class="fw-light">  @Html.DisplayFor(model => model.Workflow.Description) </p>
+        <p class="fw-light">  Status: @Html.DisplayFor(model => model.Workflow.Status) </p>
+
+        <!-- tags -->
+        <div>
+            <p id="wftags" class="fw-light" style="display: inline-block; ">
+                Tags:
+                <span id="allTags" style="display: inline-block; margin-right: 10px;">
+                @if (Model.Workflow.Tags != null && Model.Workflow.Tags.Count > 0)
                 {
-                    <span class="badge bg-info-subtle text-info-emphasis rounded-pill" >@tag.Name</span>
-                }
-            }
-                </span>
-        </p>
-
-        <!-- add workflow tag -->
-        <form id="tagForm" style="width: 200px;  display: inline-block; margin-right: 10px;">
-            <input type="text" name="name" class="form-control" placeholder="Enter tag name" />
-        </form>
-
-        <!-- add tag button -->
-        <button id="add_workflow_tag" type="button" class="btn-sm btn-primary" style=" display: inline-block; margin-right: 10px;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"></path>
-            </svg>
-            Add Tag
-        </button>
-
-
-        <script type="text/javascript">
-            document.getElementById("add_workflow_tag").addEventListener("click", function () {
-                var data = $("#tagForm").serialize();
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("TagAddAjax", "Workflow", new { id = Model.Workflow.Id })',
-                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                    data: data,
-                    success: function (result) {
-                        var tagsContainer = document.getElementById("allTags");
-                        tagsContainer.innerHTML = "";
-                        var data = JSON.parse(result);
-                        data.forEach((tag) => {
-                            var span = document.createElement("span");
-                            span.className = "badge bg-info-subtle text-info-emphasis rounded-pill";
-                            span.innerText = tag.Name;
-                            tagsContainer.appendChild(span);
-                            
-                            document.getElementById("tagForm").reset();
-
-
-                        });
-                    },
-                    error: function () {
-                        alert('Failed to receive the Data');
+                    @foreach (var tag in Model.Workflow.Tags)
+                    {
+                        <span class="badge bg-info-subtle text-info-emphasis rounded-pill" >@tag.Name</span>
                     }
+                }
+                    </span>
+            </p>
+
+            <!-- add workflow tag -->
+            <form id="tagForm" style="width: 200px;  display: inline-block; margin-right: 10px;">
+                <input type="text" name="name" class="form-control" placeholder="Enter tag name" />
+            </form>
+
+            <!-- add tag button -->
+            <button id="add_workflow_tag" type="button" class="btn-sm btn-primary" style=" display: inline-block; margin-right: 10px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"></path>
+                </svg>
+                Add Tag
+            </button>
+
+
+            <script type="text/javascript">
+                document.getElementById("add_workflow_tag").addEventListener("click", function () {
+                    var data = $("#tagForm").serialize();
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("TagAddAjax", "Workflow", new { id = Model.Workflow.Id })',
+                        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                        data: data,
+                        success: function (result) {
+                            var tagsContainer = document.getElementById("allTags");
+                            tagsContainer.innerHTML = "";
+                            var data = JSON.parse(result);
+                            data.forEach((tag) => {
+                                var span = document.createElement("span");
+                                span.className = "badge bg-info-subtle text-info-emphasis rounded-pill";
+                                span.innerText = tag.Name;
+                                tagsContainer.appendChild(span);
+                            
+                                document.getElementById("tagForm").reset();
+
+
+                            });
+                        },
+                        error: function () {
+                            alert('Failed to receive the Data');
+                        }
+                    });
                 });
-            });
-        </script>
+            </script>
 
 
      
 
+        </div>
     </div>
-</div>
 
-<!-- response messages -->
-@if (ViewData["Message"] != null && !String.IsNullOrEmpty(ViewData["Message"].ToString()))
-{
-    <div class="alert alert-success" role="alert">
-        @ViewData["Message"].ToString()
-    </div>
-}
-
-<!-- response messages -->
-@if (ViewData["Action_Message"] != null && !String.IsNullOrEmpty(ViewData["Action_Message"].ToString()))
-{
-    <div class="alert alert-success" role="alert">
-        @ViewData["Action_Message"].ToString()
-    </div>
-}
-<!-- action buttons -->
-<div>
-    <partial name="_ActionListView" model="@Model" />
-</div>
-
-<!-- upload area -->
-<div>
-    <hr class="hr hr-blurry" />
-    <h5>Documents</h5>  
-    @{
-        var uploadURL = "../Upload/" + Model.Workflow.Id.ToString();
-        if(!Model.isReadonly)
-        {
-            <a href="@uploadURL">Upload Document</a>
-        }
-    }
-    <partial name="_Documents" model="@Model.Workflow.Documents" />
-</div>
-
-<!-- links -->
-<div>
-    <hr class="hr hr-blurry" />
-    <h5>Links</h5>
-    @{
-        var addlinkURL = "../LinkAdd/" + Model.Workflow.Id.ToString();
-        if (!Model.isReadonly)
-        {
-            <a href="@addlinkURL">Add Link</a>
-        }
-    }
-    <partial name="_Links" model="@Model.Workflow.Links" />
-</div>
-
-<!-- stages -->
-<hr class="hr hr-blurry" />
-<h5>Stages</h5>
-@{
-    var addstageURL = "../StageAdd/" + Model.Workflow.Id.ToString();
-    if (!Model.isReadonly)
+    <!-- response messages -->
+    @if (ViewData["Message"] != null && !String.IsNullOrEmpty(ViewData["Message"].ToString()))
     {
-        <a href="@addstageURL">Add Stage</a>
-    }
-}
-<partial name="_Stages" model="@Model.Workflow.Stages" />
-
-
-
-<!-- chat interface -->
-@{
-
-    if (!Model.isReadonly)
-    {
-        <div>
-            <partial name="_Chat" />
-
+        <div class="alert alert-success" role="alert">
+            @ViewData["Message"].ToString()
         </div>
     }
 
-}
-
-
-
-
-<div>
-    <!-- meta link -->
-    <div>
-        @{
-            var metaURL = "../Meta/" + Model.Workflow.Id.ToString();
-        }
-        <a href="@metaURL" class="float-end mx-2">View Metadata</a>
-    </div>
-
-    <!-- stages link -->
-    <div>
-        @{
-            var stagesURL = "../Stages/" + Model.Workflow.Id.ToString();
-        }
-        <a href="@stagesURL " class="float-end mx-2">View Stages</a>
-    </div>
-
-    <!-- history link -->
-    <div>
-    @{
-            var historyURL = "../History/" + Model.Workflow.Id.ToString();
+    <!-- response messages -->
+    @if (ViewData["Action_Message"] != null && !String.IsNullOrEmpty(ViewData["Action_Message"].ToString()))
+    {
+        <div class="alert alert-success" role="alert">
+            @ViewData["Action_Message"].ToString()
+        </div>
     }
-        <a href="@historyURL" class="float-end mx-2">View History</a>
+    <!-- action buttons -->
+    <div>
+        <partial name="_ActionListView" model="@Model" />
     </div>
 
-    <!-- formbuilder link -->
+    <!-- upload area -->
     <div>
-        <a asp-action="formbuilder" asp-route-id="@Model.Workflow.Id" class="float-end mx-2">Form Builder</a>
+        <hr class="hr hr-blurry" />
+        <h5>Documents</h5>  
+        @{
+            var uploadURL = "../Upload/" + Model.Workflow.Id.ToString();
+            if(!Model.isReadonly)
+            {
+                <a href="@uploadURL">Upload Document</a>
+            }
+        }
+        <partial name="_Documents" model="@Model.Workflow.Documents" />
     </div>
 
-    <!-- formrender link -->
+    <!-- links -->
     <div>
-        <a asp-action="formrender" asp-route-id="@Model.Workflow.Id" class="float-end mx-2">Form Render</a>
+        <hr class="hr hr-blurry" />
+        <h5>Links</h5>
+        @{
+            var addlinkURL = "../LinkAdd/" + Model.Workflow.Id.ToString();
+            if (!Model.isReadonly)
+            {
+                <a href="@addlinkURL">Add Link</a>
+            }
+        }
+        <partial name="_Links" model="@Model.Workflow.Links" />
+    </div>
+
+    <!-- stages -->
+    <hr class="hr hr-blurry" />
+    <h5>Stages</h5>
+    @{
+        var addstageURL = "../StageAdd/" + Model.Workflow.Id.ToString();
+        if (!Model.isReadonly)
+        {
+            <a href="@addstageURL">Add Stage</a>
+        }
+    }
+    <partial name="_Stages" model="@Model.Workflow.Stages" />
+
+
+
+    <!-- chat interface -->
+    @{
+
+        if (!Model.isReadonly)
+        {
+            <div>
+                <partial name="_Chat" />
+
+            </div>
+        }
+
+    }
+
+
+
+
+    <div>
+        <!-- meta link -->
+        <div>
+            @{
+                var metaURL = "../Meta/" + Model.Workflow.Id.ToString();
+            }
+            <a href="@metaURL" class="float-end mx-2">View Metadata</a>
+        </div>
+
+        <!-- stages link -->
+        <div>
+            @{
+                var stagesURL = "../Stages/" + Model.Workflow.Id.ToString();
+            }
+            <a href="@stagesURL " class="float-end mx-2">View Stages</a>
+        </div>
+
+        <!-- history link -->
+        <div>
+        @{
+                var historyURL = "../History/" + Model.Workflow.Id.ToString();
+        }
+            <a href="@historyURL" class="float-end mx-2">View History</a>
+        </div>
+
+        <!-- formbuilder link -->
+        <div>
+            <a asp-action="formbuilder" asp-route-id="@Model.Workflow.Id" class="float-end mx-2">Form Builder</a>
+        </div>
+
+        <!-- formrender link -->
+        <div>
+            <a asp-action="formrender" asp-route-id="@Model.Workflow.Id" class="float-end mx-2">Form Render</a>
+        </div>
+
+    </div>
+
+    <!-- back to workflows -->
+    <div>
+        <a asp-action="Index">Back to Workflow List</a>
     </div>
 
 </div>
 
-<!-- back to workflows -->
-<div>
-    <a asp-action="Index">Back to Workflow List</a>
-</div>
-
-</content>
